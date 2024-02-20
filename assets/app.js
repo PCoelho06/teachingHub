@@ -9,5 +9,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/app.css";
 import "./styles/header.css";
+import "./styles/marquee.css";
+import "./styles/home.css";
 
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");

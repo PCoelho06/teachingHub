@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Accueil
+{% endblock %}
+
+{% block body %}
+
+	{% include('/home/_marquee-text.html.twig') %}
+
+	<div class="hero">
+		<div class="hero-text-dark">
+			<p class="devise text-dark">Partagez, Explorez, Enseignez</p>
+			<h1 class="title-dark">
+				<span class="titlename-top">Partage</span>
+				<span class="titlename-bottom">Prof</span>
+			</h1>
+			<p class="slogan meta-dark">LA plateforme dédiée au partage de documents entre enseignants.</p>
+		</div>
+		<div class="hero-right">
+			<div class="hero-text-light">
+				<p class="devise text-light">Partagez, Explorez, Enseignez</p>
+				<h1 class="title-light">
+					<span class="titlename-top">Partage</span>
+					<span class="titlename-bottom">Prof</span>
+				</h1>
+				<p class="slogan meta-light">LA plateforme dédiée au partage de documents entre enseignants.</p>
+			</div>
+		</div>
+	</div>
+
+	{% include('/home/_marquee-text.html.twig') %}
+
+	<div class="feature">
+		<div class="feature-video">
+			<video id="background-video" autoplay loop muted>
+				<source src="{{ asset('videos/mission.mp4') }}" type="video/mp4">
+			</video>
+		</div>
+		<div class="feature-text feature-odd">
+			<h2>Notre mission</h2>
+			<p>Faciliter le partage de connaissances et de ressources pédagogiques entre enseignants pour enrichir l'expérience d'apprentissage.</p>
+			<p>Notre objectif est de créer une communauté collaborative où les enseignants peuvent partager, découvrir et collaborer autour de ressources éducatives de qualité.</p>
+			<span class="center">
+				<button class="btn btn-lg btn-primary">Inscrivez-vous maintenant</button>
+			</span>
+		</div>
+	</div>
+
+	{% include('/home/_marquee-icons.html.twig') %}
+
+	<div class="feature">
+		<div class="feature-text feature-even">
+			<h2>Comment ça marche ?</h2>
+			<ol>
+				<li>Inscrivez-vous gratuitement : Rejoignez notre communauté en quelques clics et accédez à une multitude de ressources pédagogiques.</li>
+				<li>Explorez et Contribuez : Parcourez la bibliothèque, téléchargez des ressources pertinentes et partagez vos propres créations pour enrichir la communauté.</li>
+				<li>Collaborez et Échangez : Connectez-vous avec d'autres enseignants, échangez des idées, discutez des meilleures pratiques et améliorez votre enseignement.</li>
+			</ol>
+			<span class="center">
+				<button class="btn btn-lg btn-primary">Inscrivez-vous maintenant</button>
+			</span>
+		</div>
+		<div class="feature-video feature-video-even d-flex align-items-center justify-content-center">
+			<img src="{{ asset('/images/how-it-works.png') }}" class="feature-img" alt="Cycle de partage et de collaboration de TeachingHub">
+		</div>
+	</div>
+
+	{% include('/home/_marquee-icons.html.twig') %}
+
+	<div class="feature">
+		<div class="feature-video">
+			<video id="background-video" autoplay loop muted>
+				<source src="{{ asset('video/mission.mp4') }}" type="video/mp4">
+			</video>
+		</div>
+		<div class="feature-text feature-odd">
+			<h2>Pourquoi rejoindre PartageProf ?</h2>
+			<ul>
+				<li>
+					<strong>Accès à une bibliothèque riche :</strong>
+					Explorez une collection diversifiée de cours, d'exercices, de présentations et de ressources éducatives partagées par des enseignants passionnés.</li>
+				<li>
+					<strong>Partagez vos connaissances :</strong>
+					Contribuez à une communauté dynamique en partageant vos propres créations pédagogiques, tout en bénéficiant de l'expérience et de l'expertise d'autres collègues.</li>
+				<li>
+					<strong>Améliorez votre pratique :</strong>
+					Découvrez de nouvelles méthodes, approches et stratégies éducatives pour enrichir vos cours et votre enseignement au quotidien.</li>
+			</ul>
+			<span class="center">
+				<button class="btn btn-lg btn-primary">Inscrivez-vous maintenant</button>
+			</span>
+		</div>
+	</div>
+
+	<div class="spacer"></div>
+	{% include('/home/_marquee-text.html.twig') %}
+	<div class="spacer"></div>
+
+
+	<div class="feature text-light">
+		<div class="d-flex flex-column justify-content-center align-items-center h-100">
+			<h2>Besoin d'aide ?</h2>
+			<div class="spacer"></div>
+			<p>Notre équipe est là pour répondre à vos questions et vous aider.</p>
+			<p>
+				<a href="#">CLIQUEZ ICI</a>
+				pour trouver toutes les réponses à vos questions</p>
+		</div>
+	</div>
+	<div class="spacer"></div>
+{% endblock %}

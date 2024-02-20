@@ -1,0 +1,118 @@
+/*** HERO ***/
+
+.hero {
+    width: 100%;
+    height: 640px;
+    position: relative;
+}
+
+.hero-text-dark {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.hero-text-light {
+    width: 200%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    transform: translate(-50%);
+}
+
+.hero-right {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    background-color: var(--neutral-500-color);
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.hero h1 {
+    font-size: 8rem;
+    text-transform: uppercase;
+    letter-spacing: -1.2rem;
+}
+
+.titlename-top {
+    vertical-align: super;
+}
+
+.titlename-bottom {
+    vertical-align: sub;
+}
+
+.devise {
+    font-size: 2rem;
+}
+
+/***** FEATURE *****/
+
+.feature {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    background-color: var(--neutral-500-color);
+    overflow: hidden;
+}
+
+.feature-text {
+    width: 60%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: var(--base-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feature-odd {
+    left: 40%;
+    clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+    padding-left: 10%;
+    padding-right: 2rem;
+}
+
+.feature-even {
+    left: 0%;
+    clip-path: polygon(0% 0%, 100% 0%, 88% 100%, 0% 100%);
+    padding-left: 2rem;
+    padding-right: 10%;
+    z-index: 1;
+}
+
+.feature-video {
+    width: 50%;
+    height: 100%;
+}
+
+.feature-video-even {
+    transform: translateX(100%);
+}
+
+.feature-img {
+    display: block;
+    transform: translateX(25%);
+}
+
+#background-video {
+    height: 100%;
+    width: 100%;
+    right: 0;
+    object-fit: cover;
+    z-index: -1;
+}
