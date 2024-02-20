@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ContactType;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AppController extends AbstractController
 {
@@ -15,7 +20,7 @@ class AppController extends AbstractController
             'controller_name' => 'AppController',
         ]);
     }
-    
+
     #[Route('/a-propos-de-nous', name: 'app_about')]
     public function about(): Response
     {
@@ -33,10 +38,31 @@ class AppController extends AbstractController
     }
 
     #[Route('/nous-contacter', name: 'app_contact')]
-    public function contact(): Response
+    public function contact(Request $request, MailerInterface $mailer): Response
     {
+        $form = $this->createForm(ContactType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = (new Email())
+                // ->from(new Address('admin@teachinghub.fr'))
+                ->from(new Address('contact@lapinou.tech'))
+                // ->to(new Address('contact@teachinghub.fr'))
+                ->to(new Address('p.coelho@lapinou.tech'))
+                ->replyTo($form->getData()->getEmail())
+                ->subject('Nouvelle prise de contact sur TeachingHub')
+                ->text('Message de la part de' . $form->getData()->getFirstName() . ' ' . $form->getData()->getLastName() . ' : ' . $form->getData()->getMessage());
+
+            $mailer->send($email);
+
+            $this->addFlash(
+                'success',
+                'Votre message a bien été envoyé. Nous reviendrons vers vous très prochainement.'
+            );
+        }
         return $this->render('app/contact.html.twig', [
-            'controller_name' => 'AppController',
+            'contactForm' => $form->createView(),
         ]);
     }
 

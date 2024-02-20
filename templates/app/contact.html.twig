@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Nous contacter
+{% endblock %}
+
+{% block body %}
+
+	{% include('/partials/_marquee-text.html.twig') %}
+
+	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
+
+		<h1 class="text-center static-page-title">Nous contacter</h1>
+	</div>
+
+	{% include('/partials/_marquee-icons.html.twig') %}
+
+	<div class="container">
+		{{ form(contactForm) }}
+
+		</div>
+
+	{% endblock %}

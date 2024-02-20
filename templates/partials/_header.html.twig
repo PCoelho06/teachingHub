@@ -11,31 +11,31 @@
 			<div class="collapse navbar-collapse" id="navbarsExample07XL">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('doc_search') }}">Chercher un document</a>
+						<a class="nav-link" href="#">Chercher un document</a>
 					</li>
 					{% if app.user %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('doc_add') }}">Déposer un document</a>
+							<a class="nav-link" href="#">Déposer un document</a>
 						</li>
 					{% endif %}
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					{% if app.user %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('user_dashboard') }}">Mon tableau de bord</a>
+							<a class="nav-link" href="#">Mon tableau de bord</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('user_profile') }}">Mon compte</a>
+							<a class="nav-link" href="#">Mon compte</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+							<a class="nav-link" href="#">Se déconnecter</a>
 						</li>
 					{% else %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+							<a class="nav-link" href="#">S'inscrire</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_login') }}">Se Connecter</a>
+							<a class="nav-link" href="#">Se Connecter</a>
 						</li>
 					{% endif %}
 				</ul>

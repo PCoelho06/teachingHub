@@ -111,3 +111,11 @@ input[type="text"] {
   height: 4px;
   background-color: #000;
 }
+
+.static-page-hero {
+  height: 20rem !important;
+}
+
+.static-page-title {
+  letter-spacing: 0rem !important;
+}

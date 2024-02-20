@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Mentions légales
+{% endblock %}
+
+{% block body %}
+
+	{% include('/partials/_marquee-text.html.twig') %}
+
+	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
+
+		<h1 class="text-center static-page-title">Mentions légales</h1>
+	</div>
+
+	{% include('/partials/_marquee-icons.html.twig') %}
+
+	<div class="container">
+		<h2>Éditeur du site</h2>
+
+
+		Le site est édité par [Nom de la Société], une société [Type de société] dont le siège social est situé à [Adresse du siège social], immatriculée au Registre du Commerce et des Sociétés sous le numéro [Numéro d'immatriculation].
+
+		<h2>Hébergement</h2>
+
+
+		Le site est hébergé par [Nom de l'hébergeur], dont le siège social est situé à [Adresse du siège social de l'hébergeur].
+
+		<h2>Responsable de la publication</h2>
+
+
+		Le responsable de la publication est [Nom du responsable].
+
+		<h2>Données personnelles</h2>
+
+
+		Les données personnelles collectées par [Nom de la Société] sont uniquement destinées à un usage interne. En aucun cas ces données ne seront cédées ou vendues à des tiers. Seuls les employés de [Nom de la Société] peuvent accéder à vos données.
+
+		<h2>Droits d'auteur</h2>
+
+
+		Tous les contenus présents sur le site sont couverts par le droit d'auteur. Toute reprise est dès lors conditionnée à l'accord de l'auteur en vertu de l'article L.122-4 du Code de la Propriété Intellectuelle.
+						
+						Les utilisateurs sont responsables du contenu qu'ils partagent sur la plateforme. Ils doivent s'assurer qu'ils ont tous les droits et autorisations nécessaires pour partager ces documents.
+
+		<h2>Utilisation des cookies</h2>
+
+
+		Notre site utilise des cookies. Ce sont de petits fichiers texte qui sont sauvegardés sur votre appareil lorsque vous utilisez le navigateur. Nous utilisons des cookies pour rendre notre site plus convivial. Certaines parties de notre site nécessitent que le navigateur qui l'appelle soit également identifié après un changement de page.
+
+		<h2>Limitation de responsabilité</h2>
+
+
+		[Nom de la Société] ne peut être tenu responsable des erreurs dans les documents partagés par les utilisateurs ni des conséquences qui pourraient en découler. Les utilisateurs sont entièrement responsables de la vérification de l'exactitude des documents qu'ils partagent.
+
+		<h2>Modification des mentions légales</h2>
+
+
+		[Nom de la Société] se réserve le droit de modifier ces mentions légales à tout moment. L'utilisateur est donc invité à les consulter régulièrement.
+
+		<h2>Loi applicable</h2>
+
+
+		Les présentes mentions légales sont régies par la loi [Nom de la loi applicable], sans tenir compte des principes de conflits de lois. En cas de litige ou de réclamation, les utilisateurs conviennent de se soumettre à la juridiction exclusive du tribunal [Nom du tribunal] de [Ville du tribunal].
+	</div>
+
+	<div class="spacer"></div>
+	{% include('/partials/_marquee-text.html.twig') %}
+	<div class="spacer"></div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	A propos de nous
+{% endblock %}
+
+{% block body %}
+
+	{% include('/partials/_marquee-text.html.twig') %}
+
+	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
+		<h1 class="text-center static-page-title">A propos de nous</h1>
+	</div>
+
+	{% include('/partials/_marquee-icons.html.twig') %}
+
+	<div class="container">
+		<p>
+			Ancien professeur de mathématiques certifié, j'ai consacré 9 ans de ma vie à l'éducation nationale. Avec cette expérience, j'ai pu comprendre la valeur du partage et de l'émulation entre les enseignants pour améliorer la qualité de l'enseignement. Aujourd'hui, je suis en reconversion dans le domaine du développement web, un changement qui m'a donné l'opportunité de concrétiser cette idée.
+		</p>
+
+		<p>
+			J'ai donc décidé de lancer cette plateforme de partage de documents. Mon objectif est de créer un espace convivial et stimulant où les enseignants peuvent partager leur travail, échanger sur leurs méthodes d'enseignement et s'inspirer des bonnes idées de leurs collègues. C'est une initiative que j'ai longuement mûrie et que je suis fier de mettre en œuvre.
+		</p>
+
+		<p>
+			Je suis convaincu que cette plateforme peut contribuer à rendre l'enseignement public encore meilleur. En facilitant l'accès à des ressources variées et de qualité, elle permettra aux enseignants de diversifier leurs approches pédagogiques et d'améliorer leurs pratiques. De plus, en favorisant l'échange et la collaboration, elle pourra stimuler l'innovation et la créativité dans l'enseignement.
+		</p>
+		<p>
+			Cette plateforme est le fruit de ma passion pour l'enseignement et de mon désir de soutenir les enseignants dans leur travail. J'espère qu'elle sera un outil précieux pour tous les enseignants et qu'elle contribuera à améliorer l'enseignement pour tous nos élèves.
+
+		</p>
+	</div>
+
+	<div class="spacer"></div>
+	{% include('/partials/_marquee-text.html.twig') %}
+	<div class="spacer"></div>
+
+{% endblock %}
