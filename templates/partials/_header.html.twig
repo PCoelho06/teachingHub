@@ -1,0 +1,45 @@
+<header>
+	<nav class="navbar navbar-expand-lg" aria-label="Ninth navbar example">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="{{ path('app_home') }}">
+				TeachingHub
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07XL" aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarsExample07XL">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('doc_search') }}">Chercher un document</a>
+					</li>
+					{% if app.user %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('doc_add') }}">Déposer un document</a>
+						</li>
+					{% endif %}
+				</ul>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					{% if app.user %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('user_dashboard') }}">Mon tableau de bord</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('user_profile') }}">Mon compte</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_login') }}">Se Connecter</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
