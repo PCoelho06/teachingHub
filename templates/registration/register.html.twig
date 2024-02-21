@@ -4,10 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% for flash_error in app.flashes('verify_email_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
-
 	{% include('/partials/_marquee-text.html.twig') %}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
@@ -17,6 +13,10 @@
 	</div>
 
 	{% include('/partials/_marquee-icons.html.twig') %}
+
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
 
 	<div class="container my-5">
 		{{ form_errors(registrationForm) }}
