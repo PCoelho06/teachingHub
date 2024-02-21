@@ -1,11 +1,19 @@
-<h1>Hi! Please confirm your email!</h1>
+{% extends 'email_base.html.twig' %}
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+{% block content %}
 
-<p>
-    Cheers!
-</p>
+	<h1>Merci de vous être inscrit sur TeachingHub</h1>
+
+	<p>
+		Avant de pouvoir passer à la suite et partager vos documents sur la plateforme TeachingHub, merci de confirmer votre adresse mail en cliquant sur le lien suivant :
+		<br><br>
+		<a href="{{ signedUrl|raw }}">Confirmer mon adresse email</a>.
+			        Ce lien expirera dans
+		{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+	</p>
+
+	<p>
+		A très bientôt sur TeachingHub!
+	</p>
+
+{% endblock %}

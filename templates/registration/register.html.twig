@@ -1,23 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
 
-    <h1>Register</h1>
+	{% include('/partials/_marquee-text.html.twig') %}
 
-    {{ form_errors(registrationForm) }}
+	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+		<h1 class="text-center static-page-title">S'inscrire</h1>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+	</div>
+
+	{% include('/partials/_marquee-icons.html.twig') %}
+
+	<div class="container my-5">
+		{{ form_errors(registrationForm) }}
+
+		{{ form_start(registrationForm) }}
+		{{ form_row(registrationForm.email) }}
+		<div class="d-flex gap-3">
+			<div class="w-100">
+				{{ form_row(registrationForm.plainPassword.first) }}
+			</div>
+			<div class="w-100">
+				{{ form_row(registrationForm.plainPassword.second) }}
+			</div>
+		</div>
+		<div class="d-flex gap-3">
+			<div class="w-100">
+				{{ form_row(registrationForm.firstname) }}
+			</div>
+			<div class="w-100">
+				{{ form_row(registrationForm.lastname) }}
+			</div>
+		</div>
+		{{ form_row(registrationForm.username) }}
+		<div class="d-flex flex-column">
+			<div class="mx-auto">{{ form_row(registrationForm.agreeTerms) }}</div>
+
+			<button type="submit" class="btn btn-lg btn-primary">S'inscrire</button>
+		</div>
+
+		{{ form_end(registrationForm) }}
+	</div>
+
 {% endblock %}
