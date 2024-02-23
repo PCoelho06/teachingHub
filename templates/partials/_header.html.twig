@@ -11,28 +11,40 @@
 			<div class="collapse navbar-collapse" id="navbarsExample07XL">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
 					<li class="nav-item">
-						<a class="nav-link" href="#">Chercher un document</a>
+						<a class="nav-link" href="#">
+							<i class="fa-duotone fa-magnifying-glass me-2"></i>Chercher un document</a>
+
 					</li>
 					{% if app.user %}
 						<li class="nav-item">
-							<a class="nav-link" href="#">Déposer un document</a>
+							<a class="nav-link" href="#">
+								<i class="fa-duotone fa-upload me-2"></i>Déposer un document</a>
+
 						</li>
 					{% endif %}
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					{% if app.user %}
 						<li class="nav-item">
-							<a class="nav-link" href="#">Mon tableau de bord</a>
+							<a class="nav-link" href="{{ path('user_dashboard') }}">
+								<i class="fa-duotone fa-gauge me-2"></i>Mon tableau de bord</a>
+
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+							<a class="nav-link" href="{{ path('app_logout') }}">
+								<i class="fa-duotone fa-arrow-right-from-bracket me-2"></i>Se déconnecter</a>
+
 						</li>
 					{% else %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+							<a class="nav-link" href="{{ path('app_register') }}">
+								<i class="fa-duotone fa-person-walking-dashed-line-arrow-right me-2"></i>S'inscrire</a>
+
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_login') }}">Se Connecter</a>
+							<a class="nav-link" href="{{ path('app_login') }}">
+								<i class="fa-duotone fa-right-to-bracket me-2"></i>Se Connecter</a>
+
 						</li>
 					{% endif %}
 				</ul>
