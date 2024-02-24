@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\PasswordEditType;
 use App\Form\UserType;
+use App\Form\PasswordEditType;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -87,5 +91,32 @@ class UserController extends AbstractController
         return $this->render('user/profile-edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('mon-compte/supprimer-mon-compte', name: 'user_account_delete')]
+    public function accountDelete(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, Security $security): Response
+    {
+        $submittedToken = $request->getPayload()->get('token');
+
+        if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
+            $email = (new TemplatedEmail())
+                ->from(new Address('validation@teachinghub.fr', 'TeachingHub Securité'))
+                ->to($user->getEmail())
+                ->subject('Nous sommes tristes de vous voir partir 😢')
+                ->htmlTemplate('user/delete-account-email.html.twig');
+
+            $mailer->send($email);
+
+            $security->logout(false);
+
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        $this->addFlash('danger', 'Une erreur est survenue lors de la tentative de suppression de votre compte. Veuillez réessayer en cliquant sur le lien dans votre tableau de bord.');
+
+        return $this->redirectToRoute('user_profile');
     }
 }

@@ -13,6 +13,14 @@
 				<div class="row"></div>
 			</div>
 			<div class="col-9">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
 				<div class="row gap-3 mx-3">
 					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3">
 						<div class="d-flex justify-content-between align-items-center my-2">
@@ -56,9 +64,12 @@
 						<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-primary m-3">
 							<i class="fa-duotone fa-unlock-keyhole mx-2"></i>Changer de mot de passe
 						</a>
-						<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-danger m-3">
-							<i class="fa-duotone fa-trash-xmark mx-2"></i>Supprimer mon compte
-						</a>
+						<form action="{{ url('user_account_delete') }}" method="post" class="d-flex flex-column">
+							<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
+
+							<button type="submit" class="btn btn-sm btn-danger m-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer votre compte TeachingHub ?')">
+								<i class="fa-duotone fa-trash-xmark mx-2"></i>Supprimer mon compte</button>
+						</form>
 					</div>
 					<div class="col"></div>
 				</div>
