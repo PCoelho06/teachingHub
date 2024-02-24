@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon tableau de bord
+{% endblock %}
+
+{% block body %}
+
+	<div class="container h-100 my-5">
+		<div class="row">
+			<div class="col-3 border border-2">
+				{% include('partials/_user-nav.html.twig') %}
+
+				<div class="row"></div>
+			</div>
+			<div class="col-9">Haha</div>
+		</div>
+	</div>
+
+	{% for flash_error in app.flashes('user_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+{% endblock %}

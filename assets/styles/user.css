@@ -1,0 +1,27 @@
+#profile-picture {
+  background-color: gray;
+  width: 8rem;
+  aspect-ratio: 1;
+}
+
+.bg-tile-default {
+  background-color: #eceff1;
+  /* background-color: #cfd8dc; */
+}
+
+.bg-tile-success {
+  background-color: #e8f5e9;
+  /* background-color: #c8e6c9; */
+}
+
+.bg-tile-danger {
+  background-color: #ffebee;
+  /* background-color: #ffcdd2; */
+}
+
+.fa-badge-check,
+.fa-circle-exclamation,
+.fa-circle-user {
+  display: block;
+  font-size: 6rem;
+}
