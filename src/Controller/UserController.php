@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\PasswordEditType;
+use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,6 +62,29 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit-password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('mon-compte/modifier-mes-informations', name: 'user_profile_edit')]
+    public function editProfile(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Les modifications ont bien été enregistrées.'
+            );
+
+            $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('user/profile-edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

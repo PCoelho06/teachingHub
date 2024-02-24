@@ -3,21 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
-use App\Security\EmailVerifier;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -95,6 +96,24 @@ class RegistrationController extends AbstractController
 
         // TODO Change the redirect on success and handle the flash message in your templates
         $this->addFlash('success', 'Votre adresse email a bien été vérifiée.');
+
+        return $this->redirectToRoute('user_profile');
+    }
+
+    #[Route('/renvoyer-verification-email', name: 'app_resend_verification_email')]
+    public function resendVerificationEmail(#[CurrentUser] User $user): Response
+    {
+        $this->emailVerifier->sendEmailConfirmation(
+            'app_verify_email',
+            $user,
+            (new TemplatedEmail())
+                ->from(new Address('validation@teachinghub.fr', 'TeachingHub Validation'))
+                ->to($user->getEmail())
+                ->subject('Merci de confirmer votre adresse email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
+
+        $this->addFlash('success', 'Nous vous avons renvoyé un mail de vérification. N\'oubliez pas de vérifier votre boite de courriers indésirables.');
 
         return $this->redirectToRoute('user_profile');
     }

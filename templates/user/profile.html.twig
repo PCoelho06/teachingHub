@@ -13,54 +13,55 @@
 				<div class="row"></div>
 			</div>
 			<div class="col-9">
-				<div class="row gap-3">
-					<div class="col bg-tile-default">
+				<div class="row gap-3 mx-3">
+					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3">
 						<div class="d-flex justify-content-between align-items-center my-2">
-							<i class="fa-duotone fa-circle-user"></i>
-
-							<div>
-								<p class="m-0">Nom d'utilisateur :
+							<i class="fa-duotone fa-circle-user mx-3"></i>
+							<div class="mx-3">
+								<p class="m-0">
+									<span class="fw-bolder">Nom d'utilisateur :</span>
 									{{ app.user.username }}</p>
-
-								<p class="m-0">Prénom :
+								<p class="m-0">
+									<span class="fw-bolder">Prénom :</span>
 									{{ app.user.firstname }}</p>
-
-								<p class="m-0">Nom :
+								<p class="m-0">
+									<span class="fw-bolder">Nom :</span>
 									{{ app.user.lastname }}</p>
-
 							</div>
 						</div>
+						<a href="{{ path('user_profile_edit') }}" class="btn btn-sm btn-primary">
+							<i class="fa-duotone fa-user-pen mx-2"></i>
+							Éditer mes informations
+						</a>
 					</div>
-
-
-					<div class="col rounded {% if app.user.isVerified %} bg-tile-success {% else %} bg-tile-danger {% endif %}">
-
-
-						{% if app.user.isVerified %}
-							<i class="fa-duotone fa-badge-check "></i>Adresse email vérifiée
-
-
-						{% else %}
-							<div class="d-flex justify-content-between align-items-center my-2">
-								<i class="fa-duotone fa-circle-exclamation text-danger"></i>
-								<div>
+					<div class="col rounded d-flex flex-column justify-content-center py-3 {% if app.user.isVerified %} bg-tile-success {% else %} bg-tile-danger {% endif %}">
+						<div class="d-flex justify-content-between align-items-center my-2">
+							{% if app.user.isVerified %}
+								<i class="fa-duotone fa-badge-check text-success mx-3"></i>
+								<p class="m-0 fw-bolder text-success fs-3">Adresse email vérifiée</p>
+							{% else %}
+								<i class="fa-duotone fa-circle-exclamation text-danger mx-3"></i>
+								<div class="mx-3">
 									<p class="m-0 fw-bolder text-danger fs-3">Adresse email non vérifiée</p>
-									<p class="m-0">Renvoyer un mail de vérification</p>
+									<p class="m-0">
+										<a href="{{ path('app_resend_verification_email') }}">Renvoyer un mail de vérification</a>
+									</p>
 								</div>
-							</div>
-
-
-						{% endif %}
-
+							{% endif %}
+						</div>
 					</div>
 				</div>
-				<div class="row"></div>
-
-
-				Editer mes informations personnelles
-				<a href="{{ path('user_password_edit') }}">Changer de mot de passe</a>
-
-				Supprimer mon compte
+				<div class="row gap-3 m-3">
+					<div class="col rounded d-flex flex-column justify-content-center py-3 rounded bg-tile-default">
+						<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-primary m-3">
+							<i class="fa-duotone fa-unlock-keyhole mx-2"></i>Changer de mot de passe
+						</a>
+						<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-danger m-3">
+							<i class="fa-duotone fa-trash-xmark mx-2"></i>Supprimer mon compte
+						</a>
+					</div>
+					<div class="col"></div>
+				</div>
 			</div>
 		</div>
 	</div>

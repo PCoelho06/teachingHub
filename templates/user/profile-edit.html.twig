@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le mot de passe
+{% block title %}Éditer mes informations
 {% endblock %}
 
 {% block body %}
@@ -20,13 +20,16 @@
 				{% endfor %}
 
 				<div class="container">
+					<h1>Éditer mes informations</h1>
 					{{ form_start(form) }}
-					{{ form_row(form.current_password) }}
-					{{ form_row(form.new_password) }}
+					{{ form_row(form.firstname) }}
+					{{ form_row(form.lastname) }}
+					{{ form_row(form.username) }}
 
 
 					<div class="d-flex flex-column my-5">
-						<button type="submit" class="btn btn-lg btn-primary">Changer le mot de passe</button>
+						<button type="submit" class="btn btn-lg btn-primary">
+							<i class="fa-duotone fa-user-pen mx-2"></i>Éditer mes informations</button>
 					</div>
 					{{ form_end(form) }}
 				</div>
