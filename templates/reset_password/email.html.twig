@@ -1,0 +1,15 @@
+{% extends 'email_base.html.twig' %}
+
+{% block content %}
+
+<h1>Alors ?! on a oublié son mot de passe ?</h1>
+
+<p>Afin de renouveler votre mot de passe, merci de cliquer sur le lien suivant : </p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>Au plaisir de vous retrouver sur TeachingHub</p>
+
+{% endblock %}

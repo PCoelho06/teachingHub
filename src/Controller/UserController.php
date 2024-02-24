@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\PasswordEditType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -28,11 +30,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('mon-compte/changer-mot-de-passe', name: 'user_password_edit')]
-    public function editPassword(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('mon-compte/modifier-mon-mot-de-passe', name: 'user_password_edit')]
+    public function editPassword(#[CurrentUser] User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
-
         $form = $this->createForm(PasswordEditType::class);
         $form->handleRequest($request);
 
@@ -55,7 +55,7 @@ class UserController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    'Le mot de passe a été changé'
+                    'Le mot de passe a été modifié.'
                 );
             }
         }
