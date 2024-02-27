@@ -17,9 +17,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[Route('/mon-compte', name: 'user_')]
 class UserController extends AbstractController
 {
-    #[Route('mon-compte/mon-tableau-de-bord', name: 'user_dashboard')]
+    #[Route('/mon-tableau-de-bord', name: 'dashboard')]
     public function dashboard(): Response
     {
         return $this->render('user/dashboard.html.twig', [
@@ -27,7 +28,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('mon-compte/mon-profil', name: 'user_profile')]
+    #[Route('/mon-profil', name: 'profile')]
     public function profile(): Response
     {
         return $this->render('user/profile.html.twig', [
@@ -35,7 +36,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('mon-compte/modifier-mon-mot-de-passe', name: 'user_password_edit')]
+    #[Route('/modifier-mon-mot-de-passe', name: 'password_edit')]
     public function editPassword(#[CurrentUser] User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PasswordEditType::class);
@@ -70,7 +71,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('mon-compte/modifier-mes-informations', name: 'user_profile_edit')]
+    #[Route('/modifier-mes-informations', name: 'profile_edit')]
     public function editProfile(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -93,7 +94,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('mon-compte/supprimer-mon-compte', name: 'user_account_delete')]
+    #[Route('/supprimer-mon-compte', name: 'account_delete')]
     public function accountDelete(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, Security $security): Response
     {
         $submittedToken = $request->getPayload()->get('token');
