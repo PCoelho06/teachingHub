@@ -19,6 +19,7 @@ class DocumentSearchType extends AbstractType
     {
         $builder
             ->add('type', EntityType::class, [
+                'label' => 'Type de document',
                 'class' => Type::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -26,6 +27,7 @@ class DocumentSearchType extends AbstractType
                 'expanded' => true,
             ])
             ->add('level', EntityType::class, [
+                'label' => 'Niveau',
                 'class' => Level::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -33,6 +35,7 @@ class DocumentSearchType extends AbstractType
                 // 'expanded' => true,
             ])
             ->add('subject', EntityType::class, [
+                'label' => 'Matière',
                 'class' => Subject::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -40,6 +43,7 @@ class DocumentSearchType extends AbstractType
                 // 'expanded' => true,
             ])
             ->add('theme', EntityType::class, [
+                'label' => 'Thématique',
                 'class' => Theme::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -48,12 +52,9 @@ class DocumentSearchType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Entrez ici les termes de votre recherche',
+                    'placeholder' =>  'Entrez ici les termes de votre recherche'
                 ],
                 'required' => false,
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Rechercher un document',
             ]);
     }
 

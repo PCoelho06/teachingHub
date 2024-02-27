@@ -12,7 +12,83 @@
 
 				<div class="row"></div>
 			</div>
-			<div class="col-9">Haha</div>
+			<div class="col-9">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="row gap-3 mx-3">
+					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
+						<p class="fs-1 fw-bold">{{ app.user.documents | length}}</p>
+						<h2>Documents déposés</h2>
+						{% if app.user.documents | length != 0 %}
+							<a href="{{ path('user_documents_show') }}" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-clipboard-list me-2"></i>
+								Accéder à la liste
+							</a>
+						{% else %}
+							<a href="{{ path('document_add') }}" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-file-plus me-2"></i>
+								Ajouter un premier document
+							</a>
+						{% endif %}
+					</div>
+					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
+						<p class="fs-1 fw-bold">?</p>
+						<h2>Documents téléchargés</h2>
+
+						{% if app.user.documents | length != 0 %}
+							<a href="#" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-clipboard-list me-2"></i>
+								Accéder à la liste
+							</a>
+						{% else %}
+							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-download me-2"></i>
+								Télécharger mon premier document
+							</a>
+						{% endif %}
+
+					</div>
+					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
+						<p class="fs-1 fw-bold">?</p>
+						<h2>Documents en favoris</h2>
+
+						{% if app.user.documents | length != 0 %}
+							<a href="#" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-clipboard-list me-2"></i>
+								Accéder à la liste
+							</a>
+						{% else %}
+							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-heart-circle-plus me-2"></i>
+								Ajouter un document favoris
+							</a>
+						{% endif %}
+
+					</div>
+				</div>
+				<div class="row gap-3 m-3">
+					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
+						<p class="fs-1 fw-bold">?</p>
+						<h2>Commentaires déposés</h2>
+
+						{% if app.user.documents | length == 0 %}
+							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-comment-plus me-2"></i>
+								Déposer mon premier commentaires
+							</a>
+						{% endif %}
+					</div>
+					<div class="col"></div>
+					<div class="col"></div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 

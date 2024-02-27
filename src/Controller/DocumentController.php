@@ -122,4 +122,16 @@ class DocumentController extends AbstractController
             'document' => $document,
         ]);
     }
+
+    #[Route('/supprimer-un-document/{slug}', name: 'delete')]
+    public function delete(Document $document, EntityManagerInterface $entityManager): Response
+    {
+        // supprimer le document du dossier upload
+
+
+        $entityManager->remove($document);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('user_documents_show');
+    }
 }

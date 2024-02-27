@@ -95,7 +95,8 @@ label,
 .btn,
 option,
 select,
-input {
+input,
+legend {
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: -0.05rem;
