@@ -127,7 +127,7 @@ class DocumentController extends AbstractController
     public function delete(Document $document, EntityManagerInterface $entityManager): Response
     {
         // supprimer le document du dossier upload
-
+        unlink($this->getParameter('documents_directory') . '/' . $document->getFile());
 
         $entityManager->remove($document);
         $entityManager->flush();
