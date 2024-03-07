@@ -4,28 +4,77 @@
 {% endblock %}
 
 {% block body %}
+{% dump criteria %}
 	<div class="container my-5">
 		<h1 class="page-title">Résultats de la recherche</h1>
 
-		<div id="search-recap" class="w-100 d-flex justify-content-between align-items-center gap-3">
-			<div class="my-3">Type</div>
-			<div>Level</div>
-			<div>Subject</div>
-			<div>Theme</div>
+		<div id="search-recap">
+			<div id="search-recap-filters" class="w-100 d-flex justify-content-between align-items-center gap-3">
+				<div class="my-3">
+					{% if criteria.type is not empty %}
+						{% for type in criteria.type %}
+							{{ type.name }}
+							{% if not loop.last %}
+								,
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						Non spécifié
+					{% endif %}
+				</div>
+				<div>
+					{% if criteria.level %}
+						{{ criteria.level.name }}
+					{% else %}
+						Non spécifié
+					{% endif %}
+				</div>
+				<div>
+					{% if criteria.subject %}
+						{{ criteria.subject.name }}
+					{% else %}
+						Non spécifié
+					{% endif %}
+				</div>
+				<div>
+					{% if criteria.theme %}
+						{{ criteria.theme.name }}
+					{% else %}
+						Non spécifié
+					{% endif %}
+				</div>
+			</div>
+			<div id="search-recap-title" class="text-center fs-1 fw-bold">
+				{% if criteria.title %}
+					{{ criteria.title }}
+				{% endif %}
+			</div>
 		</div>
 
 		<div class="bar w-75 mx-auto my-3"></div>
 
 		<div id="filters" class="w-100 d-flex justify-content-between align-items-center gap-3">
-			<div>Note</div>
+			<div>Note minimale</div>
 			<div>Nombre de téléchargements</div>
-			<div>Trier par</div>
+			<select name="" id="">
+				<option selected disabled>Trier par</option>
+				<option value="downloads">Nombre de téléchargements</option>
+				<option value="rating">Note</option>
+				<option value="alph_asc">Ordre alphabétique croissant</option>
+				<option value="alph_desc">Ordre alphabétique décroissant</option>
+			</select>
 		</div>
 
 		<div id="results">
-			{% for document in documents %}
-				{{ document.title }}
-			{% endfor %}
+			<div class="row gap-3">
+				{% for document in documents %}
+					<div class="col border border-2">
+						{% include 'partials/_rating.html.twig' %}
+						{{ document.title }}
+						{{ document.author.username }}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

@@ -30,6 +30,7 @@ class DocumentController extends AbstractController
 
             return $this->render('document/results.html.twig', [
                 'documents' => $documents,
+                'criteria' => $criteria
             ]);
         }
 
