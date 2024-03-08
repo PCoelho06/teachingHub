@@ -2,10 +2,10 @@
 	{% if i <= document.ratingAverage %}
 		<i class="fas fa-star"></i>
 	{% else %}
-        {% if i + 0.5 <= document.ratingAverage %}
-            <i class="fa-solid fa-star-half-stroke"></i>
-        {% else %}
-		    <i class="far fa-star"></i>
-        {% endif %}
+		{% if i - 0.5 <= document.ratingAverage %}
+			<i class="fa-solid fa-star-half-stroke"></i>
+		{% else %}
+			<i class="far fa-star"></i>
+		{% endif %}
 	{% endif %}
 {% endfor %}
