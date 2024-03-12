@@ -62,6 +62,16 @@ class DocumentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByRating($rating)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.ratingAverage >= :val')
+            ->setParameter('val', $rating)
+            ->orderBy('d.uploadedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Document[] Returns an array of Document objects
     //     */

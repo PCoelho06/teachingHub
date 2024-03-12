@@ -13,5 +13,6 @@ import "./styles/header.css";
 import "./styles/marquee.css";
 import "./styles/home.css";
 import "./styles/user.css";
+import "./styles/rating.css";
 
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");

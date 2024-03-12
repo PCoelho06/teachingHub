@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% dump criteria %}
 	<div class="container my-5">
 		<h1 class="page-title">Résultats de la recherche</h1>
 
@@ -56,7 +55,7 @@
 		<div id="filters" class="w-100 d-flex justify-content-between align-items-center gap-3">
 			<div>Note minimale :
 				{% for i in 1..5 %}
-					<i class="far fa-star" id="minimal-rating-{{i}}"></i>
+					<i class="far fa-star rating-filter" id="minimal-rating-{{i}}"></i>
 				{% endfor %}
 			</div>
 			<div>Nombre de téléchargements</div>
@@ -69,14 +68,26 @@
 			</select>
 		</div>
 
-		<div id="results" class="container overflow-hidden">
+		<div id="results" class="container overflow-hidden my-3">
 
-			<div class="row g-3">
+			<div class="row row-cols-2 g-3">
+
 				{% for document in documents %}
-					<div class="col-6 border border-2">
-						{% include 'partials/_rating.html.twig' %}
-						{{ document.title }}
-						{{ document.author.username }}
+					<div class="col document" data-rating="{{document.ratingAverage}}">
+						<div class="p-3 border bg-light">
+							<h2 class="text-center">{{ document.title }}</h2>
+							<div class="mx-auto text-center">
+								proposé le
+								{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+								par
+								{{ document.author.username }}
+							</div>
+							<div class="mx-auto text-center">
+								{% include 'partials/_rating.html.twig' %}
+								{{ document.ratingAverage }}
+							</div>
+
+						</div>
 					</div>
 				{% endfor %}
 			</div>

@@ -4,20 +4,53 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Document;
-use App\Form\DocumentSearchType;
 use App\Form\DocumentType;
+use App\Form\DocumentSearchType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 #[Route('/documents', name: 'document_')]
 class DocumentController extends AbstractController
 {
+    #[Route('/get-documents-by-rating/{rating}', name: 'filter_rating')]
+    public function filterDocuments(float $rating, DocumentRepository $documentRepository): JsonResponse
+    {
+        $documents = $documentRepository->findByRating($rating);
+
+        $encoder = new JsonEncoder();
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+                dump($format);
+                dump($context);
+                if (method_exists($object, 'getName')) {
+                    return $object->getName();
+                } elseif (method_exists($object, 'getTitle')) {
+                    return $object->getTitle();
+                } elseif (method_exists($object, 'getUsername')) {
+                    return $object->getUsername();
+                }
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+
+        $serializer = new Serializer([$normalizer], [$encoder]);
+
+        return $this->json($serializer->serialize($documents, 'json'));
+    }
+
     #[Route('/chercher-un-document', name: 'search')]
     public function search(Request $request, DocumentRepository $documentRepository): Response
     {

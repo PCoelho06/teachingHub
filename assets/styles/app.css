@@ -119,3 +119,7 @@ legend {
 .static-page-title {
   letter-spacing: 0rem !important;
 }
+
+.hidden {
+  display: none;
+}
