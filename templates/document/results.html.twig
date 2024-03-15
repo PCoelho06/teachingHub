@@ -7,44 +7,61 @@
 	<div class="container my-5">
 		<h1 class="page-title">Résultats de la recherche</h1>
 
-		<div id="search-recap">
-			<div id="search-recap-filters" class="w-100 d-flex justify-content-between align-items-center gap-3">
-				<div class="my-3">
-					{% if criteria.type is not empty %}
-						{% for type in criteria.type %}
-							{{ type.name }}
-							{% if not loop.last %}
-								,
-							{% endif %}
-						{% endfor %}
-					{% else %}
-						Non spécifié
-					{% endif %}
+		{% set types = "" %}
+		{% if criteria.type is not empty %}
+			{% for type in criteria.type %}
+				{% set types = [types,type.name]|join %}
+				{% if not loop.last %}
+					{% set types = [types,", "]|join %}
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			{% set types = "Non spécifié" %}
+		{% endif %}
+
+		<div id="search-recap my-5">
+			<div id="search-recap-filters" class="row row-cols-4">
+				<div class="col">
+					<p class="filter-label">Type de document</p>
+					<div class="my-3 borders px-2 text-nowrap overflow-hidden" title="{{ types }}">
+						{{ types }}
+					</div>
 				</div>
-				<div>
-					{% if criteria.level %}
-						{{ criteria.level.name }}
-					{% else %}
-						Non spécifié
-					{% endif %}
+				<div class="col">
+					<p class="filter-label">Niveau</p>
+					<div class="my-3 borders px-2">
+						{% if criteria.level %}
+							{{ criteria.level.name }}
+						{% else %}
+							Non spécifié
+						{% endif %}
+					</div>
 				</div>
-				<div>
-					{% if criteria.subject %}
-						{{ criteria.subject.name }}
-					{% else %}
-						Non spécifié
-					{% endif %}
+				<div class="col">
+					<p class="filter-label">Matière</p>
+					<div class="my-3 borders px-2">
+						{% if criteria.subject %}
+							{{ criteria.subject.name }}
+						{% else %}
+							Non spécifié
+						{% endif %}
+					</div>
 				</div>
-				<div>
-					{% if criteria.theme %}
-						{{ criteria.theme.name }}
-					{% else %}
-						Non spécifié
-					{% endif %}
+				<div class="col">
+					<p class="filter-label">Thématique</p>
+					<div class="my-3 borders px-2">
+						{% if criteria.theme %}
+							{{ criteria.theme.name }}
+						{% else %}
+							Non spécifié
+						{% endif %}
+					</div>
 				</div>
 			</div>
 			<div id="search-recap-title" class="text-center fs-1 fw-bold">
 				{% if criteria.title %}
+					<p class="filter-label">Termes de la recherche
+					</p>
 					{{ criteria.title }}
 				{% endif %}
 			</div>
@@ -73,22 +90,24 @@
 			<div class="row row-cols-2 g-3">
 
 				{% for document in documents %}
-					<div class="col document" data-rating="{{document.ratingAverage}}">
-						<div class="p-3 border bg-light">
-							<h2 class="text-center">{{ document.title }}</h2>
-							<div class="mx-auto text-center">
-								proposé le
-								{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
-								par
-								{{ document.author.username }}
-							</div>
-							<div class="mx-auto text-center">
-								{% include 'partials/_rating.html.twig' %}
-								{{ document.ratingAverage }}
-							</div>
+					<a href="{{ path('document_show', {'slug': document.slug}) }}">
+						<div class="col document" data-rating="{{document.ratingAverage}}">
+							<div class="p-3 border bg-light">
+								<h2 class="text-center">{{ document.title }}</h2>
+								<div class="mx-auto text-center">
+									proposé le
+									{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+									par
+									{{ document.author.username }}
+								</div>
+								<div class="mx-auto text-center">
+									{% include 'partials/_rating.html.twig' %}
+									{{ document.ratingAverage }}
+								</div>
 
+							</div>
 						</div>
-					</div>
+					</a>
 				{% endfor %}
 			</div>
 		</div>

@@ -1,3 +1,11 @@
 .rating-filter {
   cursor: pointer;
 }
+
+.rating-input {
+  display: none;
+}
+
+.rating-label {
+  cursor: pointer;
+}

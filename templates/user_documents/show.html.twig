@@ -29,13 +29,13 @@
 							<tr>
 								<th scope="col">Titre du document</th>
 								<th scope="col">Date de dépôt</th>
-								<th scope="col">
+								<th scope="col" class="text-center">
 									<i class="fa-duotone fa-download"></i>
 								</th>
-								<th scope="col">
+								<th scope="col" class="text-center">
 									<i class="fa-duotone fa-bookmark"></i>
 								</th>
-								<th scope="col">
+								<th scope="col" class="text-center">
 									<i class="fa-duotone fa-comment"></i>
 								</th>
 								<th scope="col"></th>
@@ -46,9 +46,9 @@
 								<tr>
 									<th scope="row">{{ document.title }}</th>
 									<td>{{ document.uploadedAt | format_datetime('short', 'short', locale='fr') }}</td>
-									<td>?</td>
-									<td>?</td>
-									<td>?</td>
+									<td class="text-center">{{ document.downloadsNumber }}</td>
+									<td class="text-center">?</td>
+									<td class="text-center">?</td>
 									<td class="text-center">
 										<a href="{{ path('document_update', {'slug': document.slug}) }}">
 											<i class="fa-duotone fa-file-pen me-2"></i>

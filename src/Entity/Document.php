@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\DocumentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DocumentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
+#[UniqueEntity('slug')]
 class Document
 {
     #[ORM\Id]
@@ -54,11 +56,26 @@ class Document
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\Column]
+    private ?int $downloadsNumber = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'downloadedDocuments')]
+    private Collection $downloaders;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'favoriteDocuments')]
+    private Collection $favoriteUsers;
+
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'document', orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->levels = new ArrayCollection();
         $this->subjects = new ArrayCollection();
         $this->themes = new ArrayCollection();
+        $this->downloaders = new ArrayCollection();
+        $this->favoriteUsers = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,6 +268,102 @@ class Document
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getDownloadsNumber(): ?int
+    {
+        return $this->downloadsNumber;
+    }
+
+    public function setDownloadsNumber(int $downloadsNumber): static
+    {
+        $this->downloadsNumber = $downloadsNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getDownloaders(): Collection
+    {
+        return $this->downloaders;
+    }
+
+    public function addDownloader(User $downloader): static
+    {
+        if (!$this->downloaders->contains($downloader)) {
+            $this->downloaders->add($downloader);
+            $downloader->addDownloadedDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDownloader(User $downloader): static
+    {
+        if ($this->downloaders->removeElement($downloader)) {
+            $downloader->removeDownloadedDocument($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavoriteUsers(): Collection
+    {
+        return $this->favoriteUsers;
+    }
+
+    public function addFavoriteUser(User $favoriteUser): static
+    {
+        if (!$this->favoriteUsers->contains($favoriteUser)) {
+            $this->favoriteUsers->add($favoriteUser);
+            $favoriteUser->addFavoriteDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteUser(User $favoriteUser): static
+    {
+        if ($this->favoriteUsers->removeElement($favoriteUser)) {
+            $favoriteUser->removeFavoriteDocument($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getDocument() === $this) {
+                $comment->setDocument(null);
+            }
+        }
 
         return $this;
     }

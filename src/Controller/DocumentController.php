@@ -8,45 +8,53 @@ use App\Form\DocumentType;
 use App\Form\DocumentSearchType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 #[Route('/documents', name: 'document_')]
 class DocumentController extends AbstractController
 {
+    #[Route('/update-downloads/{id}', name: 'update_downloads')]
+    public function updateDownloads(Document $document, SerializerInterface $serializer, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if ($document->getDownloaders()->contains($this->getUser())) {
+            return $this->json($serializer->serialize(["proceed" => false, "message" => "Already downloaded"], 'json'));
+        }
+
+        $document->setDownloadsNumber($document->getDownloadsNumber() + 1);
+        if ($this->getUser()) {
+            $document->addDownloader($this->getUser());
+        }
+
+        $entityManager->persist($document);
+        $entityManager->flush();
+
+        return $this->json($serializer->serialize(["proceed" => true, "message" => "Downloaded"], 'json'));
+    }
+
     #[Route('/get-documents-by-rating/{rating}', name: 'filter_rating')]
-    public function filterDocuments(float $rating, DocumentRepository $documentRepository): JsonResponse
+    public function filterDocuments(float $rating, DocumentRepository $documentRepository, SerializerInterface $serializer): JsonResponse
     {
         $documents = $documentRepository->findByRating($rating);
 
-        $encoder = new JsonEncoder();
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
-                dump($format);
-                dump($context);
-                if (method_exists($object, 'getName')) {
-                    return $object->getName();
-                } elseif (method_exists($object, 'getTitle')) {
-                    return $object->getTitle();
-                } elseif (method_exists($object, 'getUsername')) {
-                    return $object->getUsername();
-                }
-            },
-        ];
-        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+        // $encoder = new JsonEncoder();
+        // $defaultContext = [
+        //     AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+        //         return $object->getId();
+        //     },
+        // ];
+        // $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
-        $serializer = new Serializer([$normalizer], [$encoder]);
+        // $serializer = new Serializer([$normalizer], [$encoder]);
+        // $serializer->serialize($documents, 'json');
 
         return $this->json($serializer->serialize($documents, 'json'));
     }

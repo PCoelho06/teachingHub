@@ -1,8 +1,6 @@
 const stars = [];
 const documents = document.getElementsByClassName("document");
 
-console.log(documents);
-
 for (let i = 1; i <= 5; i++) {
   stars[i] = document.getElementById("minimal-rating-" + i);
 
@@ -48,7 +46,7 @@ function updateDocuments(rating) {
       // Sinon, si la requête a réussi, le gestionnaire récupère
       // la réponse sous forme de texte en appelant response.text(),
       // Et renvoie immédiatement la promesse renvoyée par response.text().
-      console.log(response);
+      console.log(response.text());
       //return response.text();
     });
 }

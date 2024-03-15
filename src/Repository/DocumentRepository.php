@@ -53,8 +53,8 @@ class DocumentRepository extends ServiceEntityRepository
         }
 
         if (!is_null($criteria['title'])) {
-            $result->andWhere($result->expr()->like('d.title', ':title'))
-                ->setParameter('title', $criteria['title']);
+            $result->andWhere($result->expr()->like('LOWER(d.title)', ':title'))
+                ->setParameter('title', "%" . strtolower($criteria['title']) . "%");
         }
 
         return $result->orderBy('d.uploadedAt', 'DESC')

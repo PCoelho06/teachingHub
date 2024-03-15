@@ -49,9 +49,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'author')]
     private Collection $documents;
 
+    #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'downloaders')]
+    private Collection $downloadedDocuments;
+
+    #[ORM\ManyToMany(targetEntity: Document::class, mappedBy: 'favoriteUsers')]
+    private Collection $favoriteDocuments;
+
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
+        $this->downloadedDocuments = new ArrayCollection();
+        $this->favoriteDocuments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,6 +220,84 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($document->getAuthor() === $this) {
                 $document->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDownloadedDocuments(): Collection
+    {
+        return $this->downloadedDocuments;
+    }
+
+    public function addDownloadedDocument(Document $downloadedDocument): static
+    {
+        if (!$this->downloadedDocuments->contains($downloadedDocument)) {
+            $this->downloadedDocuments->add($downloadedDocument);
+        }
+
+        return $this;
+    }
+
+    public function removeDownloadedDocument(Document $downloadedDocument): static
+    {
+        $this->downloadedDocuments->removeElement($downloadedDocument);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getFavoriteDocuments(): Collection
+    {
+        return $this->favoriteDocuments;
+    }
+
+    public function addFavoriteDocument(Document $favoriteDocument): static
+    {
+        if (!$this->favoriteDocuments->contains($favoriteDocument)) {
+            $this->favoriteDocuments->add($favoriteDocument);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteDocument(Document $favoriteDocument): static
+    {
+        $this->favoriteDocuments->removeElement($favoriteDocument);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

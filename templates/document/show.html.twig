@@ -5,12 +5,59 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container my-5">
-		<h1 class="page-title">{{ document.title }}</h1>
+	<div class="container my-5 d-flex justify-content-between">
 		<div class="mx-auto w-75">
-			<embed src="{{ asset('uploads/documents/' ~ document.file) }}" width="100%" height="1000" type="application/pdf"/>
+			<iframe src="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" width="70%" height="700px"></iframe>
+
+			{# <embed src="{{ asset('uploads/documents/' ~ document.file) }}" width="100%" height="1000" type="application/pdf"/> #}
 		</div>
-		<a href="{{ asset('uploads/documents/' ~ document.file) }}">Télécharger le document</a>
+		<div>
+			<h1 class="page-title">{{ document.title }}</h1>
+			<div class="mx-auto text-center">
+				proposé le
+				{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+				par
+				{{ document.author.username }}
+			</div>
+
+			<div class="mx-auto text-center d-flex justify-content-center gap-3">
+				<div class="rating">
+					{% include 'partials/_rating.html.twig' %}
+					{{ document.ratingAverage }}
+				</div>
+				<div class="downloads">
+					<i class="fa-duotone fa-download mx-2"></i>
+					<span id="downloadsNumber">{{ document.downloadsNumber }}</span>
+				</div>
+			</div>
+
+			<div
+				class="mx-auto text-center">
+				{# <a href="{{ asset('uploads/documents/' ~ document.file) }}" id="downloadButton" data-id="{{ document.id }}" download="{{ document.title | slug }}">Télécharger le document</a> #}
+				<a href="#" id="downloadButton" data-id="{{ document.id }}">Télécharger le document</a>
+			</div>
+
+			<h3>
+				{{ document.comments | length }}
+				{% if document.comments | length <= 1 %}
+					commentaire
+				{% else %}
+					commentaires
+				{% endif %}
+			</h3>
+
+			{% for comment in document.comments %}
+				{{ comment.author.username }}
+				{{ comment.rating }}
+				{{ comment.content }}
+
+			{% endfor %}
+
+			{% if app.user %}
+				<a href="{{ path('comment_add', {'slug': document.slug}) }}" class="btn btn-lg btn-primary">Ajouter un commentaire</a>
+			{% endif %}
+
+		</div>
 	</div>
 
 {% endblock %}
