@@ -74,9 +74,9 @@ class UserTest extends KernelTestCase
 
     public function testInvalidEmail()
     {
-        $this->assertHasErrors($this->getEntity()->setEmail('test'), 1);
-        $this->assertHasErrors($this->getEntity()->setEmail('test@test'), 1);
-        $this->assertHasErrors($this->getEntity()->setEmail('test.fr'), 1);
+        $this->assertHasErrors($this->getEntity()->setEmail('test'), 2);
+        $this->assertHasErrors($this->getEntity()->setEmail('test@test'), 2);
+        $this->assertHasErrors($this->getEntity()->setEmail('test.fr'), 2);
         $this->assertHasErrors($this->getEntity()->setEmail('test@test.fr'), 1);
     }
 
