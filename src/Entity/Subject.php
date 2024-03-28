@@ -6,6 +6,7 @@ use App\Repository\SubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
 class Subject
@@ -16,6 +17,8 @@ class Subject
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^[\p{L} ']+$/u")]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Level::class, inversedBy: 'subjects')]
