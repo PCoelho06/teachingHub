@@ -44,7 +44,7 @@ jobs:
       - name: Migrate database
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database_test.sqlite
-        run: php bin/console d:m:m --no-interaction --env=test
+        run: php bin/console make:migration --no-interaction --env=test && php bin/console d:m:m --no-interaction --env=test
       - name: Loading fixtures
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database_test.sqlite
