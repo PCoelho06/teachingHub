@@ -42,8 +42,12 @@ jobs:
           mkdir -p data
           touch data/database.sqlite
       - name: Migrate database
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database_test.sqlite
         run: php bin/console d:m:m --no-interaction --env=test
       - name: Loading fixtures
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database_test.sqlite
         run: php bin/console d:f:l --no-interaction --env=test
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
