@@ -159,10 +159,13 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'show')]
-    public function showDocument(Document $document): Response
+    public function showDocument(Document $document, DocumentRepository $documentRepository): Response
     {
+        $suggestions = $documentRepository->findSuggestions($document);
+
         return $this->render('document/show.html.twig', [
             'document' => $document,
+            'suggestions' => $suggestions
         ]);
     }
 

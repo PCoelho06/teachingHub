@@ -72,6 +72,31 @@ class DocumentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findSuggestions(Document $document)
+    {
+        $result = $this->createQueryBuilder('d');
+
+        $result->andWhere('d.type = :type')
+            ->setParameter('type', $document->getType());
+
+        $result->andWhere($result->expr()->isMemberOf(':levels', 'd.levels'))
+            ->setParameter('levels', $document->getLevels());
+
+        $result->andWhere($result->expr()->isMemberOf(':subjects', 'd.subjects'))
+            ->setParameter('subjects', $document->getSubjects());
+
+        $result->andWhere($result->expr()->isMemberOf(':themes', 'd.themes'))
+            ->setParameter('themes', $document->getThemes());
+
+        $result->orderBy('d.ratingAverage', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+
+
+        return $result;
+    }
+
     //    /**
     //     * @return Document[] Returns an array of Document objects
     //     */
