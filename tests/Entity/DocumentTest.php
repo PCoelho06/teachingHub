@@ -3,7 +3,6 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Document;
-use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DocumentTest extends KernelTestCase
@@ -33,7 +32,7 @@ class DocumentTest extends KernelTestCase
         $this->assertInstanceOf(Document::class, $document);
         $this->assertSame('TestDocument', $document->getTitle());
         $this->assertSame('Test Description', $document->getDescription());
-        $this->assertInstanceOf(DateTimeImmutable::class, $document->getUploadedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $document->getUploadedAt());
     }
 
     public function testUpdateDocument()
@@ -45,8 +44,8 @@ class DocumentTest extends KernelTestCase
         $document->setUpdatedAt(new \DateTimeImmutable());
 
         $this->assertSame('UpdatedDocument', $document->getTitle());
-        $this->assertSame('Updated Description', $document->getTitle());
-        $this->assertInstanceOf(DateTimeImmutable::class, $document->getUpdatedAt());
+        $this->assertSame('Updated Description', $document->getDescription());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $document->getUpdatedAt());
     }
 
     public function testValidDocument()
