@@ -60,6 +60,7 @@ class CommentTest extends KernelTestCase
 
     public function testInvalidBlankRating()
     {
-        $this->assertHasErrors($this->getEntity()->setRating(''), 1);
+        $this->assertHasErrors($this->getEntity()->setRating(0), 1);
+        $this->assertHasErrors($this->getEntity()->setRating(6), 1);
     }
 }

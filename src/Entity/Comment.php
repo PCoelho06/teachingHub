@@ -26,7 +26,11 @@ class Comment
     private ?string $content = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank()]
+    #[Assert\Range(
+        min: 1,
+        max: 5,
+        notInRangeMessage: 'Vous devez donner une note entre 1 et 5 étoiles',
+    )]
     private ?int $rating = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
