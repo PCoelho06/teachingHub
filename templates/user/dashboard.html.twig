@@ -26,7 +26,7 @@
 						<p class="fs-1 fw-bold">{{ app.user.documents | length}}</p>
 						<h2>Documents déposés</h2>
 						{% if app.user.documents | length != 0 %}
-							<a href="{{ path('user_documents_show') }}" class="btn btn-sm btn-primary">
+							<a href="{{ path('user_documents_uploads') }}" class="btn btn-sm btn-primary">
 								<i class="fa-duotone fa-clipboard-list me-2"></i>
 								Accéder à la liste
 							</a>
@@ -38,11 +38,11 @@
 						{% endif %}
 					</div>
 					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">?</p>
+						<p class="fs-1 fw-bold">{{ app.user.downloadedDocuments| length }}</p>
 						<h2>Documents téléchargés</h2>
 
-						{% if app.user.documents | length != 0 %}
-							<a href="#" class="btn btn-sm btn-primary">
+						{% if app.user.downloadedDocuments | length != 0 %}
+							<a href="{{ path('user_documents_downloads') }}" class="btn btn-sm btn-primary">
 								<i class="fa-duotone fa-clipboard-list me-2"></i>
 								Accéder à la liste
 							</a>
@@ -55,18 +55,18 @@
 
 					</div>
 					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">?</p>
+						<p class="fs-1 fw-bold">{{ app.user.favoriteDocuments| length }}</p>
 						<h2>Documents en favoris</h2>
 
-						{% if app.user.documents | length != 0 %}
-							<a href="#" class="btn btn-sm btn-primary">
+						{% if app.user.favoriteDocuments | length != 0 %}
+							<a href="{{ path('user_documents_favorites') }}" class="btn btn-sm btn-primary">
 								<i class="fa-duotone fa-clipboard-list me-2"></i>
 								Accéder à la liste
 							</a>
 						{% else %}
 							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
 								<i class="fa-duotone fa-heart-circle-plus me-2"></i>
-								Ajouter un document favoris
+								Ajouter un document favori
 							</a>
 						{% endif %}
 
@@ -74,13 +74,18 @@
 				</div>
 				<div class="row gap-3 m-3">
 					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">?</p>
+						<p class="fs-1 fw-bold">{{ app.user.comments|length }}</p>
 						<h2>Commentaires déposés</h2>
 
 						{% if app.user.documents | length == 0 %}
 							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
 								<i class="fa-duotone fa-comment-plus me-2"></i>
-								Déposer mon premier commentaires
+								Déposer mon premier commentaire
+							</a>
+						{% else %}
+							<a href="#" class="btn btn-sm btn-primary">
+								<i class="fa-duotone fa-clipboard-list me-2"></i>
+								Accéder à la liste
 							</a>
 						{% endif %}
 					</div>

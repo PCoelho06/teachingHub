@@ -12,6 +12,14 @@
 			{# <embed src="{{ asset('uploads/documents/' ~ document.file) }}" width="100%" height="1000" type="application/pdf"/> #}
 		</div>
 		<div>
+			{% if document in app.user.downloadedDocuments %}
+				<div class="alert alert-info alert-dismissible fade show" role="alert">
+					<strong>Petite info:
+					</strong>
+					Vous avez déjà téléchargé ce document.
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endif %}
 			<h1 class="page-title">{{ document.title }}</h1>
 			<div class="mx-auto text-center">
 				proposé le
@@ -29,12 +37,36 @@
 					<i class="fa-duotone fa-download mx-2"></i>
 					<span id="downloadsNumber">{{ document.downloadsNumber }}</span>
 				</div>
+				<div class="favorites">
+					<i class="fa-duotone fa-bookmark mx-2"></i>
+					<span id="downloadsNumber">{{ document.favoriteUsers|length }}</span>
+				</div>
 			</div>
 
-			<div
-				class="mx-auto text-center">
-				{# <a href="{{ asset('uploads/documents/' ~ document.file) }}" id="downloadButton" data-id="{{ document.id }}" download="{{ document.title | slug }}">Télécharger le document</a> #}
-				<a href="#" id="downloadButton" data-id="{{ document.id }}">Télécharger le document</a>
+			<div class="mx-auto text-center d-flex justify-content-center gap-3 py-3">
+				<div>
+					<a href="{{ asset('uploads/documents/' ~ document.file) }}" class="btn btn-sm btn-primary" id="downloadButton" data-id="{{ document.id }}" download="{{ document.slug }}">
+						<i class="fa-duotone fa-download me-2"></i>
+						Télécharger le document
+					</a>
+				</div>
+				{% if document.author != app.user %}
+					{% if app.user in document.favoriteUsers %}
+						<div>
+							<a class="btn btn-sm btn-danger" href="{{ path('user_documents_remove_favorite', {id: document.id}) }}">
+								<i class="fa-duotone fa-bookmark-slash me-2"></i>
+								Retirer des favoris
+							</a>
+						</div>
+					{% else %}
+						<div>
+							<a class="btn btn-sm btn-success" href="{{ path('user_documents_add_favorite', {id: document.id}) }}">
+								<i class="fa-duotone fa-bookmark me-2"></i>
+								Ajouter aux favoris
+							</a>
+						</div>
+					{% endif %}
+				{% endif %}
 			</div>
 
 			<h3>

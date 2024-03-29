@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des documents
-	{{ page }}
+{% block title %}Liste des documents déposés
 {% endblock %}
 
 {% block body %}
@@ -24,8 +23,7 @@
 				{% endfor %}
 
 				<div class="container">
-					<h1 class="text-center">Liste des documents
-						{{ page }}</h1>
+					<h1>Liste des documents déposés</h1>
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -51,23 +49,14 @@
 									<td class="text-center">{{ document.downloadsNumber }}</td>
 									<td class="text-center">{{ document.favoriteUsers | length }}</td>
 									<td class="text-center">{{ document.comments | length }}</td>
-									{% if page == 'déposés' %}
-										<td class="text-center">
-											<a href="{{ path('document_update', {'slug': document.slug}) }}">
-												<i class="fa-duotone fa-file-pen me-2"></i>
-											</a>
-											<a href="{{ path('document_delete', {'slug': document.slug}) }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer définitivement le document {{ document.title }} ?')">
-												<i class="fa-duotone fa-trash"></i>
-											</a>
-										</td>
-									{% else %}
-										<td class="text-center">
-											<a href="{{ path('document_show', {slug: document.slug}) }}" class="btn btn-sm btn-primary">
-												<i class="fa-duotone fa-rabbit-running me-2"></i>
-												Accéder
-											</a>
-										</td>
-									{% endif %}
+									<td class="text-center">
+										<a href="{{ path('document_update', {'slug': document.slug}) }}">
+											<i class="fa-duotone fa-file-pen me-2"></i>
+										</a>
+										<a href="{{ path('document_delete', {'slug': document.slug}) }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer définitivement le document {{ document.title }} ?')">
+											<i class="fa-duotone fa-trash"></i>
+										</a>
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>

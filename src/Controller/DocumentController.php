@@ -86,6 +86,7 @@ class DocumentController extends AbstractController
     {
         if (is_null($document)) {
             $document = new Document();
+            $document->setDownloadsNumber(0);
             $edit = false;
         } else {
             $edit = true;
@@ -100,7 +101,7 @@ class DocumentController extends AbstractController
                     'danger',
                     'Attention, vous n\'avez pas les droits pour modifier ce document'
                 );
-                return $this->redirect('document_show', [
+                return $this->redirectToRoute('document_show', [
                     'slug' => $document->getSlug(),
                 ]);
             }
@@ -112,8 +113,8 @@ class DocumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('file')->getData();
 
-            $slug = $slugger->slug(uniqid() . '.' . $document->getTitle());
-            $filename = $slug . '.' . $file->guessExtension();
+            $slug = $slugger->slug($document->getTitle());
+            $filename = uniqid() . '.' . $slug . '.' . $file->guessExtension();
 
             try {
                 $file->move(
@@ -129,7 +130,7 @@ class DocumentController extends AbstractController
                 if (is_null($document->getId())) {
                     return $this->redirect('document_add');
                 } else {
-                    return $this->redirect('document_update', [
+                    return $this->redirectToRoute('document_update', [
                         'slug' => $document->getSlug(),
                     ]);
                 }
