@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 	<head>
 		<meta charset="UTF-8">
 		<title>
@@ -20,13 +20,12 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body>
-		{% include('partials/_header.html.twig') %}
+	<body class="d-flex flex-column h-100"></body>
 
-		<main class="mt-auto mb-auto"> {% block body %}{% endblock %}
-			</main>
+	{% include('partials/_header.html.twig') %}
 
-			{% include('partials/_footer.html.twig') %}
-
-		</body>
+	<main class="mt-auto mb-auto"> {% block body %}{% endblock %}
+		</main>
+		{% include('partials/_footer.html.twig') %}
 	</html>
+</body></html>

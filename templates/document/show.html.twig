@@ -34,7 +34,7 @@
 			{% endif %}
 		</div>
 		<div>
-			{% if document in app.user.downloadedDocuments %}
+			{% if app.user and document in app.user.downloadedDocuments %}
 				<div class="alert alert-info alert-dismissible fade show" role="alert">
 					<strong>Petite info:
 					</strong>

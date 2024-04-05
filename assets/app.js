@@ -1,5 +1,6 @@
 import "bootstrap";
-import "./minimal-rating.js";
+import "./js/minimal-rating.js";
+// import "./minimal-rating.js";
 /*
  * Welcome to your app's main JavaScript file!
  *

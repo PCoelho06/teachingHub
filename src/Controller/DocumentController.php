@@ -2,22 +2,25 @@
 
 namespace App\Controller;
 
+use App\Data\SearchFilters;
 use DateTimeImmutable;
 use App\Entity\Document;
 use App\Form\DocumentType;
 use App\Form\DocumentSearchType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 #[Route('/documents', name: 'document_')]
 class DocumentController extends AbstractController
@@ -45,16 +48,16 @@ class DocumentController extends AbstractController
     {
         $documents = $documentRepository->findByRating($rating);
 
-        // $encoder = new JsonEncoder();
-        // $defaultContext = [
-        //     AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
-        //         return $object->getId();
-        //     },
-        // ];
-        // $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+        $encoder = new JsonEncoder();
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
+                return $object->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
-        // $serializer = new Serializer([$normalizer], [$encoder]);
-        // $serializer->serialize($documents, 'json');
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $serializer->serialize($documents, 'json');
 
         return $this->json($serializer->serialize($documents, 'json'));
     }
@@ -62,22 +65,34 @@ class DocumentController extends AbstractController
     #[Route('/chercher-un-document', name: 'search')]
     public function search(Request $request, DocumentRepository $documentRepository): Response
     {
-        $form = $this->createForm(DocumentSearchType::class);
+        $filters = new SearchFilters();
+        $offset = max(0, $request->query->getInt('offset', 0));
+
+        $form = $this->createForm(DocumentSearchType::class, $filters);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $criteria = $form->getData();
-            $documents = $documentRepository->findBySearchCriteria($criteria);
+        $paginator = $documentRepository->findBySearchCriteria($filters, $offset);
 
-            return $this->render('document/results.html.twig', [
-                'documents' => $documents,
-                'criteria' => $criteria
-            ]);
-        }
+        // if (($form->isSubmitted() && $form->isValid()) || $offset) {
+        //     if ($form->isSubmitted() && $form->isValid()) {
+        //         $criteria = $form->getData();
+        //     } else {
+        //         $criteria = $request->query->get('criteria');
+        //     }
 
-        return $this->render('document/search.html.twig', [
+        //     $paginator = $documentRepository->findBySearchCriteria($criteria, $offset);
+
+        // }
+        return $this->render('document/search2.html.twig', [
             'form' => $form->createView(),
+            'documents' => $paginator,
+            'previous' => $offset - DocumentRepository::DOCUMENTS_PER_PAGE,
+            'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
         ]);
+
+        // return $this->render('document/search.html.twig', [
+        //     'form' => $form->createView(),
+        // ]);
     }
 
     #[Route('/deposer-un-document', name: 'add')]

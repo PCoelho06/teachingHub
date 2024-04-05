@@ -87,7 +87,7 @@
 
 		<div id="results" class="container overflow-hidden my-3">
 
-			<div class="row row-cols-2 g-3">
+			<div class="row row-cols-2 g-3" id="document_results">
 
 				{% for document in documents %}
 					<a href="{{ path('document_show', {'slug': document.slug}) }}">
@@ -109,6 +109,13 @@
 						</div>
 					</a>
 				{% endfor %}
+				{% if previous >= 0 %}
+					<a href="{{ path('document_search', { criteria: criteria, offset: previous }) }}">Previous</a>
+				{% endif %}
+				{% if next < documents|length %}
+					<a href="{{ path('document_search', { criteria: criteria, offset: next }) }}">Next</a>
+				{% endif %}
+
 			</div>
 		</div>
 	</div>
