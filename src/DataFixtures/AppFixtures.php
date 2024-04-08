@@ -64,13 +64,15 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             $document->setTitle($faker->words(3, true))
                 ->setDescription($faker->paragraph())
-                ->setFile($faker->file('C:\Users\DWWM\Documents\pdf', 'C:\laragon\www\teachingHub\public\uploads\documents', false))
+                // ->setFile($faker->file('/Users/pierre/Workspace/teachingHub-test-documents', './public/uploads/documents', false))
                 ->setRatingAverage($faker->randomFloat(1, 0, 5))
                 ->setUploadedAt(new DateTimeImmutable())
                 ->setDownloadsNumber(0)
                 ->setAuthor($this->getReference('user'));
             $slug = $slugger->slug($document->getTitle());
             $document->setSlug($slug);
+            copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents/' . $document->getSlug() . '.pdf');
+            $document->setFile('/public/uploads/documents/' . $document->getSlug() . '.pdf');
             $document->setType($type)
                 ->addLevel($level)
                 ->addSubject($subject)
