@@ -7,18 +7,37 @@ use App\Entity\Level;
 use App\Entity\Theme;
 use App\Entity\Subject;
 use App\Data\SearchFilters;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DocumentSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $formThemeModifier = function (FormInterface $form, Subject $subject = null): void {
+            $themes = null === $subject ? [] : $subject->getThemes();
+
+            $form->add('theme', EntityType::class, [
+                'class' => Theme::class,
+                'choices' => $themes,
+                'label' => 'Thématique',
+                'choice_label' => 'name',
+                'required' => false,
+                'attr' => [
+                    'onchange' => "this.closest('form').submit()"
+                ]
+            ]);
+        };
+
         $builder
             ->add('type', EntityType::class, [
                 'label' => 'Type de document',
@@ -49,24 +68,6 @@ class DocumentSearchType extends AbstractType
                     'onchange' => "this.closest('form').submit()"
                 ]
             ])
-            ->add('theme', EntityType::class, [
-                'label' => 'Thématique',
-                'class' => Theme::class,
-                'choice_label' => 'name',
-                'required' => false,
-                'attr' => [
-                    'onchange' => "this.closest('form').submit()"
-                ]
-            ])
-            ->add('title', TextType::class, [
-                'attr' => [
-                    'placeholder' =>  'Entrez ici les termes de votre recherche'
-                ],
-                'required' => false,
-                'attr' => [
-                    'onchange' => "this.closest('form').submit()"
-                ]
-            ])
             ->add('orderBy', ChoiceType::class, [
                 'choices' => [
                     'Date de publication' => 'uploadedAt',
@@ -78,7 +79,50 @@ class DocumentSearchType extends AbstractType
                 'attr' => [
                     'onchange' => "this.closest('form').submit()"
                 ]
+            ])
+            ->add('title', SearchType::class, [
+                'attr' => [
+                    'placeholder' =>  'Entrez ici les termes de votre recherche'
+                ],
+                'required' => false,
+                'attr' => [
+                    'onsearch' => "this.closest('form').submit()",
+                ]
             ]);
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formThemeModifier): void {
+                // this would be your entity, i.e. SportMeetup
+                $data = $event->getData();
+
+                $formThemeModifier($event->getForm(), $data->getSubject());
+            }
+        );
+
+        $builder->get('subject')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formThemeModifier): void {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+                $subject = $event->getForm()->getData();
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback function!
+                $formThemeModifier($event->getForm()->getParent(), $subject);
+            }
+        );
+
+        // ->add('theme', EntityType::class, [
+        //     'label' => 'Thématique',
+        //     'class' => Theme::class,
+        //     'choice_label' => 'name',
+        //     'required' => false,
+        //     'attr' => [
+        //         'onchange' => "this.closest('form').submit()"
+        //     ]
+        // ])
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

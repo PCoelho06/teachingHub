@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Entity\Type;
+use App\Entity\User;
 use App\Entity\Level;
 use App\Entity\Theme;
 use App\Entity\Subject;
@@ -17,6 +18,7 @@ class SearchFilters
     private ?Level $level = null;
     private ?Subject $subject = null;
     private ?Theme $theme = null;
+    private ?User $author = null;
 
     /**
      * Get the value of offset
@@ -174,6 +176,26 @@ class SearchFilters
     public function setOrderBy($orderBy)
     {
         $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set the value of author
+     *
+     * @return  self
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
 
         return $this;
     }

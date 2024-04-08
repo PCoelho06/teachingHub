@@ -76,6 +76,11 @@ class DocumentRepository extends ServiceEntityRepository
                 ->setParameter('title', "%" . strtolower($filters->getTitle()) . "%");
         }
 
+        if (!is_null($filters->getAuthor())) {
+            $query->andWhere('d.author = :author');
+            $query->setParameter('author', $filters->getAuthor());
+        }
+
         $direction = ($filters->getOrderBy() === 'title') ? 'ASC' : 'DESC';
 
         $query->orderBy('d.' . $filters->getOrderBy(), $direction)

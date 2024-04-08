@@ -72,7 +72,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $slug = $slugger->slug($document->getTitle());
             $document->setSlug($slug);
             copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents/' . $document->getSlug() . '.pdf');
-            $document->setFile('/public/uploads/documents/' . $document->getSlug() . '.pdf');
+            $document->setFile($document->getSlug() . '.pdf');
             $document->setType($type)
                 ->addLevel($level)
                 ->addSubject($subject)

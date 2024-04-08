@@ -73,26 +73,12 @@ class DocumentController extends AbstractController
 
         $paginator = $documentRepository->findBySearchCriteria($filters, $offset);
 
-        // if (($form->isSubmitted() && $form->isValid()) || $offset) {
-        //     if ($form->isSubmitted() && $form->isValid()) {
-        //         $criteria = $form->getData();
-        //     } else {
-        //         $criteria = $request->query->get('criteria');
-        //     }
-
-        //     $paginator = $documentRepository->findBySearchCriteria($criteria, $offset);
-
-        // }
-        return $this->render('document/search2.html.twig', [
+        return $this->render('document/search.html.twig', [
             'form' => $form->createView(),
             'documents' => $paginator,
             'previous' => $offset - DocumentRepository::DOCUMENTS_PER_PAGE,
             'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
         ]);
-
-        // return $this->render('document/search.html.twig', [
-        //     'form' => $form->createView(),
-        // ]);
     }
 
     #[Route('/deposer-un-document', name: 'add')]
