@@ -1,0 +1,40 @@
+{% for document in documents %}
+	<div class="col document" data-rating="{{document.ratingAverage}}">
+		<div class="card">
+			<div class="card-header">
+				<a href=" {{ path('document_search', {type: document.type.id } ) }}">{{ document.type.name }}</a>
+			</div>
+			<div class="card-body">
+				<div class="d-flex justify-content-between">
+					<div id="subjects" class="text-start">
+						{% for subject in document.subjects %}
+
+							<a href="{{ path('document_search', {subject: subject.id }) }}" class="badge text-bg-danger mx-1">{{ subject.name }}</a>
+						{% endfor %}
+					</div>
+					<div id="levels">
+						{% for level in document.levels %}
+							<a href="{{ path('document_search', {level: level.id }) }}" class="badge text-bg-success mx-1">{{ level.name }}</a>
+						{% endfor %}
+					</div>
+				</div>
+
+				<div class="content">
+					<div class="mx-auto text-center">
+						{% include 'partials/_rating.html.twig' %}
+						{{ document.ratingAverage }}
+					</div>
+					<h2 class="text-center">
+						<a href="{{ path('document_show', {'slug': document.slug}) }}">{{ document.title }}</a>
+					</h2>
+					<div class="mx-auto text-center">
+						proposé le
+						{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+						par
+						<a href="{{ path('document_search', {'author': document.author.id}) }}">{{ document.author.username }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}

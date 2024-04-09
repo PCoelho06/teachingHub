@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class DocumentSearchType extends AbstractType
 {
@@ -75,6 +76,7 @@ class DocumentSearchType extends AbstractType
                     'Nombre de Téléchargements' => 'downloadsNumber',
                     'Ordre Alphabétique' => 'title',
                 ],
+                'label' => 'Trier par',
                 'empty_data' => 'uploadedAt',
                 'attr' => [
                     'onchange' => "this.closest('form').submit()"
@@ -85,8 +87,20 @@ class DocumentSearchType extends AbstractType
                     'placeholder' =>  'Entrez ici les termes de votre recherche'
                 ],
                 'required' => false,
+            ])
+            ->add('ratingAverage', ChoiceType::class, [
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ],
+                'expanded' => true,
+                'label' => 'Note minimale',
+                'required' => false,
                 'attr' => [
-                    'onsearch' => "this.closest('form').submit()",
+                    'onchange' => "this.closest('form').submit()"
                 ]
             ]);
 
@@ -112,24 +126,13 @@ class DocumentSearchType extends AbstractType
                 $formThemeModifier($event->getForm()->getParent(), $subject);
             }
         );
-
-        // ->add('theme', EntityType::class, [
-        //     'label' => 'Thématique',
-        //     'class' => Theme::class,
-        //     'choice_label' => 'name',
-        //     'required' => false,
-        //     'attr' => [
-        //         'onchange' => "this.closest('form').submit()"
-        //     ]
-        // ])
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => SearchFilters::class,
-            'method' => 'GET',
+            // 'method' => 'GET',
             'csrf_protection' => false
         ]);
     }

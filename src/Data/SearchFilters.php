@@ -12,7 +12,7 @@ class SearchFilters
 {
     private int $offset = 0;
     private ?string $title = null;
-    private $ratingAverage = 0;
+    private ?int $ratingAverage = 0;
     private ?string $orderBy = 'uploadedAt';
     private ?Type $type = null;
     private ?Level $level = null;

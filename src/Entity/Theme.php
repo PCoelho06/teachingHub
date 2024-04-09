@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ThemeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ThemeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
@@ -22,9 +24,13 @@ class Theme
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'themes')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $subjects;
 
     #[ORM\ManyToMany(targetEntity: Document::class, mappedBy: 'themes')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $documents;
 
     public function __construct()

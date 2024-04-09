@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\SubjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SubjectRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
@@ -22,12 +24,18 @@ class Subject
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Level::class, inversedBy: 'subjects')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $levels;
 
     #[ORM\ManyToMany(targetEntity: Document::class, mappedBy: 'subjects')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $documents;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'subjects')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $themes;
 
     public function __construct()

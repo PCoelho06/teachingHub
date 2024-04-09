@@ -81,6 +81,11 @@ class DocumentRepository extends ServiceEntityRepository
             $query->setParameter('author', $filters->getAuthor());
         }
 
+        if (!is_null($filters->getRatingAverage())) {
+            $query->andWhere('d.ratingAverage >= :rating');
+            $query->setParameter('rating', $filters->getRatingAverage());
+        }
+
         $direction = ($filters->getOrderBy() === 'title') ? 'ASC' : 'DESC';
 
         $query->orderBy('d.' . $filters->getOrderBy(), $direction)

@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte enregistré avec cette adresse email.')]
@@ -25,9 +27,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     #[Assert\Email()]
     #[Assert\Regex('/^[a-zA-Z0-9._-]+@ac-[a-zA-Z0-9._-]{2,}\.fr$/', 'Vous devez utiliser votre adresse email académique pour pouvoir vous inscrire.')]
+    #[Ignore]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Ignore]
     private array $roles = [];
 
     /**
@@ -37,37 +41,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     #[Assert\Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#!$%&+-=])(?=\\S+$).{8,}$/", 'Votre mot de passe doit contenir au moins 8 caractères parmi lesquels au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial parmis @ # ! $ % & + - =')]
     #[Assert\NotCompromisedPassword(null, 'Ce mot de passe a été révelé lors d\'une fuite de données et ne devrait plus être utilisé. Merci de choisir un autre mot de passe.')]
+    #[Ignore]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank()]
     #[Assert\Regex("/^[\p{L} ']+$/u")]
+    #[Ignore]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank()]
     #[Assert\Regex("/^[\p{L} ']+$/u")]
+    #[Ignore]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
     #[ORM\Column]
+    #[Ignore]
     private ?\DateTimeImmutable $registered_at = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Ignore]
     private $isVerified = false;
 
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'author')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $documents;
 
     #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'downloaders')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $downloadedDocuments;
 
     #[ORM\ManyToMany(targetEntity: Document::class, mappedBy: 'favoriteUsers')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $favoriteDocuments;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $comments;
 
     public function __construct()

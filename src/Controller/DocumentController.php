@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Data\SearchFilters;
 use DateTimeImmutable;
 use App\Entity\Document;
 use App\Form\DocumentType;
+use App\Data\SearchFilters;
 use App\Form\DocumentSearchType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 #[Route('/documents', name: 'document_')]
 class DocumentController extends AbstractController
@@ -43,27 +44,9 @@ class DocumentController extends AbstractController
         return $this->json($serializer->serialize(["proceed" => true, "message" => "Downloaded"], 'json'));
     }
 
-    #[Route('/get-documents-by-rating/{rating}', name: 'filter_rating')]
-    public function filterDocuments(float $rating, DocumentRepository $documentRepository, SerializerInterface $serializer): JsonResponse
-    {
-        $documents = $documentRepository->findByRating($rating);
-
-        $encoder = new JsonEncoder();
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): string {
-                return $object->getId();
-            },
-        ];
-        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
-
-        $serializer = new Serializer([$normalizer], [$encoder]);
-        $serializer->serialize($documents, 'json');
-
-        return $this->json($serializer->serialize($documents, 'json'));
-    }
-
+    #[Route('/get-filtered-documents', name: 'filtered')]
     #[Route('/chercher-un-document', name: 'search')]
-    public function search(Request $request, DocumentRepository $documentRepository): Response
+    public function search(Request $request, DocumentRepository $documentRepository, SerializerInterface $serializer): Response
     {
         $filters = new SearchFilters();
         $offset = max(0, $request->query->getInt('offset', 0));
@@ -73,12 +56,29 @@ class DocumentController extends AbstractController
 
         $paginator = $documentRepository->findBySearchCriteria($filters, $offset);
 
-        return $this->render('document/search.html.twig', [
-            'form' => $form->createView(),
-            'documents' => $paginator,
-            'previous' => $offset - DocumentRepository::DOCUMENTS_PER_PAGE,
-            'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
-        ]);
+        if ($request->attributes->get('_route') == 'document_search') {
+            return $this->render('document/search.html.twig', [
+                'form' => $form->createView(),
+                'documents' => $paginator,
+                'previous' => $offset - DocumentRepository::DOCUMENTS_PER_PAGE,
+                'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
+            ]);
+        } else {
+            // $data = $serializer->serialize($paginator, 'json', [
+            //     ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): int {
+            //         return $object->getId();
+            //     },
+            //     ObjectNormalizer::ENABLE_MAX_DEPTH => true
+            // ]);
+
+            // return $this->json($data);
+            return $this->render('document/results.html.twig', [
+                'form' => $form->createView(),
+                'documents' => $paginator,
+                'previous' => $offset - DocumentRepository::DOCUMENTS_PER_PAGE,
+                'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
+            ]);
+        }
     }
 
     #[Route('/deposer-un-document', name: 'add')]

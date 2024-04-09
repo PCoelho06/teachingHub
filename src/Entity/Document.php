@@ -7,8 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DocumentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
 #[UniqueEntity('slug')]
@@ -45,31 +47,42 @@ class Document
 
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Level::class, inversedBy: 'documents')]
+    #[MaxDepth(1)]
     private Collection $levels;
 
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'documents')]
+    #[MaxDepth(1)]
     private Collection $subjects;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'documents')]
+    #[MaxDepth(1)]
     private Collection $themes;
 
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private ?User $author = null;
 
     #[ORM\Column]
     private ?int $downloadsNumber = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'downloadedDocuments')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $downloaders;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'favoriteDocuments')]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $favoriteUsers;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'document', orphanRemoval: true)]
+    #[MaxDepth(1)]
+    #[Ignore]
     private Collection $comments;
 
     public function __construct()

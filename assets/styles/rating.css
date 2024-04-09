@@ -9,3 +9,23 @@
 .rating-label {
   cursor: pointer;
 }
+
+/* #ratingAverage {
+  display: flex;
+  justify-content: center;
+}
+
+#ratingAverage input[type=radio] {
+  display: none
+}
+
+#ratingAverage label {
+  visibility: hidden;
+}
+
+#ratingAverage label::before {
+  visibility: visible;
+  cursor: pointer;
+}
+
+*/
