@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use Faker\Factory;
 use App\Entity\Type;
 use App\Entity\Level;
@@ -20,14 +21,14 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $type = new Type();
             $type->setName(ucfirst($faker->word()));
             $this->addReference('type_' . $i, $type);
             $manager->persist($type);
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 12; $i++) {
             $level = new Level();
             $level->setName(ucfirst($faker->word()));
             $this->addReference('level_' . $i, $level);
@@ -41,6 +42,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 $level = $this->getReference('level_' . $j);
                 $subject->addLevel($level);
             }
+            $manager->persist($subject);
             for ($j = 0; $j < 15; $j++) {
                 $theme = new Theme();
                 $theme->setName(ucfirst($faker->word()))
@@ -48,10 +50,9 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 $this->addReference('theme_' . $j + $i * 15, $theme);
                 $manager->persist($theme);
             }
-            $manager->persist($subject);
         }
 
-        for ($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < 60; $i++) {
             $slugger = new AsciiSlugger();
             $document = new Document();
 
@@ -68,7 +69,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 ->setRatingAverage($faker->randomFloat(1, 0, 5))
                 ->setUploadedAt(new DateTimeImmutable())
                 ->setDownloadsNumber(0)
-                ->setAuthor($this->getReference('user'));
+                ->setAuthor($this->getReference('user_' . $faker->numberBetween(0, 14)));
             $slug = $slugger->slug($document->getTitle());
             $document->setSlug($slug);
             copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents/' . $document->getSlug() . '.pdf');
@@ -78,7 +79,20 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 ->addSubject($subject)
                 ->addTheme($theme);
 
+            $this->addReference('document_' . $i, $document);
             $manager->persist($document);
+        }
+
+        for ($i = 0; $i < 45; $i++) {
+            $comment = new Comment();
+
+            $comment->setCreatedAt(new DateTimeImmutable())
+                ->setContent($faker->paragraphs(2, true))
+                ->setRating($faker->randomNumber(5, false))
+                ->setAuthor($this->getReference('user_' . $faker->numberBetween(0, 14)))
+                ->setDocument($this->getReference('document_' . $faker->numberBetween(0, 59)));
+
+            $manager->persist($comment);
         }
 
         $manager->flush();

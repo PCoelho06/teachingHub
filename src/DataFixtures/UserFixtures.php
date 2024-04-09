@@ -21,14 +21,15 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-        $username = $faker->userName();
+
 
         $user = (new User())
-            ->setEmail($username . '@ac-nice.fr')
-            ->setFirstname($faker->firstName())
-            ->setLastname($faker->lastName())
-            ->setUsername($username)
-            ->setRegisteredAt(new DateTimeImmutable());
+            ->setEmail('p.coelho@lapinou.tech')
+            ->setFirstname('Pierre')
+            ->setLastname('Coelho')
+            ->setUsername('p.coelho')
+            ->setRegisteredAt(new DateTimeImmutable())
+            ->setRoles(['ROLE_ADMIN']);
 
         $hashedPassword = $this->hasher->hashPassword(
             $user,
@@ -36,9 +37,32 @@ class UserFixtures extends Fixture
         );
 
         $user->setPassword($hashedPassword);
-        $this->addReference('user', $user);
-
+        $this->addReference('user_0', $user);
         $manager->persist($user);
+
+        for ($i = 1; $i < 15; $i++) {
+            $firstname = $faker->firstName();
+            $lastname = $faker->lastName();
+            $username = strtolower($firstname) . '.' . strtolower($lastname);
+
+            $user = (new User())
+                ->setEmail($username . '@ac-nice.fr')
+                ->setFirstname($firstname)
+                ->setLastname($lastname)
+                ->setUsername($username)
+                ->setRegisteredAt(new DateTimeImmutable());
+
+            $hashedPassword = $this->hasher->hashPassword(
+                $user,
+                'test'
+            );
+
+            $user->setPassword($hashedPassword);
+            $this->addReference('user_' . $i, $user);
+
+            $manager->persist($user);
+        }
+
 
         $manager->flush();
     }
