@@ -105,12 +105,19 @@
 			</div>
 		</div>
 		<nav>
+			{% set params = app.request.query %}
+			{% set paramsPrevious = params | merge({
+					'offset' : previous
+				}) %}
+			{% set paramsNext = params | merge({
+					'offset' : next
+				}) %}
 			<ul class="pagination justify-content-center">
 				<li class="page-item {% if previous < 0 %} disabled {% endif %}">
-					<a href="{{ path('document_search', { offset: previous }) }}" class="page-link">Précédent</a>
+					<a href="{{ url('document_search') }}?{{ paramsPrevious|url_encode }}" class="page-link">Précédent</a>
 				</li>
 				<li class="page-item {% if next >= documents|length %} disabled {% endif %}">
-					<a href="{{ path('document_search', { offset: next }) }}" class="page-link">Suivant</a>
+					<a href="{{ url('document_search') }}?{{ paramsNext|url_encode }}" class="page-link">Suivant</a>
 				</li>
 			</ul>
 		</nav>

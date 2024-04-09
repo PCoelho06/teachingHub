@@ -132,7 +132,7 @@ class DocumentSearchType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchFilters::class,
-            // 'method' => 'GET',
+            'method' => 'GET',
             'csrf_protection' => false
         ]);
     }

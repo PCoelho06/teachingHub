@@ -46,13 +46,18 @@ class DocumentController extends AbstractController
 
     #[Route('/get-filtered-documents', name: 'filtered')]
     #[Route('/chercher-un-document', name: 'search')]
-    public function search(Request $request, DocumentRepository $documentRepository, SerializerInterface $serializer): Response
+    public function search(Request $request, DocumentRepository $documentRepository): Response
     {
+        dump($request->query);
         $filters = new SearchFilters();
         $offset = max(0, $request->query->getInt('offset', 0));
 
         $form = $this->createForm(DocumentSearchType::class, $filters);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $offset = 0;
+        }
 
         $paginator = $documentRepository->findBySearchCriteria($filters, $offset);
 
@@ -64,14 +69,6 @@ class DocumentController extends AbstractController
                 'next' => min(count($paginator), $offset + DocumentRepository::DOCUMENTS_PER_PAGE),
             ]);
         } else {
-            // $data = $serializer->serialize($paginator, 'json', [
-            //     ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context): int {
-            //         return $object->getId();
-            //     },
-            //     ObjectNormalizer::ENABLE_MAX_DEPTH => true
-            // ]);
-
-            // return $this->json($data);
             return $this->render('document/results.html.twig', [
                 'form' => $form->createView(),
                 'documents' => $paginator,
