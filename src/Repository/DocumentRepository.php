@@ -7,6 +7,9 @@ use App\Entity\Document;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Query\Parameter;
 
 /**
  * @extends ServiceEntityRepository<Document>
@@ -25,54 +28,32 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
-    // public function findBySearchCriteria(array $criteria, int $offset): Paginator
     public function findBySearchCriteria(SearchFilters $filters, int $offset): Paginator
     {
         $query = $this->createQueryBuilder('d');
-
-        // $searchedTypes = $criteria['type'];
-        // $searchedTypes = $filters->getType();
-        // if (!is_null($searchedTypes)) {
-        //     foreach ($searchedTypes as $type) {
-        //         if ($type === reset($searchedTypes)) {
-        //             $query->andWhere('d.type = :type');
-        //         } else {
-        //             $query->orWhere('d.type = :type');
-        //         }
-        //         $query->setParameter('type', $type);
-        //     }
-        // }
 
         if (!is_null($filters->getType())) {
             $query->andWhere('d.type = :type');
             $query->setParameter('type', $filters->getType());
         }
 
-        // if (!is_null($criteria['level'])) {
         if (!is_null($filters->getLevel())) {
             $query->andWhere($query->expr()->isMemberOf(':levels', 'd.levels'))
-                // ->setParameter('levels', $criteria['level']);
                 ->setParameter('levels', $filters->getLevel());
         }
 
-        // if (!is_null($criteria['subject'])) {
         if (!is_null($filters->getSubject())) {
             $query->andWhere($query->expr()->isMemberOf(':subjects', 'd.subjects'))
-                // ->setParameter('subjects', $criteria['subject']);
                 ->setParameter('subjects', $filters->getSubject());
         }
 
-        // if (!is_null($criteria['theme'])) {
         if (!is_null($filters->getTheme())) {
             $query->andWhere($query->expr()->isMemberOf(':themes', 'd.themes'))
-                // ->setParameter('themes', $criteria['theme']);
                 ->setParameter('themes', $filters->getTheme());
         }
 
-        // if (!is_null($criteria['title'])) {
         if (!is_null($filters->getTitle())) {
             $query->andWhere($query->expr()->like('LOWER(d.title)', ':title'))
-                // ->setParameter('title', "%" . strtolower($criteria['title']) . "%");
                 ->setParameter('title', "%" . strtolower($filters->getTitle()) . "%");
         }
 
@@ -97,39 +78,80 @@ class DocumentRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
-    public function findByRating($rating)
+    public function findSuggestions(Document $document)
     {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.ratingAverage >= :val')
-            ->setParameter('val', $rating)
-            ->orderBy('d.uploadedAt', 'DESC')
+        $params = new ArrayCollection();
+
+        $result = $this->createQueryBuilder('d');
+
+        $result->andWhere('d.id != :id');
+        $params->add(new Parameter('id', $document->getId()));
+
+        if (count($document->getLevels()) > 1) {
+            $result->andWhere($this->orCondition($document->getLevels(), 'levels', $params));
+        } else {
+            $result->andWhere($result->expr()->isMemberOf(':level', 'd.levels'));
+            $params->add(new Parameter('level', $document->getLevels()[0]));
+        }
+
+        if (count($document->getSubjects()) > 1) {
+            $result->andWhere($this->orCondition($document->getSubjects(), 'subjects', $params));
+        } else {
+            $result->andWhere($result->expr()->isMemberOf(':subject', 'd.subjects'));
+            $params->add(new Parameter('subject', $document->getSubjects()[0]));
+        }
+
+        if (count($document->getThemes()) > 1) {
+            $result->andWhere($this->orCondition($document->getThemes(), 'themes', $params));
+        } else {
+            $result->andWhere($result->expr()->isMemberOf(':theme', 'd.themes'));
+            $params->add(new Parameter('theme', $document->getThemes()[0]));
+        }
+
+        return $result->setParameters($params)
+            ->orderBy('d.ratingAverage', 'DESC')
+            ->setMaxResults(3)
             ->getQuery()
             ->getResult();
     }
 
-    public function findSuggestions(Document $document)
+    public function findBySameAuthor(Document $document)
     {
         $result = $this->createQueryBuilder('d');
 
-        $result->andWhere('d.type = :type')
-            ->setParameter('type', $document->getType());
+        $result->andWhere('d.id != :id')
+            ->andWhere('d.author = :author')
+            ->setParameters(
+                new ArrayCollection([
+                    new Parameter('id', $document->getId()),
+                    new Parameter('author', $document->getAuthor())
+                ])
+            );
 
-        $result->andWhere($result->expr()->isMemberOf(':levels', 'd.levels'))
-            ->setParameter('levels', $document->getLevels());
-
-        $result->andWhere($result->expr()->isMemberOf(':subjects', 'd.subjects'))
-            ->setParameter('subjects', $document->getSubjects());
-
-        $result->andWhere($result->expr()->isMemberOf(':themes', 'd.themes'))
-            ->setParameter('themes', $document->getThemes());
-
-        $result->orderBy('d.ratingAverage', 'DESC')
+        return $result->orderBy('d.ratingAverage', 'DESC')
             ->setMaxResults(3)
             ->getQuery()
             ->getResult();
+    }
 
+    private function orCondition(Collection $objects, string $table, ArrayCollection $params): string
+    {
+        $nbObjects = count($objects);
+        $sql = '';
+        foreach ($objects as $key => $object) {
+            // $sql .= 'd.' . $table . ' CONTAINS :level_' . $key;
+            $sql .= ':level_' . $key . ' MEMBER OF d.' . $table;
+            if ($key !== $nbObjects - 1) {
+                $sql .= ' OR ';
+            }
+            $params->add(new Parameter('level_' . $key, $object));
+        }
 
-        return $result;
+        // return [
+        //     'sql' => $sql,
+        //     'params' => $params
+        // ];
+        return $sql;
     }
 
     //    /**

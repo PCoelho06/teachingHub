@@ -72,7 +72,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 ->setAuthor($this->getReference('user_' . $faker->numberBetween(0, 14)));
             $slug = $slugger->slug($document->getTitle());
             $document->setSlug($slug);
-            copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents/' . $document->getSlug() . '.pdf');
+            copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents' . $document->getSlug() . '.pdf');
             $document->setFile($document->getSlug() . '.pdf');
             $document->setType($type)
                 ->addLevel($level)

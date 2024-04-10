@@ -11,19 +11,19 @@
 			{% if suggestions is not empty %}
 				<div class="suggestions d-flex justify-content-evenly">
 					{% for suggestion in suggestions %}
-						<a href="{{ path('document_show', {'slug': document.slug}) }}">
-							<div class="col document" data-rating="{{document.ratingAverage}}">
+						<a href="{{ path('document_show', {'slug': suggestion.slug}) }}">
+							<div class="col document" data-rating="{{suggestion.ratingAverage}}">
 								<div class="p-3 border bg-light">
-									<h2 class="text-center">{{ document.title }}</h2>
+									<h2 class="text-center">{{ suggestion.title }}</h2>
 									<div class="mx-auto text-center">
 										proposé le
-										{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+										{{ suggestion.uploadedAt | format_datetime('short', 'none', locale='fr') }}
 										par
-										{{ document.author.username }}
+										{{ suggestion.author.username }}
 									</div>
 									<div class="mx-auto text-center">
-										{% include 'partials/_rating.html.twig' %}
-										{{ document.ratingAverage }}
+										{% include 'partials/_rating.html.twig' with {'document': suggestion} %}
+										{{ suggestion.ratingAverage }}
 									</div>
 
 								</div>
@@ -32,6 +32,26 @@
 					{% endfor %}
 				</div>
 			{% endif %}
+			{% for document in sameAuthorDocuments %}
+				<a href="{{ path('document_show', {'slug': document.slug}) }}">
+					<div class="col document" data-rating="{{document.ratingAverage}}">
+						<div class="p-3 border bg-light">
+							<h2 class="text-center">{{ document.title }}</h2>
+							<div class="mx-auto text-center">
+								proposé le
+								{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
+								par
+								{{ document.author.username }}
+							</div>
+							<div class="mx-auto text-center">
+								{% include 'partials/_rating.html.twig'%}
+								{{ document.ratingAverage }}
+							</div>
+
+						</div>
+					</div>
+				</a>
+			{% endfor %}
 		</div>
 		<div>
 			{% if app.user and document in app.user.downloadedDocuments %}
@@ -92,10 +112,13 @@
 			</div>
 
 			<h3>
-				{{ document.comments | length }}
-				{% if document.comments | length <= 1 %}
+				{% if document.comments | length == 0 %}
+					Aucun commentaire
+				{% else if document.comments | length == 1 %}
+					{{ document.comments | length }}
 					commentaire
 				{% else %}
+					{{ document.comments | length }}
 					commentaires
 				{% endif %}
 			</h3>
