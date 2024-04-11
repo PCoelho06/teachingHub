@@ -21,6 +21,44 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
+        $levels = [
+            [
+                'name' => 'Sixième',
+                'short' => '6eme',
+                'color' => 'sixieme'
+            ],
+            [
+                'name' => 'Cinquième',
+                'short' => '5eme',
+                'color' => 'cinquieme'
+            ],
+            [
+                'name' => 'Quatrième',
+                'short' => '4eme',
+                'color' => 'quatrieme'
+            ],
+            [
+                'name' => 'Troisième',
+                'short' => '3eme',
+                'color' => 'troisieme'
+            ],
+            [
+                'name' => 'Seconde',
+                'short' => '2nde',
+                'color' => 'seconde'
+            ],
+            [
+                'name' => 'Première',
+                'short' => '1ere',
+                'color' => 'premiere'
+            ],
+            [
+                'name' => 'Terminale',
+                'short' => 'Tale',
+                'color' => 'terminale'
+            ],
+        ];
+
         for ($i = 0; $i < 8; $i++) {
             $type = new Type();
             $type->setName(ucfirst($faker->word()));
@@ -28,20 +66,20 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($type);
         }
 
-        for ($i = 0; $i < 12; $i++) {
+        foreach ($levels as $key => $newLevel) {
             $level = new Level();
-            $level->setName(ucfirst($faker->word()));
-            $this->addReference('level_' . $i, $level);
+            $level->setName($newLevel['name'])
+                ->setShort($newLevel['short'])
+                ->setColor($newLevel['color']);
+            $this->addReference('level_' . $key, $level);
             $manager->persist($level);
         }
 
         for ($i = 0; $i < 15; $i++) {
             $subject = new Subject();
             $subject->setName(ucfirst($faker->word()));
-            for ($j = 0; $j < $faker->numberBetween(1, 10); $j++) {
-                $level = $this->getReference('level_' . $j);
-                $subject->addLevel($level);
-            }
+            $level = $this->getReference('level_' . $faker->numberBetween(0, 6));
+            $subject->addLevel($level);
             $manager->persist($subject);
             for ($j = 0; $j < 15; $j++) {
                 $theme = new Theme();
@@ -60,8 +98,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $theme = $this->getReference('theme_' . $faker->numberBetween(0, 224));
             $subjects = $theme->getSubjects();
             $subject = $subjects[0];
-            $levels = $subject->getLevels();
-            $level = $levels[$faker->numberBetween(0, count($levels) - 1)];
+            $level = $subject->getLevels()[0];
 
             $document->setTitle($faker->words(3, true))
                 ->setDescription($faker->paragraph())
@@ -72,7 +109,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 ->setAuthor($this->getReference('user_' . $faker->numberBetween(0, 14)));
             $slug = $slugger->slug($document->getTitle());
             $document->setSlug($slug);
-            copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents' . $document->getSlug() . '.pdf');
+            copy('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', './public/uploads/documents/' . $document->getSlug() . '.pdf');
             $document->setFile($document->getSlug() . '.pdf');
             $document->setType($type)
                 ->addLevel($level)

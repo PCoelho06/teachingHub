@@ -33,6 +33,12 @@ class Level
     #[Ignore]
     private Collection $subjects;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $short = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -103,6 +109,30 @@ class Level
         if ($this->subjects->removeElement($subject)) {
             $subject->removeLevel($this);
         }
+
+        return $this;
+    }
+
+    public function getShort(): ?string
+    {
+        return $this->short;
+    }
+
+    public function setShort(?string $short): static
+    {
+        $this->short = $short;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }

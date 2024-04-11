@@ -21,7 +21,7 @@ use Doctrine\ORM\Query\Parameter;
  */
 class DocumentRepository extends ServiceEntityRepository
 {
-    public const DOCUMENTS_PER_PAGE = 8;
+    public const DOCUMENTS_PER_PAGE = 9;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -134,23 +134,44 @@ class DocumentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function countDownloadNumber()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('SUM(d.downloadsNumber) AS nbDownloads')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findTopDownloadsDocuments()
+    {
+        return $this->createQueryBuilder('d')
+            ->orderBy('d.downloadsNumber', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTopRatingsDocuments()
+    {
+        return $this->createQueryBuilder('d')
+            ->addOrderBy('d.ratingAverage', 'DESC')
+            ->addOrderBy('d.downloadsNumber', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
     private function orCondition(Collection $objects, string $table, ArrayCollection $params): string
     {
         $nbObjects = count($objects);
         $sql = '';
         foreach ($objects as $key => $object) {
-            // $sql .= 'd.' . $table . ' CONTAINS :level_' . $key;
             $sql .= ':level_' . $key . ' MEMBER OF d.' . $table;
             if ($key !== $nbObjects - 1) {
                 $sql .= ' OR ';
             }
             $params->add(new Parameter('level_' . $key, $object));
         }
-
-        // return [
-        //     'sql' => $sql,
-        //     'params' => $params
-        // ];
         return $sql;
     }
 

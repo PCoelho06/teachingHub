@@ -48,7 +48,6 @@ class DocumentController extends AbstractController
     #[Route('/chercher-un-document', name: 'search')]
     public function search(Request $request, DocumentRepository $documentRepository): Response
     {
-        dump($request->query);
         $filters = new SearchFilters();
         $offset = max(0, $request->query->getInt('offset', 0));
 

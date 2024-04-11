@@ -6,6 +6,70 @@
   --neutral-500-color: #212738;
   --neutral-700-color: #0c1121;
   --neutral-900-color: #040917;
+
+  --sixieme-color: #C7D8E6;
+  --cinquieme-color: #A4C3D9;
+  --quatrieme-color: #7CA7C8;
+  --troisieme-color: #5787A6;
+  --seconde-color: #396B8E;
+  --premiere-color: #23527A;
+  --terminale-color: #103A5B;
+}
+
+.text-sixieme {
+  color: var(--sixieme-color) !important;
+  font-weight: 700;
+}
+
+.text-cinquieme {
+  color: var(--cinquieme-color) !important;
+  font-weight: 700;
+
+}
+
+.text-quatrieme {
+  color: var(--quatrieme-color) !important;
+  font-weight: 700;
+}
+
+.text-troisieme {
+  color: var(--troisieme-color) !important;
+  font-weight: 700;
+}
+
+.text-seconde {
+  color: var(--seconde-color) !important;
+  font-weight: 700;
+}
+
+.text-premiere {
+  color: var(--premiere-color) !important;
+  font-weight: 700;
+}
+
+.text-terminale {
+  color: var(--terminale-color) !important;
+  font-weight: 700;
+}
+
+h4>a {
+  color: #103A5B;
+  position: relative;
+}
+
+h4>a::after {
+  content: '';
+  position: absolute;
+  bottom: -0.3rem;
+  left: 0;
+  width: 0%;
+  height: 0.2rem;
+  background-color: #103A5B;
+  transition: width 0.3s ease-in-out;
+}
+
+h4>a:hover::after {
+  width: 100%;
 }
 
 body {
@@ -83,11 +147,9 @@ a {
 }
 
 select.form-control {
-  background-image: linear-gradient(
-      45deg,
+  background-image: linear-gradient(45deg,
       transparent 50%,
-      var(--neutral-900-color) 50%
-    ),
+      var(--neutral-900-color) 50%),
     linear-gradient(135deg, var(--neutral-900-color) 50%, transparent 50%);
   background-position: calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;

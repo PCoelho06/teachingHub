@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Repository\DocumentRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +16,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AppController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(DocumentRepository $documentRepository, UserRepository $userRepository): Response
     {
-        return $this->render('app/index.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        if ($this->getUser()) {
+            $nbDocuments = $documentRepository->count();
+            $nbDownloads = $documentRepository->countDownloadNumber()['nbDownloads'];
+            $topDownloadsDocuments = $documentRepository->findTopDownloadsDocuments();
+            $topRatingsDocuments = $documentRepository->findTopRatingsDocuments();
+            $nbUsers = $userRepository->count();
+            return $this->render('app/home_connected.html.twig', [
+                'nbDocuments' => $nbDocuments,
+                'nbDownloads' => $nbDownloads,
+                'nbUsers' => $nbUsers,
+                'topDownloadsDocuments' => $topDownloadsDocuments,
+                'topRatingsDocuments' => $topRatingsDocuments,
+            ]);
+        }
+
+        return $this->render('app/home.html.twig');
     }
 
     #[Route('/a-propos-de-nous', name: 'app_about')]

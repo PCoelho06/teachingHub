@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Document;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -45,12 +46,16 @@ class UserDocumentsController extends AbstractController
     }
 
     #[Route('/ajouter-favoris/{id}', name: 'add_favorite')]
-    public function addUserFavoriteDocuments(#[CurrentUser] User $user, Document $document, EntityManagerInterface $entityManagerInterface): Response
+    public function addUserFavoriteDocuments(#[CurrentUser] User $user, Request $request, Document $document, EntityManagerInterface $entityManagerInterface): Response
     {
         $document->addFavoriteUser($user);
 
         $entityManagerInterface->persist($document);
         $entityManagerInterface->flush();
+
+        if ($request->query->get('origin') == 'document_search') {
+            return $this->redirectToRoute($request->query->get('origin'));
+        }
 
         return $this->redirectToRoute('document_show', [
             'slug' => $document->getSlug()
@@ -58,12 +63,16 @@ class UserDocumentsController extends AbstractController
     }
 
     #[Route('/retirer-favoris/{id}', name: 'remove_favorite')]
-    public function removeUserFavoriteDocuments(#[CurrentUser] User $user, Document $document, EntityManagerInterface $entityManagerInterface): Response
+    public function removeUserFavoriteDocuments(#[CurrentUser] User $user, Request $request, Document $document, EntityManagerInterface $entityManagerInterface): Response
     {
         $document->removeFavoriteUser($user);
 
         $entityManagerInterface->persist($document);
         $entityManagerInterface->flush();
+
+        if ($request->query->get('origin') == 'document_search') {
+            return $this->redirectToRoute($request->query->get('origin'));
+        }
 
         return $this->redirectToRoute('document_show', [
             'slug' => $document->getSlug()
