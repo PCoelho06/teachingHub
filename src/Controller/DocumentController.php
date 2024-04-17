@@ -171,6 +171,15 @@ class DocumentController extends AbstractController
     #[Route('/supprimer-un-document/{slug}', name: 'delete')]
     public function delete(Document $document, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser() != $document->getAuthor()) {
+            $this->addFlash(
+                'danger',
+                'Attention, vous n\'avez pas les droits pour supprimer ce document'
+            );
+            return $this->redirectToRoute('document_show', [
+                'slug' => $document->getSlug(),
+            ]);
+        }
         // supprimer le document du dossier upload
         unlink($this->getParameter('documents_directory') . '/' . $document->getFile());
 

@@ -45,6 +45,15 @@ class UserDocumentsController extends AbstractController
         ]);
     }
 
+    #[Route('-commentaires', name: 'comments')]
+    public function showUserDocumentsComments(#[CurrentUser] User $user): Response
+    {
+        $comments = $user->getComments();
+        return $this->render('user_documents/comments.html.twig', [
+            'comments' => $comments,
+        ]);
+    }
+
     #[Route('/ajouter-favoris/{id}', name: 'add_favorite')]
     public function addUserFavoriteDocuments(#[CurrentUser] User $user, Request $request, Document $document, EntityManagerInterface $entityManagerInterface): Response
     {

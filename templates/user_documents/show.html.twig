@@ -46,7 +46,9 @@
 						<tbody>
 							{% for document in documents %}
 								<tr>
-									<th scope="row">{{ document.title }}</th>
+									<th scope="row">
+										<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+									</th>
 									<td>{{ document.uploadedAt | format_datetime('short', 'short', locale='fr') }}</td>
 									<td class="text-center">{{ document.downloadsNumber }}</td>
 									<td class="text-center">{{ document.favoriteUsers | length }}</td>
@@ -54,7 +56,7 @@
 									{% if page == 'déposés' %}
 										<td class="text-center">
 											<a href="{{ path('document_update', {'slug': document.slug}) }}">
-												<i class="fa-duotone fa-file-pen me-2"></i>
+												<i class="fa-duotone fa-file-pen me-2 text-primary"></i>
 											</a>
 											<a href="{{ path('document_delete', {'slug': document.slug}) }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer définitivement le document {{ document.title }} ?')">
 												<i class="fa-duotone fa-trash"></i>
@@ -65,6 +67,10 @@
 											<a href="{{ path('document_show', {slug: document.slug}) }}" class="btn btn-sm btn-primary">
 												<i class="fa-duotone fa-rabbit-running me-2"></i>
 												Accéder
+											</a>
+											<a href="{{ asset('uploads/documents/' ~ document.file) }}" class="btn btn-sm btn-success" id="downloadButton" data-id="{{ document.id }}" download="{{ document.slug }}">
+												<i class="fa-duotone fa-download me-2"></i>
+												Télécharger
 											</a>
 										</td>
 									{% endif %}

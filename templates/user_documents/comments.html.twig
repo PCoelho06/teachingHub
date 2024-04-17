@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commentaires postés
+{% endblock %}
+
+{% block body %}
+
+	<div class="container h-100 my-5">
+		<div class="row">
+			<div class="col-3 border border-2">
+				{% include('partials/_user-nav.html.twig') %}
+
+				<div class="row"></div>
+			</div>
+			<div class="col-9">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+
+				<div class="container">
+					<h1 class="text-center">Liste des commentaires postés</h1>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Titre du document commenté</th>
+								<th scope="col">Date d'écriture</th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for comment in comments %}
+								<tr>
+									<th scope="row">
+										<a href="{{ path('document_show', {slug: comment.document.slug}) }}">{{ comment.document.title }}</a>
+									</th>
+									<td>{{ comment.createdAt | format_datetime('short', 'short', locale='fr') }}</td>
+									<td class="text-center">
+										<a href="{{ path('comment_update', {'slug': comment.document.slug, 'id': comment.id}) }}">
+											<i class="fa-duotone fa-file-pen me-2 text-primary"></i>
+										</a>
+										<a href="{{ path('comment_delete', {'slug': comment.document.slug, 'id': comment.id}) }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer définitivement ce commentaire ?')">
+											<i class="fa-duotone fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	{% for flash_error in app.flashes('user_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+{% endblock %}
