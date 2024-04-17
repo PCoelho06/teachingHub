@@ -1,17 +1,20 @@
-const ratingStars = document.getElementsByClassName("rating-input");
-const commentRating = document.getElementById("comment_rating");
+// const ratingStars = document.getElementsByClassName("form-check-input");
+// // const ratingStars = document.getElementsByClassName("rating-input");
+// const commentRating = document.getElementById("comment_rating");
 
-Array.from(ratingStars).forEach((ratingStar) => {
-  ratingStar.addEventListener("click", (e) => {
-    console.log(ratingStar.value);
-    commentRating.value = ratingStar.value;
-  });
-});
+// Array.from(ratingStars).forEach((ratingStar) => {
+//   ratingStar.addEventListener("click", (e) => {
+//     console.log(ratingStar.value);
+//     commentRating.value = ratingStar.value;
+//   });
+// });
 
 // #################
 
 const starRatingLabels = document.querySelectorAll(".form-check-label");
+console.log("🚀 ~ starRatingLabels:", starRatingLabels);
 const starRatingInputs = document.querySelectorAll("input[type=radio]");
+console.log("🚀 ~ starRatingInputs:", starRatingInputs);
 
 Array.from(starRatingInputs).forEach((element) => {
   if (element.checked) {

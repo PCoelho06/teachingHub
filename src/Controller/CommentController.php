@@ -11,22 +11,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/commenter', name: 'comment_')]
 class CommentController extends AbstractController
 {
     #[Route('/{slug}', name: 'add')]
-    #[Route('/{slug}/editer-un-commentaire/{id}', name: 'update')]
-    public function handleComment(Request $request, Document $document, EntityManagerInterface $entityManager, CommentRepository $commentRepository, int $id = null): Response
+    #[Route('/editer-un-commentaire/{id}', name: 'update')]
+    public function handleComment(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Document $document = null, EntityManagerInterface $entityManager, #[MapEntity(mapping: ['id' => 'id'])] Comment $comment = null): Response
     {
-        if (is_null($id)) {
+        if (is_null($comment)) {
             $comment = new Comment();
             $comment->setDocument($document);
-            $edit = false;
         } else {
-            $edit = true;
-            $comment = $commentRepository->find($id);
             if (!$this->getUser()) {
                 $this->addFlash(
                     'danger',
@@ -62,7 +60,7 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('document_show', ['slug' => $document->getSlug()]);
         }
 
-        return $this->render('comment/add.html.twig', [
+        return $this->render('comment/handle.html.twig', [
             'document' => $document,
             'form' => $form->createView(),
         ]);
