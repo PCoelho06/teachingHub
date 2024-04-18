@@ -5,11 +5,19 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container my-5">
+	<div class="m-5">
 		<div class="row gap-3">
 			<div class="col">
-				<iframe src="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" width="100%" height="700px"></iframe>
+				<object data="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
+					<iframe src="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" width="100%" height="700px">
+						<p>Insert your error message here, if the PDF cannot be displayed.</p>
+					</iframe>
+				</object>
+
+				{# <embed src="{{ asset('uploads/documents/' ~ document.file) }}" type="application/pdf" width="100%" height="700px"> #}
+				{# <canvas id="the-canvas"></canvas> #}
 			</div>
+
 			<div class="col">
 				{% if app.user and document in app.user.downloadedDocuments %}
 					<div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -73,9 +81,11 @@
 				{% if suggestions is not empty %}
 					<h2>Ces documents pourraient vous intéresser :
 					</h2>
-					<div class="row row-cols-3 g-3">
+					<div class="row row-cols-2 g-3">
 						{% for suggestion in suggestions %}
-							{% include 'partials/_document.html.twig' with {'document': suggestion} %}
+							<div class="col document" data-rating="{{suggestion.ratingAverage}}">
+								{% include 'partials/_document.html.twig' with {'document': suggestion} %}
+							</div>
 						{% endfor %}
 					</div>
 				{% endif %}
@@ -83,54 +93,76 @@
 				</h2>
 				<div class="row row-cols-2 g-3">
 					{% for document in sameAuthorDocuments %}
-						{% include 'partials/_document.html.twig' %}
+						<div class="col document" data-rating="{{document.ratingAverage}}">
+							{% include 'partials/_document.html.twig' %}
+						</div>
 					{% endfor %}
 				</div>
 			</div>
 		</div>
-		<h3>
-			{% if document.comments | length == 0 %}
-				Aucun commentaire
-			{% elseif document.comments | length == 1 %}
-				{{ document.comments | length }}
-				commentaire
-			{% else %}
-				{{ document.comments | length }}
-				commentaires
-			{% endif %}
-		</h3>
+		<div class="container my-3">
+			<h3>
+				{% if document.comments | length == 0 %}
+					Aucun commentaire
+				{% elseif document.comments | length == 1 %}
+					{{ document.comments | length }}
+					commentaire
+				{% else %}
+					{{ document.comments | length }}
+					commentaires
+				{% endif %}
+			</h3>
 
-		{% for comment in document.comments %}
-			<div class="card my-3">
-				<div class="card-body">
-					{% for i in 1..5 %}
-						{% if i <= comment.rating %}
-							<i class="fas fa-star"></i>
-						{% else %}
-							<i class="far fa-star"></i>
-						{% endif %}
-					{% endfor %}
-					<h2 class="card-title">{{ comment.author.username }}</h2>
-					<h3 class="card-subtitle mb-2 text-body-secondary fs-6">le
-						{{ comment.createdAt |format_datetime('short', 'none', locale='fr') }}
-						à
-						{{ comment.createdAt |format_datetime('none', 'short', locale='fr') }}
-					</h3>
-					<p class="card-text">{{ comment.content }}</p>
+			{% for comment in document.comments %}
+				<div class="card my-3">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<div>
+								{% for i in 1..5 %}
+									{% if i <= comment.rating %}
+										<i class="fas fa-star"></i>
+									{% else %}
+										<i class="far fa-star"></i>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<div>
+								{% if app.user and comment.author == app.user %}
+									<a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-primary btn-sm mx-1">
+										<i class="fa-duotone fa-comment-pen"></i>
+									</a>
+									<a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-danger btn-sm mx-1">
+										<i class="fa-duotone fa-trash"></i>
+									</a>
+								{% endif %}
+							</div>
+						</div>
+						<h2 class="card-title">{{ comment.author.username }}</h2>
+						<h3 class="card-subtitle mb-2 text-body-secondary fs-6">le
+							{{ comment.createdAt |format_datetime('short', 'none', locale='fr') }}
+							à
+							{{ comment.createdAt |format_datetime('none', 'short', locale='fr') }}
+							{% if comment.editedAt %}
+								<span class="fst-italic">(modifié le
+									{{ comment.editedAt |format_datetime('short', 'none', locale='fr') }}
+									à
+									{{ comment.editedAt |format_datetime('none', 'short', locale='fr') }})</span>
+							{% endif %}
+						</h3>
+						<p class="card-text">{{ comment.content }}</p>
+					</div>
 				</div>
-			</div>
+			{% endfor %}
 
-
-		{% endfor %}
-
-		{% if app.user %}
-			<div class="text-center">
-				<a href="{{ path('comment_add', {'slug': document.slug}) }}" class="btn btn-primary">
-					<i class="fa-duotone fa-comment-plus me-2"></i>
-					Ajouter un commentaire
-				</a>
-			</div>
-		{% endif %}
+			{% if app.user and not allreadyCommented %}
+				<div class="text-center">
+					<a href="{{ path('comment_add', {'slug': document.slug}) }}" class="btn btn-primary">
+						<i class="fa-duotone fa-comment-plus me-2"></i>
+						Ajouter un commentaire
+					</a>
+				</div>
+			{% endif %}
+		</div>
 	</div>
 
 {% endblock %}

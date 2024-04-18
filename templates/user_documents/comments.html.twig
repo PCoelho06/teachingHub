@@ -40,7 +40,7 @@
 									</th>
 									<td>{{ comment.createdAt | format_datetime('short', 'short', locale='fr') }}</td>
 									<td class="text-center">
-										<a href="{{ path('comment_update', {'id': comment.id}) }}">
+										<a href="{{ path('comment_edit', {'id': comment.id}) }}">
 											<i class="fa-duotone fa-file-pen me-2 text-primary"></i>
 										</a>
 										<a href="{{ path('comment_delete', {'id': comment.id}) }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer définitivement ce commentaire ?')">

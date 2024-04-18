@@ -125,7 +125,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             $comment->setCreatedAt(new DateTimeImmutable())
                 ->setContent($faker->paragraphs(2, true))
-                ->setRating($faker->randomNumber(5, false))
+                ->setRating($faker->numberBetween(1, 5))
                 ->setAuthor($this->getReference('user_' . $faker->numberBetween(0, 14)))
                 ->setDocument($this->getReference('document_' . $faker->numberBetween(0, 59)));
 

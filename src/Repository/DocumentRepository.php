@@ -110,7 +110,7 @@ class DocumentRepository extends ServiceEntityRepository
 
         return $result->setParameters($params)
             ->orderBy('d.ratingAverage', 'DESC')
-            ->setMaxResults(3)
+            ->setMaxResults(2)
             ->getQuery()
             ->getResult();
     }
@@ -129,7 +129,7 @@ class DocumentRepository extends ServiceEntityRepository
             );
 
         return $result->orderBy('d.ratingAverage', 'DESC')
-            ->setMaxResults(3)
+            ->setMaxResults(2)
             ->getQuery()
             ->getResult();
     }

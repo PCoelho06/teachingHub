@@ -1,53 +1,31 @@
-// const ratingStars = document.getElementsByClassName("form-check-input");
-// // const ratingStars = document.getElementsByClassName("rating-input");
-// const commentRating = document.getElementById("comment_rating");
-
-// Array.from(ratingStars).forEach((ratingStar) => {
-//   ratingStar.addEventListener("click", (e) => {
-//     console.log(ratingStar.value);
-//     commentRating.value = ratingStar.value;
-//   });
-// });
-
-// #################
-
 const starRatingLabels = document.querySelectorAll(".form-check-label");
-console.log("🚀 ~ starRatingLabels:", starRatingLabels);
 const starRatingInputs = document.querySelectorAll("input[type=radio]");
-console.log("🚀 ~ starRatingInputs:", starRatingInputs);
 
 Array.from(starRatingInputs).forEach((element) => {
   if (element.checked) {
-    console.log(element.value);
-    for (let star in starRatingLabels) {
-      if (starRatingLabels[star].dataset.rating <= element.value) {
-        starRatingLabels[star].firstElementChild.classList.remove("far");
-        starRatingLabels[star].firstElementChild.classList.add("fas");
-      }
-    }
+    fillStars(element.value);
   }
 });
 
-// for (let star in starRatingLabels) {
-//   starRatingLabels[star].firstElementChild.addEventListener(
-//     "mouseover",
-//     (e) => {
-//       Array.from(starRatingLabels).forEach((element) => {
-//         if (element.dataset.rating <= e.target.parentElement.dataset.rating) {
-//           element.firstElementChild.classList.remove("far");
-//           element.firstElementChild.classList.add("fas");
-//         } else {
-//           element.firstElementChild.classList.add("far");
-//           element.firstElementChild.classList.remove("fas");
-//         }
-//       });
-//     }
-//   );
+Array.from(starRatingLabels).forEach((ratingStar) => {
+  ratingStar.addEventListener("click", (e) => {
+    console.log(ratingStar.getAttribute("for"));
+    const ratingStarInput = document.querySelector(
+      "#" + ratingStar.getAttribute("for")
+    );
+    ratingStarInput.checked = true;
+    fillStars(ratingStarInput.value);
+  });
+});
 
-//   starRatingLabels[star].firstElementChild.addEventListener("mouseout", (e) => {
-//     Array.from(starRatingLabels).forEach((element) => {
-//       element.firstElementChild.classList.add("far");
-//       element.firstElementChild.classList.remove("fas");
-//     });
-//   });
-// }
+function fillStars(value) {
+  Array.from(starRatingLabels).forEach((star) => {
+    if (star.dataset.rating <= value) {
+      star.firstElementChild.classList.remove("far");
+      star.firstElementChild.classList.add("fas");
+    } else {
+      star.firstElementChild.classList.add("far");
+      star.firstElementChild.classList.remove("fas");
+    }
+  });
+}

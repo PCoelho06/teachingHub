@@ -18,13 +18,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CommentController extends AbstractController
 {
     #[Route('/{slug}', name: 'add')]
-    #[Route('/editer-un-commentaire/{id}', name: 'update')]
+    #[Route('/editer-un-commentaire/{id}', name: 'edit')]
     public function handleComment(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Document $document = null, EntityManagerInterface $entityManager, #[MapEntity(mapping: ['id' => 'id'])] Comment $comment = null): Response
     {
         if (is_null($comment)) {
             $comment = new Comment();
             $comment->setDocument($document);
         } else {
+            dump($comment);
             if (!$this->getUser()) {
                 $this->addFlash(
                     'danger',
@@ -37,7 +38,7 @@ class CommentController extends AbstractController
                     'Attention, vous n\'avez pas les droits pour modifier ce commentaire'
                 );
                 return $this->redirectToRoute('document_show', [
-                    'slug' => $document->getSlug(),
+                    'slug' => $comment->getDocument()->getSlug(),
                 ]);
             }
         }
@@ -46,7 +47,7 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dump($form->getData());
             if (!is_null($comment->getId())) {
                 $comment->setEditedAt(new DateTimeImmutable());
             } else {
@@ -57,7 +58,7 @@ class CommentController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('document_show', ['slug' => $document->getSlug()]);
+            return $this->redirectToRoute('document_show', ['slug' => $comment->getDocument()->getSlug()]);
         }
 
         return $this->render('comment/handle.html.twig', [

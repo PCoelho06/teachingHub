@@ -27,8 +27,8 @@ class CommentType extends AbstractType
                     '5' => 5,
                 ],
                 'expanded' => true,
-                'label' => 'Note minimale',
-                'required' => false,
+                'label' => 'Note',
+                'required' => true,
             ]);
     }
 

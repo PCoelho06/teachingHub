@@ -161,10 +161,19 @@ class DocumentController extends AbstractController
         $suggestedDocuments = $documentRepository->findSuggestions($document);
         $sameAuthorDocuments = $documentRepository->findBySameAuthor($document);
 
+        if ($this->getUser()) {
+            foreach ($document->getComments() as $comment) {
+                if ($comment->getAuthor() == $this->getUser()) {
+                    $allreadyCommented = true;
+                }
+            }
+        }
+
         return $this->render('document/show.html.twig', [
             'document' => $document,
             'suggestions' => $suggestedDocuments,
-            'sameAuthorDocuments' => $sameAuthorDocuments
+            'sameAuthorDocuments' => $sameAuthorDocuments,
+            'allreadyCommented' => $allreadyCommented ?? false,
         ]);
     }
 
