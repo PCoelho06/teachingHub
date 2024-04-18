@@ -18,15 +18,6 @@
 			{% endif %}
 		</h1>
 
-		{{ form_start(form) }}
-		{{ form_row(form.type) }}
-		{{ form_row(form.levels) }}
-		{{ form_row(form.subjects) }}
-		{{ form_row(form.themes) }}
-		{{ form_row(form.title) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.file) }}
-		<button type="submit" class="btn btn-lg btn-primary">Déposer le document</button>
-		{{ form_end(form) }}
+		{{ component('RandomNumber', {form: form}) }}
 	</div>
 {% endblock %}

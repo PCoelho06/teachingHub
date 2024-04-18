@@ -78,16 +78,25 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 15; $i++) {
             $subject = new Subject();
             $subject->setName(ucfirst($faker->word()));
-            $level = $this->getReference('level_' . $faker->numberBetween(0, 6));
-            $subject->addLevel($level);
-            $manager->persist($subject);
-            for ($j = 0; $j < 15; $j++) {
-                $theme = new Theme();
-                $theme->setName(ucfirst($faker->word()))
-                    ->addSubject($subject);
-                $this->addReference('theme_' . $j + $i * 15, $theme);
-                $manager->persist($theme);
+            for ($j = 0; $j < 6; $j++) {
+                $level = $this->getReference('level_' . $j);
+                $subject->addLevel($level);
             }
+            $this->addReference('subject_' . $i, $subject);
+            $manager->persist($subject);
+        }
+
+        for ($j = 0; $j < 225; $j++) {
+            $theme = new Theme();
+            $theme->setName(ucfirst($faker->word()));
+            for ($i = 0; $i < $faker->numberBetween(1, 14); $i++) {
+                $theme->addSubject($this->getReference('subject_' . $i));
+            }
+            for ($i = 0; $i < $faker->numberBetween(1, 7); $i++) {
+                $theme->addLevel($this->getReference('level_' . $i));
+            }
+            $this->addReference('theme_' . $j, $theme);
+            $manager->persist($theme);
         }
 
         for ($i = 0; $i < 60; $i++) {
@@ -96,9 +105,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             $type = $this->getReference('type_' . $faker->numberBetween(0, 5));
             $theme = $this->getReference('theme_' . $faker->numberBetween(0, 224));
-            $subjects = $theme->getSubjects();
-            $subject = $subjects[0];
-            $level = $subject->getLevels()[0];
+            $subject = $theme->getSubjects()[0];
+            $level = $theme->getLevels()[0];
 
             $document->setTitle($faker->words(3, true))
                 ->setDescription($faker->paragraph())

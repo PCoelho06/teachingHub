@@ -9,19 +9,14 @@ use App\Data\SearchFilters;
 use App\Form\DocumentSearchType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 #[Route('/documents', name: 'document_')]
 class DocumentController extends AbstractController
@@ -81,6 +76,8 @@ class DocumentController extends AbstractController
     #[Route('/editer-un-document/{slug}', name: 'update')]
     public function handleDocument(Document $document = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         if (is_null($document)) {
             $document = new Document();
             $document->setDownloadsNumber(0);

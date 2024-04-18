@@ -33,10 +33,14 @@ class Theme
     #[Ignore]
     private Collection $documents;
 
+    #[ORM\ManyToMany(targetEntity: Level::class, mappedBy: 'themes')]
+    private Collection $levels;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->levels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,6 +104,33 @@ class Theme
     public function removeDocument(Document $document): static
     {
         $this->documents->removeElement($document);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Level>
+     */
+    public function getLevels(): Collection
+    {
+        return $this->levels;
+    }
+
+    public function addLevel(Level $level): static
+    {
+        if (!$this->levels->contains($level)) {
+            $this->levels->add($level);
+            $level->addTheme($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLevel(Level $level): static
+    {
+        if ($this->levels->removeElement($level)) {
+            $level->removeTheme($this);
+        }
 
         return $this;
     }

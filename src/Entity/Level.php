@@ -39,10 +39,14 @@ class Level
     #[ORM\Column(length: 255)]
     private ?string $color = null;
 
+    #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'levels')]
+    private Collection $themes;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
         $this->subjects = new ArrayCollection();
+        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +137,30 @@ class Level
     public function setColor(string $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Theme>
+     */
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): static
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes->add($theme);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): static
+    {
+        $this->themes->removeElement($theme);
 
         return $this;
     }
