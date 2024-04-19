@@ -8,8 +8,8 @@ use App\Entity\Theme;
 use App\Entity\Subject;
 use App\Entity\Document;
 use Symfony\Component\Form\AbstractType;
+use Doctrine\Common\Collections\Collection;
 use Symfonycasts\DynamicForms\DependentField;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
@@ -17,7 +17,7 @@ use Symfonycasts\DynamicForms\DynamicFormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DocumentType extends AbstractType
@@ -58,52 +58,47 @@ class DocumentType extends AbstractType
                 'label' => 'Niveau',
                 'class' => Level::class,
                 'choice_label' => 'name',
-                // 'required' => true,
+                'required' => true,
                 'multiple' => true,
                 'expanded' => true,
+                'row_attr' => ['onchange' => 'this.form.submit()'],
             ])
             ->add('subjects', EntityType::class, [
                 'label' => 'Matière',
                 'class' => Subject::class,
                 'choice_label' => 'name',
-                // 'required' => true,
+                'required' => true,
                 'multiple' => true,
                 'expanded' => true,
+                'row_attr' => ['onchange' => 'this.form.submit()'],
             ]);
-        // ->add('themes', EntityType::class, [
-        //     'label' => 'Thématique',
-        //     'class' => Theme::class,
-        //     'choice_label' => 'name',
-        //     'required' => true,
-        //     'multiple' => true,
-        //     'expanded' => true,
-        // ]);
+        $builder->add('submit', SubmitType::class, [
+            'label' => 'Enregistrer',
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
 
-        $builder->addDependent('themes', ['levels', 'subjects'], function (DependentField $field, ArrayCollection $levels, ArrayCollection $subjects) {
-            if ($levels->isEmpty() || $subjects->isEmpty()) {
+        $builder->addDependent('themes', ['levels', 'subjects'], function (DependentField $field, ?Collection $levels, ?Collection $subjects) {
+            if (count($levels) === 0 || count($subjects) === 0) {
                 return;
             }
 
-            $levelsThemes = [];
-            $subjectsThemes = [];
-
-            foreach ($levels as $level) {
-                $levelsThemes = array_merge($levelsThemes, $level->getThemes()->toArray());
+            $levelThemes = [];
+            foreach ($levels as $l) {
+                $levelThemes = array_merge($levelThemes, $l->getThemes()->toArray());
             }
-            dump($levelsThemes);
-
-            foreach ($subjects as $subject) {
-                $subjectsThemes = array_merge($subjectsThemes, $subject->getThemes()->toArray());
+            $subjectThemes = [];
+            foreach ($subjects as $s) {
+                $subjectThemes = array_merge($subjectThemes, $s->getThemes()->toArray());
             }
-            dump($subjectsThemes);
+            $themes = array_intersect($levelThemes, $subjectThemes);
 
-            $themes = array_intersect($levelsThemes, $subjectsThemes);
-            dump($themes);
-
-            $field->add(ChoiceType::class, [
+            $field->add(EntityType::class, [
                 'label' => 'Thématique',
+                'class' => Theme::class,
                 'choices' => $themes,
                 'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
                 'required' => true,
             ]);
         });

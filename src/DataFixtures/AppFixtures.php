@@ -89,11 +89,11 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         for ($j = 0; $j < 225; $j++) {
             $theme = new Theme();
             $theme->setName(ucfirst($faker->word()));
-            for ($i = 0; $i < $faker->numberBetween(1, 14); $i++) {
-                $theme->addSubject($this->getReference('subject_' . $i));
+            for ($i = 0; $i < $faker->numberBetween(1, 3); $i++) {
+                $theme->addSubject($this->getReference('subject_' . $faker->numberBetween(0, 14)));
             }
-            for ($i = 0; $i < $faker->numberBetween(1, 7); $i++) {
-                $theme->addLevel($this->getReference('level_' . $i));
+            for ($i = 0; $i < $faker->numberBetween(1, 2); $i++) {
+                $theme->addLevel($this->getReference('level_' . $faker->numberBetween(0, 6)));
             }
             $this->addReference('theme_' . $j, $theme);
             $manager->persist($theme);

@@ -18,6 +18,54 @@
 			{% endif %}
 		</h1>
 
-		{{ component('RandomNumber', {form: form}) }}
+		<turbo-frame id="handle-document">
+			{{ form_start(form) }}
+			<div class="row">
+				<div class="col-md-6">
+					{{ form_row(form.type) }}
+				</div>
+				<div class="col-md-6">
+					{{ form_row(form.levels, {
+					'attr': {
+						'class': 'd-flex flex-wrap',
+					},
+					'label_attr': {
+						'class': 'me-2',
+					}
+				}) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					{{ form_row(form.subjects, {
+					'attr': {
+						'class': 'd-flex flex-wrap',
+					},
+					'label_attr': {
+						'class': 'me-2',
+					}
+				}) }}
+				</div>
+				<div class="col-md-6">
+					{% if form.themes is defined %}
+						{{ form_row(form.themes, {
+					'attr': {
+						'class': 'd-flex flex-wrap',
+					},
+					'label_attr': {
+						'class': 'me-2',
+					}
+				}) }}
+
+					{% endif %}
+				</div>
+			</div>
+			{{ form_row(form.title, {required: false}) }}
+			{{ form_row(form.description) }}
+			{{ form_row(form.file) }}
+			{{ form_row(form.submit) }}
+			{{ form_end(form) }}
+
+		</turbo-frame>
 	</div>
 {% endblock %}
