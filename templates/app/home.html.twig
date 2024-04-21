@@ -47,8 +47,9 @@
 		</div>
 	</div>
 
-	{% include('/partials/_marquee-icons.html.twig') %}
+	{# {% include('/partials/_marquee-icons.html.twig') %} #}
 
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="feature">
 		<div class="feature-text feature-even">

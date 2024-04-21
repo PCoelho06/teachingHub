@@ -14,15 +14,16 @@
 	<div class="m-5">
 		<div class="row gap-3">
 			<div class="col">
-				<object data="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
-					<iframe src="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" width="100%" height="700px">
-						<p>Insert your error message here, if the PDF cannot be displayed.</p>
-					</iframe>
-					// passer par une route qui renvoie le fichier avec entête particulière pour dire de ne pas télécharger le document
-				</object>
+				{# <object data="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
+																	<iframe src="{{ asset('uploads/documents/' ~ document.file) }}#toolbar=0" width="100%" height="700px">
+																		<p>Insert your error message here, if the PDF cannot be displayed.</p>
+																	</iframe>
+																	// passer par une route qui renvoie le fichier avec entête particulière pour dire de ne pas télécharger le document
+																</object> #}
+				{# <iframe src="http://docs.google.com/gview?url={{ path('document_show_pdf', {slug: document.slug}) }}&embedded=true" frameborder="0"></iframe> #}
 
-				{# <embed src="{{ asset('uploads/documents/' ~ document.file) }}" type="application/pdf" width="100%" height="700px"> #}
-				{# <canvas id="the-canvas"></canvas> #}
+			<embed
+				src="{{ path('document_show_pdf', {slug: document.slug}) }}" type="application/pdf" width="100%" height="700px"> {# <canvas id="the-canvas"></canvas> #}
 			</div>
 
 			<div class="col">

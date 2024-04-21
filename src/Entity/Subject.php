@@ -38,6 +38,9 @@ class Subject
     #[Ignore]
     private Collection $themes;
 
+    #[ORM\Column(length: 255)]
+    private ?string $icon = null;
+
     public function __construct()
     {
         $this->levels = new ArrayCollection();
@@ -133,6 +136,18 @@ class Subject
         if ($this->themes->removeElement($theme)) {
             $theme->removeSubject($this);
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(string $icon): static
+    {
+        $this->icon = $icon;
 
         return $this;
     }

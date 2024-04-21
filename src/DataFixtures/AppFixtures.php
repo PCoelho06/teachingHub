@@ -59,6 +59,85 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             ],
         ];
 
+        $subjects = [
+            [
+                'name' => 'Mathématiques',
+                'icon' => 'fa-calculator'
+            ],
+            [
+                'name' => 'Français',
+                'icon' => 'fa-book'
+            ],
+            [
+                'name' => 'Histoire',
+                'icon' => 'fa-scroll'
+            ],
+            [
+                'name' => 'Géographie',
+                'icon' => 'fa-earth-europe'
+            ],
+            [
+                'name' => 'Physique',
+                'icon' => 'fa-atom'
+            ],
+            [
+                'name' => 'Chimie',
+                'icon' => 'fa-flask'
+            ],
+            [
+                'name' => 'SVT',
+                'icon' => 'fa-leaf'
+            ],
+            [
+                'name' => 'Technologie',
+                'icon' => 'fa-cogs'
+            ],
+            [
+                'name' => 'Arts Plastiques',
+                'icon' => 'fa-paint-brush'
+            ],
+            [
+                'name' => 'Musique',
+                'icon' => 'fa-music'
+            ],
+            [
+                'name' => 'EPS',
+                'icon' => 'fa-running'
+            ],
+            [
+                'name' => 'Anglais',
+                'icon' => 'fa-flag-usa'
+            ],
+            [
+                'name' => 'Espagnol',
+                'icon' => 'fa-guitar'
+            ],
+            [
+                'name' => 'Allemand',
+                'icon' => 'fa-beer-mug'
+            ],
+            [
+                'name' => 'Italien',
+                'icon' => 'fa-pizza-slice'
+            ],
+            [
+                'name' => 'Latin',
+                'icon' => 'fa-quill'
+            ],
+            [
+                'name' => 'Grec',
+                'icon' => 'fa-landmark'
+            ],
+            [
+                'name' => 'Philosophie',
+                'icon' => 'fa-balance-scale'
+            ],
+            [
+                'name' => 'SES',
+                'icon' => 'fa-money-bill-wave'
+            ],
+        ];
+
         for ($i = 0; $i < 8; $i++) {
             $type = new Type();
             $type->setName(ucfirst($faker->word()));
@@ -75,14 +154,15 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($level);
         }
 
-        for ($i = 0; $i < 15; $i++) {
+        foreach ($subjects as $key => $newSubject) {
             $subject = new Subject();
-            $subject->setName(ucfirst($faker->word()));
+            $subject->setName($newSubject['name'])
+                ->setIcon($newSubject['icon']);
             for ($j = 0; $j < 6; $j++) {
                 $level = $this->getReference('level_' . $j);
                 $subject->addLevel($level);
             }
-            $this->addReference('subject_' . $i, $subject);
+            $this->addReference('subject_' . $key, $subject);
             $manager->persist($subject);
         }
 
@@ -90,7 +170,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $theme = new Theme();
             $theme->setName(ucfirst($faker->word()));
             for ($i = 0; $i < $faker->numberBetween(1, 3); $i++) {
-                $theme->addSubject($this->getReference('subject_' . $faker->numberBetween(0, 14)));
+                $theme->addSubject($this->getReference('subject_' . $faker->numberBetween(0, 18)));
             }
             for ($i = 0; $i < $faker->numberBetween(1, 2); $i++) {
                 $theme->addLevel($this->getReference('level_' . $faker->numberBetween(0, 6)));

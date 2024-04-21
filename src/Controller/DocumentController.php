@@ -12,9 +12,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -226,5 +228,19 @@ class DocumentController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('user_documents_show');
+    }
+
+    #[Route('/show-pdf/{slug}', name: 'show_pdf')]
+    public function showPdf(Document $document): BinaryFileResponse
+    {
+        $response = $this->file($this->getParameter('documents_directory') . '/' . $document->getFile());
+        $response->headers->set('Content-Type', 'application/pdf');
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_INLINE,
+            $document->getFile()
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }
