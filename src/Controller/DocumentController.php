@@ -101,8 +101,10 @@ class DocumentController extends AbstractController
             }
         }
 
+        $actionUrl = ($edit) ? $this->generateUrl('document_update', ['slug' => $document->getSlug()]) : $this->generateUrl('document_add');
+
         $form = $this->createForm(DocumentType::class, $document, options: [
-            'action' => $this->generateUrl('document_add'),
+            'action' => $actionUrl,
         ]);
 
         $form->handleRequest($request);
@@ -120,29 +122,45 @@ class DocumentController extends AbstractController
 
             if ($form->isValid()) {
 
-                $file = $form->get('file')->getData();
-
-                $slug = $slugger->slug($document->getTitle());
-                $filename = uniqid() . '.' . $slug . '.' . $file->guessExtension();
-
-                try {
-                    $file->move(
-                        $this->getParameter('documents_directory'),
-                        $filename
-                    );
-                } catch (FileException $e) {
+                if ($form->get('file')->getData() == null && $document->getFile() == null) {
                     $this->addFlash(
                         'danger',
-                        'Votre document n\'a pas pu être téléchargé. Si le problème persiste, merci de nous contacter.'
+                        'Vous devez ajouter un document pour continuer.'
                     );
+                    return $this->render('document/handle.html.twig', [
+                        'form' => $form,
+                        'edit' => $edit,
+                    ]);
+                }
 
-                    if (is_null($document->getId())) {
-                        return $this->redirect('document_add');
-                    } else {
-                        return $this->redirectToRoute('document_update', [
-                            'slug' => $document->getSlug(),
-                        ]);
+                $slug = $slugger->slug($document->getTitle());
+
+                if ($form->get('file')->getData() != null) {
+                    $file = $form->get('file')->getData();
+
+                    $filename = uniqid() . '.' . $slug . '.' . $file->guessExtension();
+
+                    try {
+                        $file->move(
+                            $this->getParameter('documents_directory'),
+                            $filename
+                        );
+                    } catch (FileException $e) {
+                        $this->addFlash(
+                            'danger',
+                            'Votre document n\'a pas pu être téléchargé. Si le problème persiste, merci de nous contacter.'
+                        );
+
+                        if (is_null($document->getId())) {
+                            return $this->redirect('document_add');
+                        } else {
+                            return $this->redirectToRoute('document_update', [
+                                'slug' => $document->getSlug(),
+                            ]);
+                        }
                     }
+
+                    $document->setFile($filename);
                 }
 
                 if (!is_null($document->getId())) {
@@ -152,7 +170,6 @@ class DocumentController extends AbstractController
                 }
 
                 $document->setSlug($slug)
-                    ->setFile($filename)
                     ->setAuthor($this->getUser());
 
                 $entityManager->persist($document);

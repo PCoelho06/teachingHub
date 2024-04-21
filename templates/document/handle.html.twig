@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/rating.js') }}" crossorigin="anonymous" defer></script>
+{% endblock %}
+
 {% block title %}
 	{% if edit %}
 		Editer un document
@@ -7,7 +12,6 @@
 		Ajouter un document
 	{% endif %}
 {% endblock %}
-
 {% block body %}
 	<div class="container my-5">
 		<h1 class="page-title">

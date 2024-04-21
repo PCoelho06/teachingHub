@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/rating.js') }}" crossorigin="anonymous" defer></script>
+{% endblock %}
+
+
 {% block title %}
 	{% if comment is defined %}
 		Modifier mon commentaire

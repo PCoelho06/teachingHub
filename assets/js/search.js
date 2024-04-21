@@ -1,20 +1,16 @@
 const starRatingLabels = document.querySelectorAll(".form-check-label");
 const starRatingInputs = document.querySelectorAll("input[type=radio]");
 
+Array.from(starRatingInputs).forEach((input) => {
+  input.addEventListener("change", (e) => {
+    fillStars(e.target.value);
+  });
+});
+
 Array.from(starRatingInputs).forEach((element) => {
   if (element.checked) {
     fillStars(element.value);
   }
-});
-
-Array.from(starRatingLabels).forEach((ratingStar) => {
-  ratingStar.addEventListener("click", (e) => {
-    const ratingStarInput = document.querySelector(
-      "#" + ratingStar.getAttribute("for")
-    );
-    ratingStarInput.checked = true;
-    fillStars(ratingStarInput.value);
-  });
 });
 
 function fillStars(value) {

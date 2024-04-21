@@ -22,12 +22,12 @@ class Document
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Le titre du document ne peut être vide.')]
     #[Assert\Regex("/^[\p{L} ']+$/u")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'La description du document ne peut être vide.')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]

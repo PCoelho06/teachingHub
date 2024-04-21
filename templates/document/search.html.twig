@@ -2,6 +2,10 @@
 {% block title %}Chercher un document
 {% endblock
 %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/search.js') }}" crossorigin="anonymous" defer></script>
+{% endblock %}
 {% block body %}
 	<div class="container my-5">
 		<h1 class="page-title">Rechercher un document</h1>

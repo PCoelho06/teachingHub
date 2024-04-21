@@ -88,25 +88,33 @@ class DocumentRepository extends ServiceEntityRepository
         $params->add(new Parameter('id', $document->getId()));
 
         if (count($document->getLevels()) > 1) {
-            $result->andWhere($this->orCondition($document->getLevels(), 'levels', $params));
+            $array = $this->orCondition($document->getLevels(), 'levels', $params);
+            $params = $array[1];
+            $result->andWhere($array[0]);
         } else {
             $result->andWhere($result->expr()->isMemberOf(':level', 'd.levels'));
-            $params->add(new Parameter('level', $document->getLevels()[0]));
+            $params->add(new Parameter('level', $document->getLevels()->toArray()[0]));
         }
 
         if (count($document->getSubjects()) > 1) {
-            $result->andWhere($this->orCondition($document->getSubjects(), 'subjects', $params));
+            $array = $this->orCondition($document->getSubjects(), 'subjects', $params);
+            $params = $array[1];
+            $result->andWhere($array[0]);
         } else {
             $result->andWhere($result->expr()->isMemberOf(':subject', 'd.subjects'));
-            $params->add(new Parameter('subject', $document->getSubjects()[0]));
+            $params->add(new Parameter('subject', $document->getSubjects()->toArray()[0]));
         }
 
         if (count($document->getThemes()) > 1) {
-            $result->andWhere($this->orCondition($document->getThemes(), 'themes', $params));
+            $array = $this->orCondition($document->getThemes(), 'themes', $params);
+            $params = $array[1];
+            $result->andWhere($array[0]);
         } else {
             $result->andWhere($result->expr()->isMemberOf(':theme', 'd.themes'));
-            $params->add(new Parameter('theme', $document->getThemes()[0]));
+            $params->add(new Parameter('theme', $document->getThemes()->toArray()[0]));
         }
+
+        dump($params);
 
         return $result->setParameters($params)
             ->orderBy('d.ratingAverage', 'DESC')
@@ -161,18 +169,18 @@ class DocumentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    private function orCondition(Collection $objects, string $table, ArrayCollection $params): string
+    private function orCondition(Collection $objects, string $table, ArrayCollection $params): array
     {
         $nbObjects = count($objects);
         $sql = '';
         foreach ($objects as $key => $object) {
-            $sql .= ':level_' . $key . ' MEMBER OF d.' . $table;
+            $sql .= ':' . $table . '_' . $key . ' MEMBER OF d.' . $table;
             if ($key !== $nbObjects - 1) {
                 $sql .= ' OR ';
             }
-            $params->add(new Parameter('level_' . $key, $object));
+            $params->add(new Parameter($table . '_' . $key, $object));
         }
-        return $sql;
+        return [$sql, $params];
     }
 
     //    /**

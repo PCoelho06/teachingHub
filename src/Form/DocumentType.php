@@ -28,15 +28,23 @@ class DocumentType extends AbstractType
 
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre du document'
+                'label' => 'Titre du document',
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Titre du document',
+                ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description du document'
+                'label' => 'Description du document',
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Description du document',
+                ],
             ])
             ->add('file', FileType::class, [
                 'label' => 'Document',
                 'mapped' => false,
-                // 'required' => true,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -74,6 +82,7 @@ class DocumentType extends AbstractType
             ]);
         $builder->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',
+            'validation_groups' => 'Default',
             'attr' => ['class' => 'btn btn-primary'],
         ]);
 
@@ -108,6 +117,7 @@ class DocumentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Document::class,
+            'validation_groups' => false,
         ]);
     }
 }

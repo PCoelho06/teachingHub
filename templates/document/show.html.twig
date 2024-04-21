@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/downloads_update.js') }}" crossorigin="anonymous" defer></script>
+{% endblock %}
+
+
 {% block title %}
 	{{ document.title }}
 {% endblock %}
@@ -80,24 +86,28 @@
 					{% endif %}
 				</div>
 				{% if suggestions is not empty %}
-					<h2>Ces documents pourraient vous intéresser :
+					<div class="my-3">
+						<h2>Ces documents pourraient vous intéresser :
+						</h2>
+						<div class="row row-cols-2 g-3">
+							{% for suggestion in suggestions %}
+								<div class="col document" data-rating="{{suggestion.ratingAverage}}">
+									{% include 'partials/_document.html.twig' with {'document': suggestion} %}
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
+				<div class="my-3">
+					<h2>Du même auteur :
 					</h2>
 					<div class="row row-cols-2 g-3">
-						{% for suggestion in suggestions %}
-							<div class="col document" data-rating="{{suggestion.ratingAverage}}">
-								{% include 'partials/_document.html.twig' with {'document': suggestion} %}
+						{% for document in sameAuthorDocuments %}
+							<div class="col document" data-rating="{{document.ratingAverage}}">
+								{% include 'partials/_document.html.twig' %}
 							</div>
 						{% endfor %}
 					</div>
-				{% endif %}
-				<h2>Du même auteur :
-				</h2>
-				<div class="row row-cols-2 g-3">
-					{% for document in sameAuthorDocuments %}
-						<div class="col document" data-rating="{{document.ratingAverage}}">
-							{% include 'partials/_document.html.twig' %}
-						</div>
-					{% endfor %}
 				</div>
 			</div>
 		</div>
