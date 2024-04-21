@@ -18,7 +18,7 @@ class SubjectController extends AbstractController
     public function allSubjectsAction(): Response
     {
         $subjects = $this->subjectRepository->findAll();
-        dump($subjects);
+
         return $this->render('partials/_marquee-icons.html.twig', [
             'subjects' => $subjects,
         ]);

@@ -2,87 +2,16 @@
 <div class="marquee">
 	<div class="marquee-track">
 		<div class="marquee-grid">
-			{% dump(subjects) %}
-			{% for subject in subjects %}
-				<p class="marquee-icon">
-					<a href="{{ path('document_search', {subject: subject.id }) }}">
-						<i class="fa-solid {{ subject.icon }}"></i>
-					</a>
-				</p>
+			{% for i in range(1,2) %}
+				{% for subject in subjects %}
+					<p class="marquee-icon">
+						<a href="{{ path('document_search', {subject: subject.id }) }}">
+							<i class="fa-solid {{ subject.icon }}"></i>
+						</a>
+					</p>
+				{% endfor %}
 			{% endfor %}
-			{# <p class="marquee-icon">
-																<i class="fa-solid fa-book"></i>
-															</p>
-															<p class="marquee-icon">
-																<i class="fa-solid fa-calculator"></i>
-															</p>
-															<p class="marquee-icon">
-																<i class="fa-solid fa-landmark"></i>
-															</p>
-															<p class="marquee-icon">
-																<i class="fa-solid fa-microscope"></i>
-																{# <a href="{{ path('document_search', {subject: level.id }) }}" class="text-{{ level.color }} mx-1"><i class="fa-solid fa-microscope"></i></a> #}
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-earth-europe"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-atom"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-graduation-cap"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-dna"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-masks-theater"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-brain"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-music"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-flask"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-book"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-calculator"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-landmark"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-microscope"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-earth-europe"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-atom"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-graduation-cap"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-dna"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-masks-theater"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-brain"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-music"></i>
-		</p>
-		<p class="marquee-icon">
-			<i class="fa-solid fa-flask"></i>
-		</p>
-		#}
+		</div>
 	</div>
-</div></div><div class="spacer"></div>
+</div>
+<div class="spacer"></div>

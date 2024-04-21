@@ -26,6 +26,11 @@
     gap: 3rem;
 }
 
+.marquee-grid a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
 .banner-text {
     font-size: 2.5rem;
     text-transform: uppercase;
