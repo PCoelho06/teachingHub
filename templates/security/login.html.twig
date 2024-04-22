@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 
@@ -12,34 +12,41 @@
 
 	</div>
 
-	{% include('/partials/_marquee-icons.html.twig') %}
-
 	<div class="container my-5">
 		<form method="post">
 			{% if error %}
 				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
-
-			<label for="username">Email</label>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-3" autocomplete="email" required autofocus>
-			<label for="password">Mot de passe</label>
-			<input type="password" name="password" id="inputPassword" class="form-control my-3" autocomplete="current-password" required>
+			<div class="row row-cols-1 row-cols-lg-2 g-3">
+				<div class="col">
+					<label for="username">Adresse email</label>
+					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-3" autocomplete="email" required autofocus>
+				</div>
+				<div class="col">
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" id="inputPassword" class="form-control my-3" autocomplete="current-password" required>
+				</div>
+			</div>
 
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 			<div class="d-flex flex-column">
-				<div class="mx-auto my-3">
-					<label>
-						<input type="checkbox" name="_remember_me">
-						Se souvenir de moi
-					</label>
+				<div class="row row-cols-1 row-cols-md-2 g-3 my-3">
+					<div class="col text-center text-md-end">
+						<label>
+							<input type="checkbox" name="_remember_me">
+							Se souvenir de moi
+						</label>
+					</div>
+					<div class="col text-center text-md-start">
+						<a href="{{ path('app_forgot_password_request') }}" class="mx-3">Mot de passe oublié ?</a>
+					</div>
 				</div>
 
 				<button class="btn btn-lg btn-primary" type="submit">
 					Se connecter
 				</button>
 
-				<a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
 			</div>
 		</form>
 	</div>

@@ -4,11 +4,12 @@
 	Accueil
 {% endblock %}
 
+{% block importmap %}
+	{{ importmap(['app','home']) }}
+{% endblock %}
+
 {% block body %}
-
-	{% include('/partials/_marquee-text.html.twig') %}
-
-	<div class="hero">
+	{% include('/partials/_marquee-text.html.twig') %}<div class="hero">
 		<div class="hero-text-dark">
 			<p class="devise text-dark">Partagez, Explorez, Enseignez</p>
 			<h1 class="title-dark">
@@ -28,10 +29,7 @@
 			</div>
 		</div>
 	</div>
-
-	{% include('/partials/_marquee-text.html.twig') %}
-
-	<div class="feature">
+	{% include('/partials/_marquee-text.html.twig') %}<div class="feature">
 		<div class="feature-video">
 			<video id="background-video" autoplay loop muted>
 				<source src="{{ asset('videos/mission.mp4') }}" type="video/mp4">
@@ -46,18 +44,19 @@
 			</span>
 		</div>
 	</div>
-
-	{# {% include('/partials/_marquee-icons.html.twig') %} #}
-
-	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
-
-	<div class="feature">
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}<div class="feature">
 		<div class="feature-text feature-even">
 			<h2>Comment ça marche ?</h2>
 			<ol>
-				<li>Inscrivez-vous gratuitement : Rejoignez notre communauté en quelques clics et accédez à une multitude de ressources pédagogiques.</li>
-				<li>Explorez et Contribuez : Parcourez la bibliothèque, téléchargez des ressources pertinentes et partagez vos propres créations pour enrichir la communauté.</li>
-				<li>Collaborez et Échangez : Connectez-vous avec d'autres enseignants, échangez des idées, discutez des meilleures pratiques et améliorez votre enseignement.</li>
+				<li>
+					<strong>Inscrivez-vous gratuitement :</strong>
+					Rejoignez notre communauté en quelques clics et accédez à une multitude de ressources pédagogiques.</li>
+				<li>
+					<strong>Explorez et Contribuez :</strong>
+					Parcourez la bibliothèque, téléchargez des ressources pertinentes et partagez vos propres créations pour enrichir la communauté.</li>
+				<li>
+					<strong>Collaborez et Échangez :</strong>
+					Connectez-vous avec d'autres enseignants, échangez des idées, discutez des meilleures pratiques et améliorez votre enseignement.</li>
 			</ol>
 			<span class="center">
 				<button class="btn btn-lg btn-primary">Inscrivez-vous maintenant</button>
@@ -67,16 +66,10 @@
 			<img src="{{ asset('/images/how-it-works.png') }}" class="feature-img" alt="Cycle de partage et de collaboration de TeachingHub">
 		</div>
 	</div>
-
-	{# {% include('/partials/_marquee-icons.html.twig') %} #}
-
-	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
-
-
-	<div class="feature">
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}<div class="feature">
 		<div class="feature-video">
 			<video id="background-video" autoplay loop muted>
-				<source src="{{ asset('video/mission.mp4') }}" type="video/mp4">
+				<source src="{{ asset('videos/join.mp4') }}" type="video/mp4">
 			</video>
 		</div>
 		<div class="feature-text feature-odd">
@@ -97,21 +90,16 @@
 			</span>
 		</div>
 	</div>
-
 	<div class="spacer"></div>
-	{% include('/partials/_marquee-text.html.twig') %}
-
-	<div class="spacer"></div>
-
-
-	<div class="feature text-light">
+	{% include('/partials/_marquee-text.html.twig') %}<div class="spacer"></div>
+	<div class="feature text-light p-5">
 		<div class="d-flex flex-column justify-content-center align-items-center h-100">
 			<h2>Besoin d'aide ?</h2>
 			<div class="spacer"></div>
-			<p>Notre équipe est là pour répondre à vos questions et vous aider.</p>
-			<p>
-				<a href="#">CLIQUEZ ICI</a>
-				pour trouver toutes les réponses à vos questions</p>
+			<p class="text-center">Notre équipe est là pour répondre à vos questions et vous aider.</p>
+			<p class="text-center">
+				<a href="#">Cliquez ici pour trouver toutes les réponses à vos questions</a>
+			</p>
 		</div>
 	</div>
 	<div class="spacer"></div>

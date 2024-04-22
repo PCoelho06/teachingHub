@@ -129,7 +129,7 @@ a {
 }
 
 .page-title {
-  font-size: 4rem;
+  font-size: 3rem;
   text-transform: uppercase;
   font-weight: 600;
   text-decoration: underline;
@@ -187,7 +187,15 @@ legend {
 }
 
 .static-page-hero {
-  height: 20rem !important;
+  height: 10rem !important;
+}
+
+.static-page-hero h1 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -0.3rem;
 }
 
 .static-page-title {
@@ -196,4 +204,11 @@ legend {
 
 .hidden {
   display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .hidden-mobile {
+    display: none;
+  }
+
 }

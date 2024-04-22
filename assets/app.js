@@ -11,6 +11,5 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/app.css";
 import "./styles/header.css";
 import "./styles/marquee.css";
-import "./styles/home.css";
 import "./styles/user.css";
 import "./styles/rating.css";

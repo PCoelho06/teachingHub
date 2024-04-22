@@ -4,15 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 
 		<h1 class="text-center static-page-title">S'inscrire</h1>
 
 	</div>
-
-	{% include('/partials/_marquee-icons.html.twig') %}
 
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -22,28 +20,33 @@
 		{{ form_errors(registrationForm) }}
 
 		{{ form_start(registrationForm) }}
-		{{ form_row(registrationForm.email) }}
-		<div class="d-flex gap-3">
-			<div class="w-100">
+		<div class="row row-cols-1 row-cols-md-2 g-3 my-5">
+			<div class="col">
+				{{ form_row(registrationForm.email) }}
+			</div>
+			<div class="col">
+				{{ form_row(registrationForm.username) }}
+			</div>
+			<div class="col">
+				{{ form_row(registrationForm.firstname) }}
+			</div>
+			<div class="col">
+				{{ form_row(registrationForm.lastname) }}
+			</div>
+			<div class="col">
 				{{ form_row(registrationForm.plainPassword.first) }}
 			</div>
-			<div class="w-100">
+			<div class="col">
 				{{ form_row(registrationForm.plainPassword.second) }}
 			</div>
 		</div>
-		<div class="d-flex gap-3">
-			<div class="w-100">
-				{{ form_row(registrationForm.firstname) }}
-			</div>
-			<div class="w-100">
-				{{ form_row(registrationForm.lastname) }}
-			</div>
-		</div>
-		{{ form_row(registrationForm.username) }}
 		<div class="d-flex flex-column">
-			<div class="mx-auto">{{ form_row(registrationForm.agreeTerms) }}</div>
+			<div class="mx-auto my-3">{{ form_row(registrationForm.agreeTerms) }}</div>
 
-			<button type="submit" class="btn btn-lg btn-primary">S'inscrire</button>
+			<button type="submit" class="btn btn-lg btn-primary">
+				<i class="fa-duotone fa-user-plus me-2"></i>
+				S'inscrire
+			</button>
 		</div>
 
 		{{ form_end(registrationForm) }}

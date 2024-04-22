@@ -21,7 +21,7 @@ use Doctrine\ORM\Query\Parameter;
  */
 class DocumentRepository extends ServiceEntityRepository
 {
-    public const DOCUMENTS_PER_PAGE = 9;
+    public const DOCUMENTS_PER_PAGE = 12;
 
     public function __construct(ManagerRegistry $registry)
     {
