@@ -1,103 +1,107 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block title %}Mon tableau de bord
 {% endblock %}
 
-{% block body %}
-
-	<div class="container h-100 my-5">
-		<div class="row">
-			<div class="col-3 border border-2">
-				{% include('partials/_user-nav.html.twig') %}
-
-				<div class="row"></div>
-			</div>
-			<div class="col-9">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
-						<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							{{ message }}
-						</div>
-					{% endfor %}
-				{% endfor %}
-				<div class="row gap-3 mx-3">
-					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">{{ app.user.documents | length}}</p>
-						<h2>Documents déposés</h2>
-						{% if app.user.documents | length != 0 %}
-							<a href="{{ path('user_documents_uploads') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-clipboard-list me-2"></i>
-								Accéder à la liste
-							</a>
-						{% else %}
-							<a href="{{ path('document_add') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-file-plus me-2"></i>
-								Ajouter un premier document
-							</a>
-						{% endif %}
-					</div>
-					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">{{ app.user.downloadedDocuments| length }}</p>
-						<h2>Documents téléchargés</h2>
-
-						{% if app.user.downloadedDocuments | length != 0 %}
-							<a href="{{ path('user_documents_downloads') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-clipboard-list me-2"></i>
-								Accéder à la liste
-							</a>
-						{% else %}
-							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-download me-2"></i>
-								Télécharger mon premier document
-							</a>
-						{% endif %}
-
-					</div>
-					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">{{ app.user.favoriteDocuments| length }}</p>
-						<h2>Documents en favoris</h2>
-
-						{% if app.user.favoriteDocuments | length != 0 %}
-							<a href="{{ path('user_documents_favorites') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-clipboard-list me-2"></i>
-								Accéder à la liste
-							</a>
-						{% else %}
-							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-heart-circle-plus me-2"></i>
-								Ajouter un document favori
-							</a>
-						{% endif %}
-
-					</div>
-				</div>
-				<div class="row gap-3 m-3">
-					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-						<p class="fs-1 fw-bold">{{ app.user.comments|length }}</p>
-						<h2>Commentaires déposés</h2>
-
-						{% if app.user.documents | length == 0 %}
-							<a href="{{ path('document_search') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-comment-plus me-2"></i>
-								Déposer mon premier commentaire
-							</a>
-						{% else %}
-							<a href="{{ path('user_documents_comments') }}" class="btn btn-sm btn-primary">
-								<i class="fa-duotone fa-clipboard-list me-2"></i>
-								Accéder à la liste
-							</a>
-						{% endif %}
-					</div>
-					<div class="col"></div>
-					<div class="col"></div>
+{% block user_content  %}
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+				<div class="d-flex flex-column justify-content-center">
+					<p class="fs-1 fw-bold">{{ app.user.documents | length}}</p>
+					<h2 class="h3">Documents déposés</h2>
+					{% if app.user.documents | length != 0 %}
+						<a href="{{ path('user_documents_uploads') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-clipboard-list me-2"></i>
+							Accéder à la liste
+						</a>
+					{% else %}
+						<a href="{{ path('document_add') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-file-plus me-2"></i>
+							Ajouter un premier document
+						</a>
+					{% endif %}
 				</div>
 			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+				<div class="d-flex flex-column justify-content-center">
+					<p class="fs-1 fw-bold">{{ app.user.downloadedDocuments| length }}</p>
+					<h2 class="h3">Documents téléchargés</h2>
 
+					{% if app.user.downloadedDocuments | length != 0 %}
+						<a href="{{ path('user_documents_downloads') }}" class="btn btn-primary  mx-5">
+							<i class="fa-duotone fa-clipboard-list me-2"></i>
+							Accéder à la liste
+						</a>
+					{% else %}
+						<a href="{{ path('document_search') }}" class="btn btn-primary  mx-5">
+							<i class="fa-duotone fa-download me-2"></i>
+							Télécharger mon premier document
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+				<div class="d-flex flex-column justify-content-center">
+					<p class="fs-1 fw-bold">{{ app.user.favoriteDocuments| length }}</p>
+					<h2 class="h3">Documents en favoris</h2>
+
+					{% if app.user.favoriteDocuments | length != 0 %}
+						<a href="{{ path('user_documents_favorites') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-clipboard-list me-2"></i>
+							Accéder à la liste
+						</a>
+					{% else %}
+						<a href="{{ path('document_search') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-heart-circle-plus me-2"></i>
+							Ajouter un document favori
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+				<div class="d-flex flex-column justify-content-center">
+					<p class="fs-1 fw-bold">{{ app.user.comments|length }}</p>
+					<h2 class="h3">Commentaires déposés</h2>
+
+					{% if app.user.documents | length == 0 %}
+						<a href="{{ path('document_search') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-comment-plus me-2"></i>
+							Déposer mon premier commentaire
+						</a>
+					{% else %}
+						<a href="{{ path('user_documents_comments') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-clipboard-list me-2"></i>
+							Accéder à la liste
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="col col-lg-8">
+			<div class="rounded bg-tile-default py-3 text-center">
+				<div class="d-flex flex-column justify-content-center">
+					<h2>Actions</h2>
+					<a href="{{ path('document_add') }}" class="btn btn-sm btn-primary my-3 mx-5">
+						<i class="fa-duotone fa-upload me-2"></i>
+						Déposer un document
+					</a>
+					<a href="{{ path('app_contact') }}" class="btn btn-sm btn-primary my-3 mx-5">
+						<i class="fa-duotone fa-messages-question me-2"></i>
+						Faire une demande / Nous contacter
+					</a>
+					<a href="https://buymeacoffee.com/lapinou.tech" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
+						<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
+						Soutenir TeachingHub
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	{% for flash_error in app.flashes('user_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
 {% endblock %}

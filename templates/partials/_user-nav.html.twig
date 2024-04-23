@@ -1,6 +1,8 @@
 <div class="d-flex flex-column align-items-center justify-content-between my-5">
 	<div class="d-flex flex-column align-items-center">
-		<div class="rounded-circle" id="profile-picture"></div>
+		<div class="rounded-circle">
+			<img src="{{ asset('images/avatars/' ~ app.user.avatar) }}" alt="Photo de profil" class="w-100 rounded-circle">
+		</div>
 		<p class="text-center">Heureux de vous revoir,<br>
 
 			<span class="fw-bolder fs-3">{{ app.user.firstname }}
@@ -10,30 +12,36 @@
 	<div>
 		<nav>
 			<ul class="nav">
-				<li class="nav-item">
+				<li class="nav-item mx-auto">
 					<a href="{{ path('user_dashboard') }}" class="nav-link">
-						<i class="fa-duotone fa-rocket-launch me-2"></i>Tableau de bord</a>
-
+						<i class="fa-duotone fa-rocket-launch me-2"></i>
+						<span class="hidden-mobile">Tableau de bord</span>
+					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item mx-auto">
 					<a href="{{ path('user_profile') }}" class="nav-link">
-
-						<i class="fa-duotone fa-address-card me-2"></i>Mes informations</a>
-
+						<i class="fa-duotone fa-address-card me-2"></i>
+						<span class="hidden-mobile">Mes informations</span>
+					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item mx-auto">
 					<a href="{{ path('user_documents_favorites') }}" class="nav-link">
-						<i class="fa-duotone fa-bookmark me-2"></i>Mes favoris</a>
-
+						<i class="fa-duotone fa-bookmark me-2"></i>
+						<span class="hidden-mobile">Mes favoris</span>
+					</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item mx-auto">
 					<a href="{{ path('user_documents_uploads') }}" class="nav-link">
-						<i class="fa-duotone fa-share-from-square me-2"></i>Mes partages</a>
+						<i class="fa-duotone fa-share-from-square me-2"></i>
+						<span class="hidden-mobile">Mes partages</span>
+					</a>
 
 				</li>
-				<li class="nav-item">
+				<li class="nav-item mx-auto">
 					<a href="{{ path('user_documents_comments') }}" class="nav-link">
-						<i class="fa-duotone fa-comments me-2"></i>Mes interventions</a>
+						<i class="fa-duotone fa-comments me-2"></i>
+						<span class="hidden-mobile">Mes interventions</span>
+					</a>
 				</li>
 			</ul>
 		</nav>

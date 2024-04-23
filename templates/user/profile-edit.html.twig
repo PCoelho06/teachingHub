@@ -1,39 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block title %}Éditer mes informations
 {% endblock %}
 
-{% block body %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/user_avatar_preview.js') }}" crossorigin="anonymous" defer></script>
 
-	<div class="container my-5">
-		<div class="row">
-			<div class="col-3 border border-2">
-				{% include('partials/_user-nav.html.twig') %}
+{% endblock %}
 
-				<div class="row"></div>
+{% block user_content %}
+	<div class="row row-cols-1 row-cols-md-2 g-3">
+		<h1 class="mb-5">Éditer mes informations</h1>
+		{{ form_start(form) }}
+		<div class="row row-cols-1 row-cols-lg-2 g-3">
+			<div class="col text-center">
+				<img src="{{ asset('images/avatars/' ~ app.user.avatar) }}" alt="Photo de profil" id="avatar_preview" class="w-50 rounded-circle">
 			</div>
-			<div class="col-9 d-flex flex-column justify-content-center">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
-						<div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
-					{% endfor %}
-				{% endfor %}
-
-				<div class="container">
-					<h1>Éditer mes informations</h1>
-					{{ form_start(form) }}
-					{{ form_row(form.firstname) }}
-					{{ form_row(form.lastname) }}
-					{{ form_row(form.username) }}
-
-
-					<div class="d-flex flex-column my-5">
-						<button type="submit" class="btn btn-lg btn-primary">
-							<i class="fa-duotone fa-user-pen mx-2"></i>Éditer mes informations</button>
-					</div>
-					{{ form_end(form) }}
-				</div>
+			<div class="col">
+				{{ form_row(form.avatar) }}
 			</div>
 		</div>
+		{{ form_row(form.firstname) }}
+		{{ form_row(form.lastname) }}
+		{{ form_row(form.username) }}
+
+
+		<div class="d-flex flex-column my-5">
+			<button type="submit" class="btn btn-lg btn-primary mx-5">
+				<i class="fa-duotone fa-user-pen mx-2"></i>Éditer mes informations</button>
+		</div>
+		{{ form_end(form) }}
 	</div>
-</div>{% endblock %}
+{% endblock %}

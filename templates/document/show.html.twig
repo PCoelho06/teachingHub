@@ -40,7 +40,9 @@
 						<span id="downloadsNumber">{{ document.favoriteUsers|length }}</span>
 					</div>
 				</div>
-				<h1 class="page-title">{{ document.title }}</h1>
+				<h1 class="page-title doc-title my-3">
+					{{ document.title }}
+				</h1>
 				<div class="mx-auto text-center">
 					proposé le
 					{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}

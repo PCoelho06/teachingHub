@@ -60,14 +60,19 @@ class AppController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($form->getData());
+            $contactEmail = $form->getData()['email'];
+            $contactFirstname = $form->getData()['firstname'];
+            $contactLastname = $form->getData()['lastname'];
+            $contactMessage = $form->getData()['message'];
             $email = (new Email())
                 // ->from(new Address('admin@teachinghub.fr'))
                 ->from(new Address('contact@lapinou.tech'))
                 // ->to(new Address('contact@teachinghub.fr'))
                 ->to(new Address('p.coelho@lapinou.tech'))
-                ->replyTo($form->getData()->getEmail())
+                ->replyTo($contactEmail)
                 ->subject('Nouvelle prise de contact sur TeachingHub')
-                ->text('Message de la part de' . $form->getData()->getFirstName() . ' ' . $form->getData()->getLastName() . ' : ' . $form->getData()->getMessage());
+                ->text('Message de la part de' . $contactFirstname . ' ' . $contactLastname . ' : ' . $contactMessage);
 
             $mailer->send($email);
 

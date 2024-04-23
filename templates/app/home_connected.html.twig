@@ -6,87 +6,99 @@
 
 {% block body %}
 
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="container">
-		<div class="row gap-3">
-			<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-				<p class="h1 fw-bold">{{ nbDocuments }}</p>
-				<h2>Documents déposés</h2>
-				<a href="{{ path('document_search') }}" class="btn btn-primary">
-					<i class="fa-duotone fa-file-magnifying-glass me-2"></i>
-					Trouver un document
-				</a>
-			</div>
-			<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-				<p class="h1 fw-bold">{{ nbDownloads }}</p>
-				<h2>Téléchargements</h2>
-				<a href="{{ path('document_add') }}" class="btn btn-primary">
-					<i class="fa-duotone fa-file-arrow-up"></i>
-					Déposer un document
-				</a>
-			</div>
-			<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3 text-center">
-				<p class="h1 fw-bold">{{ nbUsers }}</p>
-				<h2>Utilisateurs inscrits</h2>
-			</div>
-			<div class="row">
-				<div class="col">
-					<h2>Top 5 des plus téléchargés</h2>
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Titre</th>
-								<th>Auteur</th>
-								<th>
-									<i class="fa-duotone fa-file-arrow-down"></i>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for document in topDownloadsDocuments %}
-
-								<tr>
-									<td>{{ loop.index }}</td>
-									<td>
-										<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
-									</td>
-									<td>{{ document.author.username}}</td>
-									<td>{{ document.downloadsNumber}}</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+		<div class="row row-cols-lg-3 g-3 mb-5 hidden-mobile">
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbDocuments }}</p>
+						<h2>Documents déposés</h2>
+						<a href="{{ path('document_search') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-file-magnifying-glass me-2"></i>
+							Trouver un document
+						</a>
+					</div>
 				</div>
-				<div class="col">
-					<h2>Top 5 des mieux notés</h2>
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Titre</th>
-								<th>Auteur</th>
-								<th>
-									<i class="fa-duotone fa-star-half-stroke"></i>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for document in topRatingsDocuments %}
-
-								<tr>
-									<td>{{ loop.index }}</td>
-									<td>
-										<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
-									</td>
-									<td>{{ document.author.username}}</td>
-									<td>{{ document.ratingAverage}}</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+			</div>
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbDownloads }}</p>
+						<h2>Téléchargements</h2>
+						<a href="{{ path('document_add') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-file-arrow-up"></i>
+							Déposer un document
+						</a>
+					</div>
 				</div>
+			</div>
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbUsers }}</p>
+						<h2>Utilisateurs inscrits</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row row-cols-1 row-cols-lg-2 g-3">
+			<div class="col">
+				<h2>Top 5 des plus téléchargés</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th>Auteur</th>
+							<th>
+								<i class="fa-duotone fa-file-arrow-down"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in topDownloadsDocuments %}
+
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td>{{ document.author.username}}</td>
+								<td>{{ document.downloadsNumber}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<h2>Top 5 des mieux notés</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th>Auteur</th>
+							<th>
+								<i class="fa-duotone fa-star-half-stroke"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in topRatingsDocuments %}
+
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td>{{ document.author.username}}</td>
+								<td>{{ document.ratingAverage}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 

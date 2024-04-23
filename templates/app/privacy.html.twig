@@ -6,14 +6,12 @@
 
 {% block body %}
 
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 
 		<h1 class="text-center static-page-title">Politique de confidentialité</h1>
 	</div>
-
-	{% include('/partials/_marquee-icons.html.twig') %}
 
 	<div class="container">
 		Nous attachons une grande importance à votre confidentialité. C'est dans cet esprit que nous avons établi la présente politique de confidentialité. Elle vise à expliquer de manière détaillée quelles informations nous recueillons, comment nous les utilisons et comment nous nous efforçons de les protéger.
@@ -37,8 +35,8 @@
 
 
 		En tant qu'utilisateur, vous avez le droit d'accéder à vos informations, de les corriger, de les supprimer ou de limiter leur utilisation à tout moment. Si vous avez des questions concernant cette politique de confidentialité ou si vous souhaitez exercer l'un de vos droits, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.
-				
-				Il est important de noter que cette présente politique de confidentialité peut être amenée à évoluer. Nous vous conseillons donc de consulter régulièrement cette page afin de rester informé des éventuelles modifications.
+						
+						Il est important de noter que cette présente politique de confidentialité peut être amenée à évoluer. Nous vous conseillons donc de consulter régulièrement cette page afin de rester informé des éventuelles modifications.
 	</div>
 
 	<div class="spacer"></div>

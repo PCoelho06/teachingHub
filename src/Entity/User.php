@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
@@ -24,8 +25,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank()]
-    #[Assert\Email()]
+    #[Assert\NotBlank(message: 'Veuillez renseigner une adresse email.')]
+    #[Assert\Email(message: 'Veuillez renseigner une adresse email valide.')]
     #[Assert\Regex('/^[a-zA-Z0-9._-]+@ac-[a-zA-Z0-9._-]{2,}\.fr$/', 'Vous devez utiliser votre adresse email académique pour pouvoir vous inscrire.')]
     #[Ignore]
     private ?string $email = null;
@@ -38,20 +39,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
     #[Assert\Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#!$%&+-=])(?=\\S+$).{8,}$/", 'Votre mot de passe doit contenir au moins 8 caractères parmi lesquels au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial parmis @ # ! $ % & + - =')]
     #[Assert\NotCompromisedPassword(null, 'Ce mot de passe a été révelé lors d\'une fuite de données et ne devrait plus être utilisé. Merci de choisir un autre mot de passe.')]
     #[Ignore]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom.')]
     #[Assert\Regex("/^[\p{L} ']+$/u")]
     #[Ignore]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom.')]
     #[Assert\Regex("/^[\p{L} ']+$/u")]
     #[Ignore]
     private ?string $lastname = null;
@@ -86,6 +86,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[MaxDepth(1)]
     #[Ignore]
     private Collection $comments;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $avatar = null;
 
     public function __construct()
     {
@@ -329,6 +335,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

@@ -1,83 +1,89 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block title %}Mes informations
 {% endblock %}
 
-{% block body %}
-
-	<div class="container h-100 my-5">
-		<div class="row">
-			<div class="col-3 border border-2">
-				{% include('partials/_user-nav.html.twig') %}
-
-				<div class="row"></div>
-			</div>
-			<div class="col-9">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
-						<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
-							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							{{ message }}
+{% block user_content %}
+	<div class="row row-cols-1 row-cols-md-2 g-3">
+		<div class="col">
+			<div class="rounded {% if app.user.isVerified %} bg-tile-success {% else %} bg-tile-danger {% endif %} py-3 text-center">
+				<div class="d-flex justify-content-between align-items-center my-2">
+					{% if app.user.isVerified %}
+						<i class="fa-duotone fa-badge-check text-success mx-3"></i>
+						<p class="m-0 fw-bolder text-success fs-3">Adresse email vérifiée</p>
+					{% else %}
+						<i class="fa-duotone fa-circle-exclamation text-danger mx-3"></i>
+						<div class="mx-3">
+							<p class="m-0 fw-bolder text-danger fs-3">Adresse email non vérifiée</p>
+							<p class="m-0">
+								<a href="{{ path('app_resend_verification_email') }}" class="btn btn-sm btn-primary">Renvoyer un mail de vérification</a>
+							</p>
 						</div>
-					{% endfor %}
-				{% endfor %}
-				<div class="row gap-3 mx-3">
-					<div class="col rounded bg-tile-default d-flex flex-column justify-content-center py-3">
-						<div class="d-flex justify-content-between align-items-center my-2">
-							<i class="fa-duotone fa-circle-user mx-3"></i>
-							<div class="mx-3">
-								<p class="m-0">
-									<span class="fw-bolder">Nom d'utilisateur :</span>
-									{{ app.user.username }}</p>
-								<p class="m-0">
-									<span class="fw-bolder">Prénom :</span>
-									{{ app.user.firstname }}</p>
-								<p class="m-0">
-									<span class="fw-bolder">Nom :</span>
-									{{ app.user.lastname }}</p>
-							</div>
-						</div>
-						<a href="{{ path('user_profile_edit') }}" class="btn btn-sm btn-primary">
-							<i class="fa-duotone fa-user-pen mx-2"></i>
-							Éditer mes informations
-						</a>
-					</div>
-					<div class="col rounded d-flex flex-column justify-content-center py-3 {% if app.user.isVerified %} bg-tile-success {% else %} bg-tile-danger {% endif %}">
-						<div class="d-flex justify-content-between align-items-center my-2">
-							{% if app.user.isVerified %}
-								<i class="fa-duotone fa-badge-check text-success mx-3"></i>
-								<p class="m-0 fw-bolder text-success fs-3">Adresse email vérifiée</p>
-							{% else %}
-								<i class="fa-duotone fa-circle-exclamation text-danger mx-3"></i>
-								<div class="mx-3">
-									<p class="m-0 fw-bolder text-danger fs-3">Adresse email non vérifiée</p>
-									<p class="m-0">
-										<a href="{{ path('app_resend_verification_email') }}">Renvoyer un mail de vérification</a>
-									</p>
-								</div>
-							{% endif %}
-						</div>
-					</div>
+					{% endif %}
 				</div>
-				<div class="row gap-3 m-3">
-					<div class="col rounded d-flex flex-column justify-content-center py-3 rounded bg-tile-default">
-						<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-primary m-3">
-							<i class="fa-duotone fa-unlock-keyhole mx-2"></i>Changer de mot de passe
-						</a>
-						<form action="{{ url('user_account_delete') }}" method="post" class="d-flex flex-column">
-							<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
+			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center">
+				<div class="d-flex flex-column justify-content-center">
+					<h2>Actions</h2>
+					<a href="{{ path('user_password_edit') }}" class="btn btn-sm btn-primary my-3 mx-5">
+						<i class="fa-duotone fa-unlock-keyhole mx-2"></i>Changer de mot de passe
+					</a>
+					<form action="{{ url('user_account_delete') }}" method="post" class="d-flex flex-column">
+						<input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
 
-							<button type="submit" class="btn btn-sm btn-danger m-3" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer votre compte TeachingHub ?')">
-								<i class="fa-duotone fa-trash-xmark mx-2"></i>Supprimer mon compte</button>
-						</form>
+						<button type="submit" class="btn btn-sm btn-danger my-3 mx-5" onclick="return confirm('Êtes-vous sûr(e) de vouloir supprimer votre compte TeachingHub ?')">
+							<i class="fa-duotone fa-trash-xmark mx-2"></i>Supprimer mon compte</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default py-3 text-center">
+				<div class="d-flex flex-column justify-content-center">
+					<div class="rounded-circle">
+						<img src="{{ asset('images/avatars/' ~ app.user.avatar) }}" alt="Photo de profil" class="w-50 rounded-circle">
 					</div>
-					<div class="col"></div>
+					<div class="mx-3">
+						<p class="m-0">
+							<span class="fw-bolder">Nom d'utilisateur :</span>
+							{{ app.user.username }}</p>
+						<p class="m-0">
+							<span class="fw-bolder">Prénom :</span>
+							{{ app.user.firstname }}</p>
+						<p class="m-0">
+							<span class="fw-bolder">Nom :</span>
+							{{ app.user.lastname }}</p>
+					</div>
+					<a href="{{ path('user_profile_edit') }}" class="btn btn-sm btn-primary my-3 mx-5">
+						<i class="fa-duotone fa-user-pen mx-2"></i>
+						Éditer mes informations
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="rounded bg-tile-default p-3">
+				<div class="d-flex flex-column justify-content-center">
+					<h2 class="text-center">À propos de moi</h2>
+					<h3>Biographie</h3>
+					{% if app.user.description %}
+						<p>{{ app.user.description }}</p>
+					{% else %}
+						<p>Vous n'avez pas encore renseigné de biographie.</p>
+					{% endif %}
+
+					<a href="{{ path('user_profile_edit') }}" class="btn btn-sm btn-primary my-3 mx-5">
+						<i class="fa-duotone fa-user-pen mx-2"></i>
+						{% if app.user.description %}
+							Éditer ma biographie
+						{% else %}
+							Renseigner une biographie
+						{% endif %}
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	{% for flash_error in app.flashes('user_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
 {% endblock %}

@@ -6,13 +6,11 @@
 
 {% block body %}
 
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 		<h1 class="text-center static-page-title">A propos de nous</h1>
 	</div>
-
-	{% include('/partials/_marquee-icons.html.twig') %}
 
 	<div class="container">
 		<p>

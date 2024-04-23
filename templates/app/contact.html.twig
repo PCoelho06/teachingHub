@@ -6,18 +6,43 @@
 
 {% block body %}
 
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
 
 		<h1 class="text-center static-page-title">Nous contacter</h1>
 	</div>
 
-	{% include('/partials/_marquee-icons.html.twig') %}
-
 	<div class="container">
-		{{ form(contactForm) }}
-
+		<p class="text-center">
+			Vous avez une question, une suggestion ou une remarque à nous transmettre ? N'hésitez pas à nous contacter en remplissant le formulaire ci-dessous. Nous vous répondrons dans les plus brefs délais.</p>
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endfor %}
+		{{ form_start(contactForm) }}
+		<div class="row row-cols-1 row-cols-lg-2 g-5">
+			<div class="col d-flex flex-column justify-content-between">
+				{{ form_row(contactForm.firstname) }}
+				{{ form_row(contactForm.lastname) }}
+				{{ form_row(contactForm.email) }}
+			</div>
+			<div class="col">
+				{{ form_row(contactForm.message, {attr: {rows: '9'}}) }}
+			</div>
 		</div>
+		<div class="row my-5">
+			<button type="submit" class="btn btn-lg btn-primary">
+				<i class="fa-duotone fa-paper-plane me-2"></i>
+				Envoyer
+			</button>
+		</div>
+		{{ form_end(contactForm) }}
 
-	{% endblock %}
+	</div>
+
+{% endblock %}

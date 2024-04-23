@@ -18,6 +18,7 @@ security:
       provider: app_user_provider
       custom_authenticator: App\Security\UserAuthenticator
       # form_login:
+      # default_target_path: app_home
       #   login_path: app_login
       #   check_path: app_login
       #   enable_csrf: true
