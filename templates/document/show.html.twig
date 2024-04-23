@@ -79,6 +79,15 @@
 							</div>
 						{% endif %}
 					{% endif %}
+					{% if document.author.supportLink %}
+						<div class="text-center">
+							<a href="{{ document.author.supportLink }}" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
+								<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
+								Soutenir
+								{{ document.author.username }}
+							</a>
+						</div>
+					{% endif %}
 				</div>
 				{% if suggestions is not empty %}
 					<div class="my-3">
@@ -93,17 +102,19 @@
 						</div>
 					</div>
 				{% endif %}
-				<div class="my-3">
-					<h2>Du même auteur :
-					</h2>
-					<div class="row row-cols-1 row-cols-md-2 g-3">
-						{% for document in sameAuthorDocuments %}
-							<div class="col document" data-rating="{{document.ratingAverage}}">
-								{% include 'partials/_document.html.twig' %}
-							</div>
-						{% endfor %}
+				{% if sameAuthorDocuments|length != 0 %}
+					<div class="my-3">
+						<h2>Du même auteur :
+						</h2>
+						<div class="row row-cols-1 row-cols-md-2 g-3">
+							{% for document in sameAuthorDocuments %}
+								<div class="col document" data-rating="{{document.ratingAverage}}">
+									{% include 'partials/_document.html.twig' %}
+								</div>
+							{% endfor %}
+						</div>
 					</div>
-				</div>
+				{% endif %}
 			</div>
 		</div>
 		<div class="container my-3">
@@ -166,7 +177,7 @@
 				</div>
 			{% endfor %}
 
-			{% if app.user and not allreadyCommented %}
+			{% if app.user and not allreadyCommented and app.user != document.author and document in app.user.downloadedDocuments %}
 				<div class="text-center">
 					<a href="{{ path('comment_add', {'slug': document.slug}) }}" class="btn btn-primary">
 						<i class="fa-duotone fa-comment-plus me-2"></i>

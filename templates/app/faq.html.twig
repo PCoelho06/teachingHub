@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Foire aux questions
+{% endblock %}
+
+{% block body %}
+
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
+
+	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
+
+		<h1 class="text-center static-page-title">Foire aux questions (FAQ)
+		</h1>
+	</div>
+
+	<div class="container">
+		<div class="list-group" id="faqList">
+			<a href="#faqItem1" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="true" aria-controls="faqItem1">
+				<h5 class="mb-1">1. Qu'est-ce que TeachingHub ?</h5>
+			</a>
+			<div class="collapse" id="faqItem1">
+				<div class="card card-body">
+					TeachingHub est un outil en ligne conçu pour permettre aux enseignants de partager des ressources pédagogiques telles que des cours, des exercices, des présentations, et bien plus encore.
+				</div>
+			</div>
+
+			<!-- FAQ Item 2 -->
+			<a href="#faqItem2" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem2">
+				<h5 class="mb-1">2. Qui peut utiliser TeachingHub ?</h5>
+			</a>
+			<div class="collapse" id="faqItem2">
+				<div class="card card-body">
+					TeachingHub est principalement destinée aux enseignants de tous niveaux, de l'école primaire à l'université, ainsi qu'aux éducateurs et formateurs. C'est pourquoi, seul les personnes disposant d'une adresse académique peuvent s'inscrire sur la plateforme. Toutefois, tous les documents restent visualisables et téléchargeables par tout le monde.
+				</div>
+			</div>
+
+			<!-- FAQ Item 3 -->
+			<a href="#faqItem3" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem3">
+				<h5 class="mb-1">3. Comment puis-je partager des documents sur TeachingHub ?</h5>
+			</a>
+			<div class="collapse" id="faqItem3">
+				<div class="card card-body">
+					Afin de partager des documents sur la plateforme, vous devez tout d'abord créer un compte. Une fois connecté, vous avez la possibilité de téléverser vos documents en utilisant l'option de téléchargement disponible dans votre espace utilisateur ou dans le menu principal du site. Assurez-vous de fournir une description détaillée pour chaque document afin d'aider les autres utilisateurs à comprendre son contenu. Attention, pour le moment seul les documents au format pdf sont acceptés.
+				</div>
+			</div>
+
+			<!-- FAQ Item 4 -->
+			<a href="#faqItem4" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem4">
+				<h5 class="mb-1">4. Les documents partagés sont-ils accessibles à tous les utilisateurs ?</h5>
+			</a>
+			<div class="collapse" id="faqItem4">
+				<div class="card card-body">
+					Oui. Tous les documents déposés sur la plateforme TeachingHub sont accessibles à tous les utilisateurs, qu'ils soient inscrits ou non.
+				</div>
+			</div>
+
+			<!-- FAQ Item 5 -->
+			<a href="#faqItem5" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem5">
+				<h5 class="mb-1">5. Puis-je modifier ou supprimer les documents que j'ai partagés ?</h5>
+			</a>
+			<div class="collapse" id="faqItem5">
+				<div class="card card-body">
+					Oui, vous pouvez modifier ou supprimer les documents que vous avez partagés à tout moment en accédant à votre espace utilisateur et en utilisant les options de modification ou de suppression disponibles.
+				</div>
+			</div>
+
+			<!-- FAQ Item 6 -->
+			<a href="#faqItem6" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem6">
+				<h5 class="mb-1">6. Y a-t-il des limitations quant aux types de documents que je peux partager ?</h5>
+			</a>
+			<div class="collapse" id="faqItem6">
+				<div class="card card-body">
+					TeachingHub est une plateforme conçue pour permettre aux professeurs de partager leurs documents pédagogiques. Il est nécessaire de bien vérifier que vous disposez de tous les droits nécessaires avant de partager un document sur la plateforme TeachingHub. TeachingHub se dégage de toute responsabilité en cas de partage de documents protégés par des droits d'auteur.
+				</div>
+			</div>
+
+			<!-- FAQ Item 7 -->
+			<a href="#faqItem7" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem7">
+				<h5 class="mb-1">7. Comment puis-je contacter le support en cas de problème ou de question ?</h5>
+			</a>
+			<div class="collapse" id="faqItem7">
+				<div class="card card-body">
+					Si vous rencontrez des difficultés techniques, avez des questions ou souhaitez fournir des commentaires, vous pouvez contacter notre équipe de support en utilisant l'option de contact disponible sur la plateforme. Nous nous efforcerons de vous fournir une assistance rapide et efficace.
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<div class="spacer"></div>
+{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
+<div class="spacer"></div>{% endblock %}

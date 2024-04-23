@@ -48,9 +48,7 @@ class AppController extends AbstractController
     #[Route('/accessibilite', name: 'app_accessibility')]
     public function accessibility(): Response
     {
-        return $this->render('app/accessibility.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/accessibility.html.twig');
     }
 
     #[Route('/nous-contacter', name: 'app_contact')]
@@ -98,9 +96,7 @@ class AppController extends AbstractController
     #[Route('/politique-de-confidentialite', name: 'app_privacy')]
     public function privacy(): Response
     {
-        return $this->render('app/privacy.html.twig', [
-            'controller_name' => 'AppController',
-        ]);
+        return $this->render('app/privacy.html.twig');
     }
 
     #[Route('/profil-auteur/{username}', name: 'app_author_profile')]
@@ -116,5 +112,11 @@ class AppController extends AbstractController
             'lastDocuments' => $lastDocuments,
             'mostDownloadedDocuments' => $mostDownloadedDocuments,
         ]);
+    }
+
+    #[Route('/foire-aux-questions', name: 'app_faq')]
+    public function faq(): Response
+    {
+        return $this->render('app/faq.html.twig');
     }
 }

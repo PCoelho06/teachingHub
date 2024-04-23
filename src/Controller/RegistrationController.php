@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -23,10 +24,12 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private AssetMapperInterface $assetMapper;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, AssetMapperInterface $assetMapper)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->assetMapper = $assetMapper;
     }
 
     #[Route('/inscription', name: 'app_register')]
@@ -45,7 +48,8 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setRegisteredAt(new \DateTimeImmutable());
+            $user->setRegisteredAt(new \DateTimeImmutable())
+                ->setAvatar($this->assetMapper->getPublicPath('images/avatars/man1.jpg'));
 
             $entityManager->persist($user);
             $entityManager->flush();
