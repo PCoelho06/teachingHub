@@ -95,6 +95,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $avatar = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(groups: ['support-link'], message: 'Veuillez renseigner un lien Buy me a coffee.')]
     private ?string $supportLink = null;
 
     public function __construct()

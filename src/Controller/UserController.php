@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\PasswordEditType;
 use App\Form\UserBiographyType;
+use App\Form\UserSupportLinkType;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -137,10 +138,33 @@ class UserController extends AbstractController
                 'Votre biographie a bien été modifiée.'
             );
 
-            $this->redirectToRoute('user_profile');
+            return $this->redirectToRoute('user_profile');
         }
 
         return $this->render('user/biography-edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/lien-de-support', name: 'support_link')]
+    public function supportLink(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserSupportLinkType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre lien de support a bien été enregistré.'
+            );
+
+            return $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('user/support-link.html.twig', [
             'form' => $form->createView(),
         ]);
     }

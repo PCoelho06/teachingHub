@@ -72,7 +72,7 @@
 							</div>
 						{% else %}
 							<div>
-								<a class="btn btn-sm btn-success" href="{{ path('user_documents_add_favorite', {id: document.id}) }}">
+								<a class="btn btn-sm btn-danger" href="{{ path('user_documents_add_favorite', {id: document.id}) }}">
 									<i class="fa-duotone fa-bookmark me-2"></i>
 									Ajouter aux favoris
 								</a>
@@ -80,8 +80,8 @@
 						{% endif %}
 					{% endif %}
 					{% if document.author.supportLink %}
-						<div class="text-center">
-							<a href="{{ document.author.supportLink }}" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
+						<div>
+							<a href="{{ document.author.supportLink }}" target="_blank" class="btn btn-sm btn-success">
 								<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
 								Soutenir
 								{{ document.author.username }}

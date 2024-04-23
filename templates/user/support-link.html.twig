@@ -1,0 +1,22 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Éditer mon lien de soutien
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/user_avatar_preview.js') }}" crossorigin="anonymous" defer></script>
+
+{% endblock %}
+
+{% block user_content %}
+	<h1 class="mb-5">Éditer mon lien de soutien</h1>
+	{{ form_start(form) }}
+	{{ form_row(form.supportLink) }}
+
+	<div class="d-flex flex-column my-5">
+		<button type="submit" class="btn btn-lg btn-success mx-5">
+			<i class="fa-duotone fa-cup-togo mx-2"></i>Éditer mon lien de soutien</button>
+	</div>
+	{{ form_end(form) }}
+</div>{% endblock %}

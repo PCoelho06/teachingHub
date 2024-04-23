@@ -30,6 +30,15 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
+        $types = [
+            'Cours',
+            'Exercice',
+            'Devoir',
+            'Fiche de révision',
+            'Annales',
+            'Autre'
+        ];
+
         $levels = [
             [
                 'name' => 'Sixième',
@@ -147,10 +156,10 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             ],
         ];
 
-        for ($i = 0; $i < 8; $i++) {
+        foreach ($types as $key => $newType) {
             $type = new Type();
-            $type->setName(ucfirst($faker->word()));
-            $this->addReference('type_' . $i, $type);
+            $type->setName($newType);
+            $this->addReference('type_' . $key, $type);
             $manager->persist($type);
         }
 

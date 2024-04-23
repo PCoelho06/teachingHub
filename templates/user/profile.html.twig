@@ -82,6 +82,22 @@
 							Renseigner une biographie
 						{% endif %}
 					</a>
+
+					<h3>Lien de soutien</h3>
+					{% if app.user.supportLink %}
+						<a href="{{ app.user.supportLink }}" target="_blank">{{ app.user.supportLink }}</a>
+					{% else %}
+						<p>Vous n'avez pas encore de lien de soutien.</p>
+					{% endif %}
+
+					<a href="{{ path('user_support_link') }}" class="btn btn-sm btn-success my-3 mx-5">
+						<i class="fa-duotone fa-cup-togo mx-2"></i>
+						{% if app.user.description %}
+							Éditer mon lien Buy Me a Coffee
+						{% else %}
+							Renseigner un lien Buy Me a Coffee
+						{% endif %}
+					</a>
 				</div>
 			</div>
 		</div>
