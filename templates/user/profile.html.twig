@@ -43,7 +43,7 @@
 			<div class="rounded bg-tile-default py-3 text-center">
 				<div class="d-flex flex-column justify-content-center">
 					<div class="rounded-circle">
-						<img src="{{ asset('images/avatars/' ~ app.user.avatar) }}" alt="Photo de profil" class="w-50 rounded-circle">
+						<img src="{{ app.user.avatar }}" alt="Photo de profil" class="w-50 rounded-circle">
 					</div>
 					<div class="mx-3">
 						<p class="m-0">
@@ -74,7 +74,7 @@
 						<p>Vous n'avez pas encore renseigné de biographie.</p>
 					{% endif %}
 
-					<a href="{{ path('user_profile_edit') }}" class="btn btn-sm btn-primary my-3 mx-5">
+					<a href="{{ path('user_biography_edit') }}" class="btn btn-sm btn-primary my-3 mx-5">
 						<i class="fa-duotone fa-user-pen mx-2"></i>
 						{% if app.user.description %}
 							Éditer ma biographie

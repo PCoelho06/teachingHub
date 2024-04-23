@@ -7,21 +7,25 @@ use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
     private $hasher;
+    private $assetMapper;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
+    public function __construct(UserPasswordHasherInterface $hasher, AssetMapperInterface $assetMapper)
     {
         $this->hasher = $hasher;
+        $this->assetMapper = $assetMapper;
     }
 
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
+        $avatar = $this->assetMapper->getPublicPath('images/avatars/man1.jpg');
 
         $user = (new User())
             ->setEmail('p.coelho@lapinou.tech')
@@ -29,6 +33,7 @@ class UserFixtures extends Fixture
             ->setLastname('Coelho')
             ->setUsername('p.coelho')
             ->setRegisteredAt(new DateTimeImmutable())
+            ->setAvatar($avatar)
             ->setRoles(['ROLE_ADMIN']);
 
         $hashedPassword = $this->hasher->hashPassword(
@@ -50,7 +55,8 @@ class UserFixtures extends Fixture
                 ->setFirstname($firstname)
                 ->setLastname($lastname)
                 ->setUsername($username)
-                ->setRegisteredAt(new DateTimeImmutable());
+                ->setRegisteredAt(new DateTimeImmutable())
+                ->setAvatar($avatar);
 
             $hashedPassword = $this->hasher->hashPassword(
                 $user,

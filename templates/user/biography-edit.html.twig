@@ -1,0 +1,22 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Éditer ma biographie
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/user_avatar_preview.js') }}" crossorigin="anonymous" defer></script>
+
+{% endblock %}
+
+{% block user_content %}
+	<h1 class="mb-5">Éditer ma biographie</h1>
+	{{ form_start(form) }}
+	{{ form_row(form.description) }}
+
+	<div class="d-flex flex-column my-5">
+		<button type="submit" class="btn btn-lg btn-primary mx-5">
+			<i class="fa-duotone fa-user-pen mx-2"></i>Éditer ma biographie</button>
+	</div>
+	{{ form_end(form) }}
+</div>{% endblock %}

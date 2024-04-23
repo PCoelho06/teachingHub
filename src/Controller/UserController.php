@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\PasswordEditType;
+use App\Form\UserBiographyType;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -119,5 +120,28 @@ class UserController extends AbstractController
         $this->addFlash('danger', 'Une erreur est survenue lors de la tentative de suppression de votre compte. Veuillez réessayer en cliquant sur le lien dans votre tableau de bord.');
 
         return $this->redirectToRoute('user_profile');
+    }
+
+    #[Route('/ma-biographie', name: 'biography_edit')]
+    public function editBiography(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserBiographyType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre biographie a bien été modifiée.'
+            );
+
+            $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('user/biography-edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

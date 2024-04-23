@@ -17,6 +17,7 @@
 				<embed src="{{ path('document_show_pdf', {slug: document.slug}) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
 			</div>
 
+
 			<div class="col">
 				{% if app.user and document in app.user.downloadedDocuments %}
 					<div class="alert alert-info alert-dismissible fade show" role="alert">

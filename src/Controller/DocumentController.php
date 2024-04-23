@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use DateTimeImmutable;
 use App\Entity\Document;
 use App\Form\DocumentType;
@@ -239,7 +240,9 @@ class DocumentController extends AbstractController
             HeaderUtils::DISPOSITION_INLINE,
             $document->getFile()
         );
+        $expires = new DateTime('tomorrow');
         $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Expires', $expires->format('D, d M Y H:i:s T'));
 
         return $response;
     }

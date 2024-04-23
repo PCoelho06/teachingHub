@@ -10,26 +10,23 @@
 {% endblock %}
 
 {% block user_content %}
+	<h1 class="mb-5">Éditer mes informations</h1>
+	{{ form_start(form) }}
 	<div class="row row-cols-1 row-cols-md-2 g-3">
-		<h1 class="mb-5">Éditer mes informations</h1>
-		{{ form_start(form) }}
-		<div class="row row-cols-1 row-cols-lg-2 g-3">
-			<div class="col text-center">
-				<img src="{{ asset('images/avatars/' ~ app.user.avatar) }}" alt="Photo de profil" id="avatar_preview" class="w-50 rounded-circle">
-			</div>
-			<div class="col">
-				{{ form_row(form.avatar) }}
-			</div>
+		<div class="col text-center">
+			<img src="{{ app.user.avatar }}" alt="Photo de profil" id="avatar_preview" class="w-50 rounded-circle">
+			{{ form_row(form.avatar) }}
 		</div>
-		{{ form_row(form.firstname) }}
-		{{ form_row(form.lastname) }}
-		{{ form_row(form.username) }}
-
-
-		<div class="d-flex flex-column my-5">
-			<button type="submit" class="btn btn-lg btn-primary mx-5">
-				<i class="fa-duotone fa-user-pen mx-2"></i>Éditer mes informations</button>
+		<div class="col">
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.username) }}
 		</div>
-		{{ form_end(form) }}
 	</div>
-{% endblock %}
+
+	<div class="d-flex flex-column my-5">
+		<button type="submit" class="btn btn-lg btn-primary mx-5">
+			<i class="fa-duotone fa-user-pen mx-2"></i>Éditer mes informations</button>
+	</div>
+	{{ form_end(form) }}
+</div>{% endblock %}

@@ -88,6 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $comments;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(groups: ['biography'], message: 'Veuillez renseigner la biographie.')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]

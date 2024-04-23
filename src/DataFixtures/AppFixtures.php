@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Comment;
 use Faker\Factory;
 use App\Entity\Type;
 use App\Entity\Level;
 use App\Entity\Theme;
 use DateTimeImmutable;
+use App\Entity\Comment;
 use App\Entity\Subject;
 use App\Entity\Document;
 use Doctrine\Persistence\ObjectManager;
