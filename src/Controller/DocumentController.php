@@ -188,6 +188,17 @@ class DocumentController extends AbstractController
         ]);
     }
 
+    #[Route('/top-documents-telecharges', name: 'top_downloads')]
+    public function topDownloads(DocumentRepository $documentRepository): Response
+    {
+        $topDownloads = $documentRepository->findTopDownloadsDocuments(20);
+        dump($topDownloads);
+
+        return $this->render('document/top_downloads.html.twig', [
+            'documents' => $topDownloads,
+        ]);
+    }
+
     #[Route('/{slug}', name: 'show')]
     public function showDocument(Document $document, DocumentRepository $documentRepository): Response
     {

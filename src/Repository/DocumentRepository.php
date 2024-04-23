@@ -150,21 +150,21 @@ class DocumentRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findTopDownloadsDocuments()
+    public function findTopDownloadsDocuments(int $limit = 5)
     {
         return $this->createQueryBuilder('d')
             ->orderBy('d.downloadsNumber', 'DESC')
-            ->setMaxResults(5)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
-    public function findTopRatingsDocuments()
+    public function findTopRatingsDocuments(int $limit = 5)
     {
         return $this->createQueryBuilder('d')
             ->addOrderBy('d.ratingAverage', 'DESC')
             ->addOrderBy('d.downloadsNumber', 'DESC')
-            ->setMaxResults(5)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
