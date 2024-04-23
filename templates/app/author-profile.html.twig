@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Accueil
+{% endblock %}
+
+{% block body %}
+
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
+
+	<div class="container">
+		<div class="row row-cols-1 row-cols-md-2 g-3 my-3">
+			<div class="col">
+				<div class="rounded-circle text-center">
+					<img src="{{ user.avatar }}" alt="Photo de profil" class="w-50 rounded-circle">
+				</div>
+			</div>
+			<div class="col">
+				<h2>{{ user.username }}</h2>
+				{% if user.description %}
+					<p>{{ user.description }}</p>
+				{% else %}
+					<p>Cet utilisateur n'a pas encore renseigné de biographie.</p>
+				{% endif %}
+
+			</div>
+		</div>
+		{% if user.supportLink %}
+			<div class="col text-center">
+				<a href="{{ user.supportLink }}" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
+					<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
+					Soutenir
+					{{ user.username }}
+				</a>
+			</div>
+		{% endif %}
+		<div class="row row-cols-1 row-cols-md-2 g-3 my-3">
+			<div class="col d-flex flex-column justify-content-center">
+				<div class="row row-cols-1 row-cols-md-2 g-3">
+					<div class="col">
+						<div class="rounded bg-tile-default py-3 text-center">
+							<div class="d-flex flex-column justify-content-center">
+								<p class="fs-1 fw-bold">{{ user.comments|length }}</p>
+								<h2 class="h3">Commentaires déposés</h2>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="rounded bg-tile-default py-3 text-center">
+							<div class="d-flex flex-column justify-content-center">
+								<p class="fs-1 fw-bold">{{ user.documents|length }}</p>
+								<h2 class="h3">Documents déposés</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<h2>Ses derniers documents</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th>
+								<i class="fa-duotone fa-calendar-clock"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in lastDocuments %}
+
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td>{{ document.uploadedAt | format_datetime('short', 'none', locale='fr')}}</td>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<h2>Ses documents les mieux notés</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th>
+								<i class="fa-duotone fa-star-half"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in bestDocuments %}
+
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td>{{ document.ratingAverage}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<h2>Ses documents les plus téléchargés</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th>
+								<i class="fa-duotone fa-file-arrow-down"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in mostDownloadedDocuments %}
+
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td>{{ document.downloadsNumber}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

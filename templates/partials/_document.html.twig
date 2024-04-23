@@ -41,9 +41,11 @@
 		</p>
 		<div class="card-footer d-flex justify-content-between bg-white mt-auto">
 			<div class="author">
-				<img src="{{ document.author.avatar }}" alt="" class="avatar">
+				<a href="{{ path('app_author_profile', {'username': document.author.username}) }}">
+					<img src="{{ document.author.avatar }}" alt="" class="avatar">
 
-				<span>{{ document.author.username }}</span>
+					<span>{{ document.author.username }}</span>
+				</a>
 			</div>
 			<div class="stats d-flex">
 				<div class="mx-2">

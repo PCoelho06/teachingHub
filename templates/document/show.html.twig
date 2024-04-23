@@ -143,7 +143,13 @@
 								{% endif %}
 							</div>
 						</div>
-						<h2 class="card-title">{{ comment.author.username }}</h2>
+						<a href="{{ path('app_author_profile', {'username': comment.author.username}) }}">
+							<h2 class="card-title">
+								<img src="{{ comment.author.avatar }}" alt="" class="avatar">
+
+								<span>{{ comment.author.username }}</span>
+							</a>
+						</h2>
 						<h3 class="card-subtitle mb-2 text-body-secondary fs-6">le
 							{{ comment.createdAt |format_datetime('short', 'none', locale='fr') }}
 							à

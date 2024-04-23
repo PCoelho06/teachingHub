@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\ContactType;
-use App\Repository\DocumentRepository;
-use App\Repository\UserRepository;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
+use App\Repository\DocumentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,6 +100,21 @@ class AppController extends AbstractController
     {
         return $this->render('app/privacy.html.twig', [
             'controller_name' => 'AppController',
+        ]);
+    }
+
+    #[Route('/profil-auteur/{username}', name: 'app_author_profile')]
+    public function authorProfile(User $user, DocumentRepository $documentRepository): Response
+    {
+        $bestDocuments = $documentRepository->findBy(['author' => $user], ['ratingAverage' => 'DESC'], 5);
+        $mostDownloadedDocuments = $documentRepository->findBy(['author' => $user], ['downloadsNumber' => 'DESC'], 5);
+        $lastDocuments = $documentRepository->findBy(['author' => $user], ['uploadedAt' => 'DESC'], 5);
+
+        return $this->render('app/author-profile.html.twig', [
+            'user' => $user,
+            'bestDocuments' => $bestDocuments,
+            'lastDocuments' => $lastDocuments,
+            'mostDownloadedDocuments' => $mostDownloadedDocuments,
         ]);
     }
 }

@@ -94,6 +94,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $avatar = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $supportLink = null;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
@@ -360,6 +363,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(string $avatar): static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getSupportLink(): ?string
+    {
+        return $this->supportLink;
+    }
+
+    public function setSupportLink(?string $supportLink): static
+    {
+        $this->supportLink = $supportLink;
 
         return $this;
     }

@@ -131,7 +131,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             ],
             [
                 'name' => 'Latin',
-                'icon' => 'fa-quill'
+                'icon' => 'fa-feather'
             ],
             [
                 'name' => 'Grec',
