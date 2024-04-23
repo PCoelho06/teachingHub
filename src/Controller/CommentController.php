@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Entity\Document;
 use App\Form\CommentType;
-use App\Repository\CommentRepository;
+use App\Services\Rating;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,6 +56,15 @@ class CommentController extends AbstractController
             }
 
             $entityManager->persist($comment);
+
+            $document = $comment->getDocument();
+            if (!is_null($comment->getId())) {
+                $document->setRatingAverage(Rating::calculateRating($document));
+            } else {
+                $document->setRatingAverage(Rating::calculateRating($document, $comment->getRating()));
+            }
+            $entityManager->persist($document);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('document_show', ['slug' => $comment->getDocument()->getSlug()]);

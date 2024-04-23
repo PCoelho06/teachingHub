@@ -10,6 +10,8 @@ use DateTimeImmutable;
 use App\Entity\Comment;
 use App\Entity\Subject;
 use App\Entity\Document;
+use App\Services\Rating;
+use App\Repository\DocumentRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -17,6 +19,13 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class AppFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $documentRepository;
+
+    public function __construct(DocumentRepository $documentRepository)
+    {
+        $this->documentRepository = $documentRepository;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');

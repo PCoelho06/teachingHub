@@ -17,3 +17,13 @@
   font-weight: 600;
   position: relative;
 }
+
+.logo {
+  max-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    max-width: 300px;
+  }
+}

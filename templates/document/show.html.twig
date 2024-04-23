@@ -30,7 +30,7 @@
 				<div class="mx-auto text-center d-flex justify-content-center gap-3">
 					<div class="rating">
 						{% include 'partials/_rating.html.twig' %}
-						{{ document.ratingAverage }}
+						{{ document.ratingAverage | number_format(1, ',')}}
 					</div>
 					<div class="downloads">
 						<i class="fa-duotone fa-download mx-2"></i>
