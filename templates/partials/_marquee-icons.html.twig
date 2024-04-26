@@ -6,7 +6,7 @@
 				{% for subject in subjects %}
 					<p class="marquee-icon">
 						<a href="{{ path('document_search', {subject: subject.id }) }}">
-							<i class="fa-solid {{ subject.icon }}"></i>
+							<i class="fa-solid {{ subject.icon }}" title="{{ subject.name }}"></i>
 						</a>
 					</p>
 				{% endfor %}

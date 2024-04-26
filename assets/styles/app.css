@@ -225,3 +225,12 @@ legend {
   margin-right: 5px;
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
 }
+
+.footer-logo {
+  width: 10rem;
+  aspect-ratio: 1/1;
+}
+
+.footer-link {
+  color: var(--neutral-500-color) !important;
+}

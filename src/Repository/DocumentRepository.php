@@ -154,6 +154,7 @@ class DocumentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('d')
             ->orderBy('d.downloadsNumber', 'DESC')
+            ->addOrderBy('d.ratingAverage', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -162,7 +163,7 @@ class DocumentRepository extends ServiceEntityRepository
     public function findTopRatingsDocuments(int $limit = 5)
     {
         return $this->createQueryBuilder('d')
-            ->addOrderBy('d.ratingAverage', 'DESC')
+            ->orderBy('d.ratingAverage', 'DESC')
             ->addOrderBy('d.downloadsNumber', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

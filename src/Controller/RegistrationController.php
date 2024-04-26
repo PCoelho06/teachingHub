@@ -122,7 +122,7 @@ class RegistrationController extends AbstractController
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
 
-        $this->addFlash('success', 'Nous vous avons renvoyé un mail de vérification. N\'oubliez pas de vérifier votre boite de courriers indésirables.');
+        $this->addFlash('success', 'Nous vous avons renvoyé un mail de vérification. N\'oubliez pas de vérifier vos de courriers indésirables.');
 
         return $this->redirectToRoute('user_profile');
     }

@@ -1,19 +1,18 @@
 <footer class="bg-light py-3 mt-auto">
 	<section class="row row-cols-1 row-cols-md-3 mx-3 g-3">
 		<div class="col d-flex align-items-center justify-content-center">
-			<img src="{{ asset('images/logo-lg.png') }}" alt="" class="w-75">
+			<img src="{{ asset('images/logo.png') }}" alt="" class="footer-logo">
 		</div>
 		<div class="col">
 			<h3>Chercher un document</h3>
 			<nav class="mb-3">
 				<ul class="navbar-nav ms-3">
 					<li>
-						<a href="{{ path('document_top_downloads') }}">Top documents téléchargés</a>
+						<a href="{{ path('document_top_downloads') }}">Top documents plus téléchargés</a>
 					</li>
-					<li>Derniers documents déposés</li>
-					<li>Documents par matière</li>
-					<li>Documents par niveau</li>
-					<li>Documents par auteur</li>
+					<li>
+						<a href="{{ path('document_top_ratings') }}">Top documents mieux notés</a>
+					</li>
 				</ul>
 			</nav>
 			<h3>Déposer un document</h3>
@@ -52,11 +51,21 @@
 			<div class="bar"></div>
 		</div>
 		<div class="d-flex justify-content-around align-items-center w-100 fs-1">
-			<i class="fa-brands fa-facebook-f"></i>
-			<i class="fa-brands fa-x-twitter"></i>
-			<i class="fa-brands fa-youtube"></i>
-			<i class="fa-brands fa-tiktok"></i>
-			<i class="fa-brands fa-instagram"></i>
+			<a href="#" target="_blank" title="Facebook" class="footer-link">
+				<i class="fa-brands fa-facebook-f"></i>
+			</a>
+			<a href="#" target="_blank" title="Twitter" class="footer-link">
+				<i class="fa-brands fa-x-twitter"></i>
+			</a>
+			<a href="#" target="_blank" title="Youtube" class="footer-link">
+				<i class="fa-brands fa-youtube"></i>
+			</a>
+			<a href="https://discord.gg/UuHvgnFYew" target="_blank" title="Discord" class="footer-link">
+				<i class="fa-brands fa-discord"></i>
+			</a>
+			<a href="#" target="_blank" title="Instagram" class="footer-link">
+				<i class="fa-brands fa-instagram"></i>
+			</a>
 		</div>
 		<div class="d-flex align-items-center w-50 w-md-100">
 			<div class="bar"></div>

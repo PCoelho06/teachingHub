@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
+
+	<div class="m-5">
+		<h2>{{ title }}</h2>
+		<div class="row">
+			<div class="col">
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Titre</th>
+							<th class="text-center">Matière</th>
+							<th>Niveau</th>
+							<th>Auteur</th>
+							<th>Note</th>
+							{% if app.user and app.user.isVerified %}
+								<th></th>
+							{% endif %}
+							<th class="text-center">
+								<i class="fa-duotone fa-file-arrow-down"></i>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for document in documents %}
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>
+									<a href="{{ path('document_show', {slug: document.slug}) }}">{{ document.title }}</a>
+								</td>
+								<td class="text-center">
+									{% for subject in document.subjects %}
+										<a href="{{ path('document_search', {subject: subject.id }) }}">
+											<i class="fa-duotone {{ subject.icon }} me-2" title="{{ subject.name }}"></i>
+										</a>
+										{% if not loop.last %}
+											,
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for level in document.levels %}
+										<a href="{{ path('document_search', {level: level.id }) }}" class="text-{{ level.color }} mx-1">
+											{% if level.short %}
+												#{{ level.short }}
+											{% else %}
+												#{{ level.name }}
+											{% endif %}
+										</a>
+										{% if not loop.last %}
+											,
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									<a href="{{ path('app_author_profile', {'username': document.author.username}) }}">{{ document.author.username}}</a>
+								</td>
+								<td>{% include 'partials/_rating.html.twig' %}</td>
+								{% if app.user and app.user.isVerified %}
+									<td>
+										<p>
+											{% if app.user in document.favoriteUsers %}
+												<a href="{{ path('user_documents_remove_favorite', {id: document.id, origin: app.request.attributes.get('_route')}) }}">
+													<i class="fa-solid fa-heart text-danger"></i>
+												</a>
+											{% else %}
+												<a href="{{ path('user_documents_add_favorite', {id: document.id, origin: app.request.attributes.get('_route')}) }}">
+													<i class="fa-regular fa-heart"></i>
+												</a>
+											{% endif %}
+										</p>
+									</td>
+								{% endif %}
+								<td class="text-center">{{ document.downloadsNumber}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

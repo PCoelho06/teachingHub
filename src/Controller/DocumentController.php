@@ -188,14 +188,25 @@ class DocumentController extends AbstractController
         ]);
     }
 
-    #[Route('/top-documents-telecharges', name: 'top_downloads')]
+    #[Route('/top-documents-telechargements', name: 'top_downloads')]
     public function topDownloads(DocumentRepository $documentRepository): Response
     {
         $topDownloads = $documentRepository->findTopDownloadsDocuments(20);
-        dump($topDownloads);
 
-        return $this->render('document/top_downloads.html.twig', [
+        return $this->render('document/top_documents.html.twig', [
             'documents' => $topDownloads,
+            'title' => 'Top des documents les plus téléchargés',
+        ]);
+    }
+
+    #[Route('/top-documents-notes', name: 'top_ratings')]
+    public function topRatings(DocumentRepository $documentRepository): Response
+    {
+        $topRatings = $documentRepository->findTopRatingsDocuments(20);
+
+        return $this->render('document/top_documents.html.twig', [
+            'documents' => $topRatings,
+            'title' => 'Top des documents les mieux notés',
         ]);
     }
 
