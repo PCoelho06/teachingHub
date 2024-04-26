@@ -1,10 +1,11 @@
+{% apply inline_css(source('@styles/email.css')) %}
 <header class="text-center">
-	<a class="navbar-brand" href="{{ path('app_home') }}">
-		// TODO logo de TeachingHub
-		        TeachingHub
+	<a href="{{ path('app_home') }}">
+		<img src="{{ email.image('@images/logo.png') }}" alt="">
 	</a>
 </header>
 
 <main>
 	{% block content %}{% endblock %}
 </main>
+{% endapply %}

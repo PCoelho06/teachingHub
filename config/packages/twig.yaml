@@ -1,6 +1,9 @@
 twig:
   file_name_pattern: "*.twig"
   form_themes: ["bootstrap_5_layout.html.twig"]
+  paths:
+    "%kernel.project_dir%/assets/images": images
+    "%kernel.project_dir%/assets/styles": styles
 
 when@test:
   twig:

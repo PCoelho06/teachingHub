@@ -23,7 +23,7 @@ class Document
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le titre du document ne peut être vide.')]
-    #[Assert\Regex("/^[\p{L} ']+$/u")]
+    #[Assert\Regex("/^[\p{L} ']+$/u", 'Le nom du document contient des caractères non autorisés.')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -48,18 +48,22 @@ class Document
     #[ORM\ManyToOne(inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
     #[MaxDepth(1)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le type du document.')]
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Level::class, inversedBy: 'documents')]
     #[MaxDepth(1)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner au moins un niveau.')]
     private Collection $levels;
 
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'documents')]
     #[MaxDepth(1)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner au moins une matière.')]
     private Collection $subjects;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'documents')]
     #[MaxDepth(1)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner au moins un thème.')]
     private Collection $themes;
 
     #[ORM\ManyToOne(inversedBy: 'documents')]

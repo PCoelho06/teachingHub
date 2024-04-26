@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\Document;
 use App\Form\DocumentType;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -77,9 +79,17 @@ class DocumentController extends AbstractController
 
     #[Route('/deposer-un-document', name: 'add')]
     #[Route('/editer-un-document/{slug}', name: 'update')]
-    public function handleDocument(Document $document = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function handleDocument(#[CurrentUser] User $user, Document $document = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
+        if ($user->isVerified() == false) {
+            $this->addFlash(
+                'danger',
+                'Attention, vous devez valider votre adresse email pour pouvoir déposer un document.'
+            );
+            return $this->redirectToRoute('user_dashboard');
+        }
 
         if (is_null($document)) {
             $document = new Document();
@@ -117,6 +127,35 @@ class DocumentController extends AbstractController
 
             $submitButton = $form->get('submit');
             if (!$submitButton->isClicked()) {
+                return $this->render('document/handle.html.twig', [
+                    'form' => $form,
+                    'edit' => $edit,
+                ]);
+            }
+
+            if ($form->get('levels')->getData()->isEmpty()) {
+                $this->addFlash(
+                    'danger',
+                    'Vous devez renseigner au moins un niveau pour continuer.'
+                );
+                return $this->render('document/handle.html.twig', [
+                    'form' => $form,
+                    'edit' => $edit,
+                ]);
+            } else if ($form->get('subjects')->getData()->isEmpty()) {
+                $this->addFlash(
+                    'danger',
+                    'Vous devez renseigner au moins une matière pour continuer.'
+                );
+                return $this->render('document/handle.html.twig', [
+                    'form' => $form,
+                    'edit' => $edit,
+                ]);
+            } else if ($form->get('themes')->getData()->isEmpty()) {
+                $this->addFlash(
+                    'danger',
+                    'Vous devez renseigner au moins un thème pour continuer.'
+                );
                 return $this->render('document/handle.html.twig', [
                     'form' => $form,
                     'edit' => $edit,
@@ -250,7 +289,7 @@ class DocumentController extends AbstractController
         $entityManager->remove($document);
         $entityManager->flush();
 
-        return $this->redirectToRoute('user_documents_show');
+        return $this->redirectToRoute('user_documents_uploads');
     }
 
     #[Route('/show-pdf/{slug}', name: 'show_pdf')]

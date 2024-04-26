@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DocumentType extends AbstractType
 {
@@ -29,14 +30,12 @@ class DocumentType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre du document',
-                'required' => true,
                 'attr' => [
                     'placeholder' => 'Titre du document',
                 ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description du document',
-                'required' => true,
                 'attr' => [
                     'placeholder' => 'Description du document',
                 ],
@@ -60,24 +59,23 @@ class DocumentType extends AbstractType
                 'label' => 'Type de document',
                 'class' => Type::class,
                 'choice_label' => 'name',
-                'required' => true,
             ])
             ->add('levels', EntityType::class, [
                 'label' => 'Niveau',
                 'class' => Level::class,
                 'choice_label' => 'name',
-                'required' => true,
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ])
             ->add('subjects', EntityType::class, [
                 'label' => 'Matière',
                 'class' => Subject::class,
                 'choice_label' => 'name',
-                'required' => true,
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ]);
         $builder->add('submit', SubmitType::class, [
@@ -108,7 +106,7 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'required' => true,
+                'constraints' => [new NotBlank()],
             ]);
         });
     }

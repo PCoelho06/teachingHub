@@ -6,10 +6,11 @@
 
 	<p>
 		Avant de pouvoir passer à la suite et partager vos documents sur la plateforme TeachingHub, merci de confirmer votre adresse mail en cliquant sur le lien suivant :
-		<br><br>
-		<a href="{{ signedUrl|raw }}">Confirmer mon adresse email</a>.
-			        Ce lien expirera dans
-		{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+		<div id="btn">
+			<a href="{{ signedUrl|raw }}" type="button" class="btn">Confirmer mon adresse email</a>
+		</div>
+		Ce lien expirera dans
+		{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') | replace({"hour": "heure"}) }}.
 	</p>
 
 	<p>

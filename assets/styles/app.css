@@ -215,6 +215,7 @@ legend {
 
 .doc-title {
   font-size: 2rem !important;
+  letter-spacing: -0.15rem;
 }
 
 .avatar {

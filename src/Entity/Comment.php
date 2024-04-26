@@ -24,7 +24,7 @@ class Comment
     private ?\DateTimeImmutable $editedAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Votre commentaire doit contenir du texte pour être validé.')]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -33,6 +33,7 @@ class Comment
         max: 5,
         notInRangeMessage: 'Vous devez donner une note entre 1 et 5 étoiles',
     )]
+    #[Assert\NotBlank(message: 'Vous devez donner une note au document pour valider votre commentaire.')]
     private ?int $rating = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]

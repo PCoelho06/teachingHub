@@ -22,6 +22,16 @@
 			{% endif %}
 		</h1>
 
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} mx-3 alert-dismissible" role="alert">
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endfor %}
+
+
 		<turbo-frame id="handle-document">
 			{{ form_start(form) }}
 			<div class="row">
@@ -47,7 +57,8 @@
 					},
 					'label_attr': {
 						'class': 'me-2',
-					}
+					},
+					'required': true,
 				}) }}
 				</div>
 				<div class="col-md-6">
@@ -58,16 +69,19 @@
 					},
 					'label_attr': {
 						'class': 'me-2',
-					}
+					},
+					'required': true,
 				}) }}
 
 					{% endif %}
 				</div>
 			</div>
-			{{ form_row(form.title, {required: false}) }}
+			{{ form_row(form.title) }}
 			{{ form_row(form.description) }}
 			{{ form_row(form.file) }}
-			{{ form_row(form.submit) }}
+			<div class="d-flex justify-content-center">
+				{{ form_row(form.submit) }}
+			</div>
 			{{ form_end(form) }}
 
 		</turbo-frame>
