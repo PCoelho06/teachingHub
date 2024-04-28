@@ -103,7 +103,7 @@ class UserController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $email = (new TemplatedEmail())
-                ->from(new Address('validation@teachinghub.fr', 'TeachingHub Securité'))
+                ->from(new Address('gestion-utilisateurs@partageprof.fr', 'PartageProf Gestion Utilisateurs'))
                 ->to($user->getEmail())
                 ->subject('Nous sommes tristes de vous voir partir 😢')
                 ->htmlTemplate('user/delete-account-email.html.twig');

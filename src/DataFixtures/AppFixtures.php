@@ -208,7 +208,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
             $document->setTitle($faker->words(3, true))
                 ->setDescription($faker->paragraph())
-                // ->setFile($faker->file('/Users/pierre/Workspace/teachingHub-test-documents', './public/uploads/documents', false))
                 ->setRatingAverage($faker->randomFloat(1, 0, 5))
                 ->setUploadedAt(new DateTimeImmutable())
                 ->setDownloadsNumber(0)

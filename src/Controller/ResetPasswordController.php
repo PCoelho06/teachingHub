@@ -157,7 +157,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('validation@teachinghub.fr', 'TeachingHub Securité'))
+            ->from(new Address('gestion-utilisateurs@partageprof.fr', 'PartageProf Gestion Utilisateurs'))
             ->to($user->getEmail())
             ->subject('Votre demande de renouvellement de mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')

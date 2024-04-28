@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        $avatar = $this->assetMapper->getPublicPath('images/avatars/man1.jpg');
+        $avatar = $this->assetMapper->getPublicPath('images/avatars/default.jpg');
 
         $user = (new User())
             ->setEmail('p.coelho@lapinou.tech')

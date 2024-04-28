@@ -5,14 +5,11 @@
 
 {% block body %}
 
-	{% include('/partials/_marquee-text.html.twig') %}
+	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="hero static-page-hero d-flex justify-content-center align-items-center">
-
 		<h1 class="text-center static-page-title">Mot de passe oublié</h1>
 	</div>
-
-	{% include('/partials/_marquee-icons.html.twig') %}
 
 	<div class="container my-5">
 		{% for flash_error in app.flashes('reset_password_error') %}
@@ -22,13 +19,16 @@
 		{{ form_start(requestForm) }}
 		{{ form_row(requestForm.email) }}
 		<div class="d-flex flex-column">
-			<div class="text-center">
+			<div class="text-center my-3">
 				<small>
 					Entrez votre adresse email et nous vous enverrons un lien afin que vous puissiez renouveler votre mot de passe.
 				</small>
 			</div>
 
-			<button class="btn btn-lg btn-primary">Envoyer le lien de renouvellement du mot de passe</button>
+			<button type="submit" class="btn btn-lg btn-primary">
+				<i class="fa-duotone fa-envelope-circle-check me-2"></i>
+				Envoyer le lien de renouvellement du mot de passe
+			</button>
 		</div>
 		{{ form_end(requestForm) }}
 	</div>

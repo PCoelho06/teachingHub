@@ -27,12 +27,17 @@ class UserType extends AbstractType
                 'label' => 'Votre avatar',
                 'required' => true,
                 'choices' => [
-                    'Femme 1' => $this->assetMapper->getPublicPath('images/avatars/woman1.jpg'),
-                    'Femme 2' => $this->assetMapper->getPublicPath('images/avatars/woman2.jpg'),
-                    'Femme 3' => $this->assetMapper->getPublicPath('images/avatars/woman3.jpg'),
-                    'Femme 4' => $this->assetMapper->getPublicPath('images/avatars/woman4.jpg'),
-                    'Homme 1' => $this->assetMapper->getPublicPath('images/avatars/man1.jpg'),
-                    'Homme 2' => $this->assetMapper->getPublicPath('images/avatars/man2.jpg'),
+                    'Avatar 1' => $this->assetMapper->getPublicPath('images/avatars/default.jpg'),
+                    'Avatar 2' => $this->assetMapper->getPublicPath('images/avatars/woman1.jpg'),
+                    'Avatar 3' => $this->assetMapper->getPublicPath('images/avatars/woman2.jpg'),
+                    'Avatar 4' => $this->assetMapper->getPublicPath('images/avatars/woman3.jpg'),
+                    'Avatar 5' => $this->assetMapper->getPublicPath('images/avatars/woman4.jpg'),
+                    'Avatar 6' => $this->assetMapper->getPublicPath('images/avatars/woman5.jpg'),
+                    'Avatar 7' => $this->assetMapper->getPublicPath('images/avatars/man1.jpg'),
+                    'Avatar 8' => $this->assetMapper->getPublicPath('images/avatars/man2.jpg'),
+                    'Avatar 9' => $this->assetMapper->getPublicPath('images/avatars/man3.jpg'),
+                    'Avatar 10' => $this->assetMapper->getPublicPath('images/avatars/man4.jpg'),
+                    'Avatar 11' => $this->assetMapper->getPublicPath('images/avatars/man5.jpg'),
                 ],
             ])
             ->add('firstname', TextType::class, [
