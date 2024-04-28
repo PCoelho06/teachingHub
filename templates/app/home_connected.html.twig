@@ -9,7 +9,7 @@
 	{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
 
 	<div class="container">
-		<h2>Les chiffres de la plateforme</h2>
+		<h2 class="hidden-mobile">Les chiffres de la plateforme</h2>
 		<div class="row row-cols-lg-3 g-3 mb-5 hidden-mobile">
 			<div class="col">
 				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
@@ -54,7 +54,7 @@
 							<th>Titre</th>
 							<th>Auteur</th>
 							<th>
-								<i class="fa-duotone fa-file-arrow-down"></i>
+								<i class="fa-duotone fa-download"></i>
 							</th>
 						</tr>
 					</thead>

@@ -15,17 +15,17 @@
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th>Titre</th>
-							<th class="text-center">Matière</th>
-							<th>Niveau</th>
-							<th>Auteur</th>
-							<th>Note</th>
+							<th scope="col">#</th>
+							<th scope="col">Titre</th>
+							<th scope="col" class="text-center">Matière</th>
+							<th scope="col">Niveau</th>
+							<th scope="col" class="hidden-mobile">Auteur</th>
+							<th scope="col" class="hidden-mobile">Note</th>
 							{% if app.user and app.user.isVerified %}
-								<th></th>
+								<th scope="col" class="hidden-mobile"></th>
 							{% endif %}
-							<th class="text-center">
-								<i class="fa-duotone fa-file-arrow-down"></i>
+							<th scope="col" class="text-center">
+								<i class="fa-duotone fa-download"></i>
 							</th>
 						</tr>
 					</thead>
@@ -60,12 +60,12 @@
 										{% endif %}
 									{% endfor %}
 								</td>
-								<td>
+								<td class="hidden-mobile">
 									<a href="{{ path('app_author_profile', {'username': document.author.username}) }}">{{ document.author.username}}</a>
 								</td>
-								<td>{% include 'partials/_rating.html.twig' %}</td>
+								<td class="hidden-mobile">{% include 'partials/_rating.html.twig' %}</td>
 								{% if app.user and app.user.isVerified %}
-									<td>
+									<td class="hidden-mobile">
 										<p>
 											{% if app.user in document.favoriteUsers %}
 												<a href="{{ path('user_documents_remove_favorite', {id: document.id, origin: app.request.attributes.get('_route')}) }}">

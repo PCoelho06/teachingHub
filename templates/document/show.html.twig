@@ -37,7 +37,7 @@
 						<span id="downloadsNumber">{{ document.downloadsNumber }}</span>
 					</div>
 					<div class="favorites">
-						<i class="fa-duotone fa-bookmark mx-2"></i>
+						<i class="fa-duotone fa-heart text-danger mx-2"></i>
 						<span id="downloadsNumber">{{ document.favoriteUsers|length }}</span>
 					</div>
 				</div>
@@ -66,14 +66,14 @@
 						{% if app.user in document.favoriteUsers %}
 							<div>
 								<a class="btn btn-sm btn-danger" href="{{ path('user_documents_remove_favorite', {id: document.id}) }}">
-									<i class="fa-duotone fa-bookmark-slash me-2"></i>
+									<i class="fa-duotone fa-heart-crack me-2"></i>
 									Retirer des favoris
 								</a>
 							</div>
 						{% else %}
 							<div>
 								<a class="btn btn-sm btn-danger" href="{{ path('user_documents_add_favorite', {id: document.id}) }}">
-									<i class="fa-duotone fa-bookmark me-2"></i>
+									<i class="fa-duotone fa-heart me-2"></i>
 									Ajouter aux favoris
 								</a>
 							</div>
