@@ -114,8 +114,6 @@ class DocumentRepository extends ServiceEntityRepository
             $params->add(new Parameter('theme', $document->getThemes()->toArray()[0]));
         }
 
-        dump($params);
-
         return $result->setParameters($params)
             ->orderBy('d.ratingAverage', 'DESC')
             ->setMaxResults(2)

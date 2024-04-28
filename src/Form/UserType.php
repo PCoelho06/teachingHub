@@ -21,7 +21,6 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        dump($this->assetMapper->getPublicPath('images/avatars/woman1.jpg'));
         $builder
             ->add('avatar', ChoiceType::class, [
                 'label' => 'Votre avatar',

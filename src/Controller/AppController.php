@@ -59,7 +59,6 @@ class AppController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
             $contactEmail = $form->getData()['email'];
             $contactFirstname = $form->getData()['firstname'];
             $contactLastname = $form->getData()['lastname'];

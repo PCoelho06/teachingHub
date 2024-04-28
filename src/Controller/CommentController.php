@@ -22,20 +22,26 @@ class CommentController extends AbstractController
     public function handleComment(Request $request, #[MapEntity(mapping: ['slug' => 'slug'])] Document $document = null, EntityManagerInterface $entityManager, #[MapEntity(mapping: ['id' => 'id'])] Comment $comment = null): Response
     {
         if (is_null($comment)) {
+            if ($document->getDownloaders()->contains($this->getUser()) == false) {
+                $this->addFlash(
+                    'danger',
+                    'Vous devez avoir téléchargé le document pour pouvoir commenter.'
+                );
+                return $this->redirectToRoute('document_show', ['slug' => $document->getSlug()]);
+            }
             $comment = new Comment();
             $comment->setDocument($document);
         } else {
-            dump($comment);
             if (!$this->getUser()) {
                 $this->addFlash(
                     'danger',
-                    'Attention, vous devez vous connecter pour modifier ce commentaire.'
+                    'Vous devez vous connecter pour modifier ce commentaire.'
                 );
                 return $this->redirect('app_login');
             } else if ($this->getUser() != $comment->getAuthor()) {
                 $this->addFlash(
                     'danger',
-                    'Attention, vous n\'avez pas les droits pour modifier ce commentaire'
+                    'Vous n\'avez pas les droits pour modifier ce commentaire'
                 );
                 return $this->redirectToRoute('document_show', [
                     'slug' => $comment->getDocument()->getSlug(),
@@ -47,7 +53,6 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
             if (!is_null($comment->getId())) {
                 $comment->setEditedAt(new DateTimeImmutable());
             } else {
@@ -82,7 +87,7 @@ class CommentController extends AbstractController
         if ($this->getUser() != $comment->getAuthor()) {
             $this->addFlash(
                 'danger',
-                'Attention, vous n\'avez pas les droits pour supprimer ce commentaire'
+                'Vous n\'avez pas les droits pour supprimer ce commentaire'
             );
             return $this->redirectToRoute('document_show', [
                 'slug' => $comment->getDocument()->getSlug(),

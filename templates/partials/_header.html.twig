@@ -15,12 +15,10 @@
 							<i class="fa-duotone fa-magnifying-glass me-2"></i>Chercher un document</a>
 
 					</li>
-					{% if app.user and app.user.isVerified %}
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('document_add') }}">
-								<i class="fa-duotone fa-upload me-2"></i>Déposer un document</a>
-						</li>
-					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('document_add') }}">
+							<i class="fa-duotone fa-upload me-2"></i>Déposer un document</a>
+					</li>
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-end">
 					{% if app.user %}

@@ -100,13 +100,13 @@ class DocumentController extends AbstractController
             if (!$this->getUser()) {
                 $this->addFlash(
                     'danger',
-                    'Attention, vous devez vous connecter pour modifier ce document.'
+                    'Vous devez vous connecter pour modifier ce document.'
                 );
                 return $this->redirect('app_login');
             } else if ($this->getUser() != $document->getAuthor()) {
                 $this->addFlash(
                     'danger',
-                    'Attention, vous n\'avez pas les droits pour modifier ce document'
+                    'Vous n\'avez pas les droits pour modifier ce document'
                 );
                 return $this->redirectToRoute('document_show', [
                     'slug' => $document->getSlug(),
@@ -277,7 +277,7 @@ class DocumentController extends AbstractController
         if ($this->getUser() != $document->getAuthor()) {
             $this->addFlash(
                 'danger',
-                'Attention, vous n\'avez pas les droits pour supprimer ce document'
+                'Vous n\'avez pas les droits pour supprimer ce document'
             );
             return $this->redirectToRoute('document_show', [
                 'slug' => $document->getSlug(),
