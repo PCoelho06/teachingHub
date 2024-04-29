@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-#[Route('/administration/type', name: "admin_type_")]
+#[Route('/administration/types', name: "admin_type_")]
 class TypeCrudController extends AbstractController
 {
     #[Route('/nouveau-type', name: 'create')]

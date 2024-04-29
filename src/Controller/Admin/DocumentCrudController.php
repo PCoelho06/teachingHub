@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-#[Route('/administration/document', name: "admin_document_")]
+#[Route('/administration/documents', name: "admin_document_")]
 class DocumentCrudController extends AbstractController
 {
     #[Route('/nouveau-document', name: 'create')]

@@ -96,10 +96,17 @@
 						<i class="fa-duotone fa-messages-question me-2"></i>
 						Faire une demande / Nous contacter
 					</a>
-					<a href="https://buymeacoffee.com/lapinou.tech" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
-						<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
-						Soutenir PartageProf
-					</a>
+					{% if 'ROLE_ADMIN' in app.user.roles %}
+						<a href="{{ path('admin_dashboard') }}" class="btn btn-sm btn-danger my-3 mx-5">
+							<i class="fa-duotone fa-tools me-2"></i>
+							Administration
+						</a>
+					{% else %}
+						<a href="https://buymeacoffee.com/lapinou.tech" target="_blank" class="btn btn-sm btn-success my-3 mx-5">
+							<i class="fa-duotone fa-hand-holding-circle-dollar me-2"></i>
+							Soutenir PartageProf
+						</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

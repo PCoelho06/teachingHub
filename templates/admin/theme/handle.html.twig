@@ -2,9 +2,9 @@
 
 {% block title %}
 	{% if edit %}
-		Modifier un document
+		Modifier une thématique
 	{% else %}
-		Ajouter un document
+		Ajouter une thématique
 	{% endif %}
 	- Administration
 {% endblock %}
@@ -12,22 +12,16 @@
 {% block body %}
 	<div class="container">
 		{{ form_start(form) }}
-		{{ form_row(form.type) }}
+		{{ form_row(form.name) }}
 		{{ form_row(form.levels) }}
 		{{ form_row(form.subjects) }}
-		{% if form.themes is defined %}
-			{{ form_row(form.themes) }}
-		{% endif %}
-		{{ form_row(form.title) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.file) }}
 		<button class="btn btn-primary">
 			{% if edit %}
 				<i class="fa-duotone fa-edit me-2"></i>
-				Modifier le document
+				Modifier la thématique
 			{% else %}
 				<i class="fa-duotone fa-save me-2"></i>
-				Enregistrer le document
+				Enregistrer la thématique
 			{% endif %}
 		</button>
 		{{ form_end(form) }}
