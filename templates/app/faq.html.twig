@@ -84,12 +84,28 @@
 					Si vous rencontrez des difficultés techniques, avez des questions ou souhaitez fournir des commentaires, vous pouvez contacter notre équipe de support en utilisant l'option de contact disponible sur la plateforme. Nous nous efforcerons de vous fournir une assistance rapide et efficace.
 				</div>
 			</div>
+
+			<!-- FAQ Item 8 -->
+			<a href="#faqItem8" class="list-group-item list-group-item-action" data-bs-toggle="collapse" aria-expanded="false" aria-controls="faqItem8">
+				<h5 class="mb-1">8. Je suis sous Mozilla Firefox et je n'arrive pas à visualiser les pdf ?</h5>
+			</a>
+			<div class="collapse" id="faqItem8">
+				<div class="card card-body">
+					Si vous rencontrez des difficultés pour visualiser les pdf sous Mozilla Firefox , il s'agit très surement d'un problème de configuration de votre navigateur. Pour résoudre ce problème, vous pouvez suivre les étapes suivantes :<br>
+					<ol>
+						<li>Ouvrez un nouvel onglet et tapez
+							<code>about:config</code>
+						</li>
+						<li>Si demandé, vous pouvez cliquer sur "Accepter le risque et continuer"</li>
+						<li>Dans la zone de recherche, tapez "pdfjs".</li>
+						<li>Dans la liste, vous devrier voir apparaitre l'option
+							<code>pdfjs.disabled</code>. Passez cette option a
+							<code>false</code>
+						</li>
+					</pre>
+				</li>
+				<li>Rafraichissez la page web.</li>
+			</ol>
 		</div>
 	</div>
-
-
-</div>
-
-<div class="spacer"></div>
-{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}
-<div class="spacer"></div>{% endblock %}
+</div></div></div><div class="spacer"></div>{{ render(controller('App\\Controller\\SubjectController::allSubjectsAction')) }}<div class="spacer"></div>{% endblock %}

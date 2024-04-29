@@ -14,7 +14,17 @@
 	<div class="m-5">
 		<div class="row row-cols-1 row-cols-lg-2 g-3">
 			<div class="col hidden-mobile">
-				<embed src="{{ path('document_show_pdf', {slug: document.slug}) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
+				<object data="{{ path('document_show_pdf', {slug: document.slug}) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
+					<embed src="{{ path('document_show_pdf', {slug: document.slug}) }}#toolbar=0" type="application/pdf" width="100%" height="700px">
+						<p>
+							Le chargement du fichier est impossible. Veuillez réessayer plus tard.
+							<br>
+							Si le problème persiste, n'hésitez pas à consulter la
+							<a href="{{ path('app_faq') }}#faqItem8">FAQ</a>
+							ou à nous contacter.
+						</p>
+					</embed>
+				</object>
 			</div>
 
 

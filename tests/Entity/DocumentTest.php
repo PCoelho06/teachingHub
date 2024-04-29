@@ -12,7 +12,10 @@ class DocumentTest extends KernelTestCase
         $document = (new Document())
             ->setTitle('TestDocument')
             ->setDescription('Test Description')
-            ->setUploadedAt(new \DateTimeImmutable());
+            ->setUploadedAt(new \DateTimeImmutable())
+            ->setSlug('test-document')
+            ->setDownloadsNumber(0)
+            ->setFile('test.pdf');
 
         return $document;
     }
@@ -52,12 +55,13 @@ class DocumentTest extends KernelTestCase
     {
         $this->assertHasErrors($this->getEntity(), 0);
         $this->assertHasErrors($this->getEntity()->setTitle('DocumentTesté'), 0);
+        $this->assertHasErrors($this->getEntity()->setTitle('Document : Testé'), 0);
+        $this->assertHasErrors($this->getEntity()->setTitle('Document 1 : Testé'), 0);
     }
 
     public function testInvalidTitle()
     {
-        $this->assertHasErrors($this->getEntity()->setTitle('123'), 1);
-        $this->assertHasErrors($this->getEntity()->setTitle('Test1'), 1);
+        $this->assertHasErrors($this->getEntity()->setTitle('Test$'), 1);
     }
 
     public function testInvalidBlankTitle()
