@@ -66,7 +66,6 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ])
             ->add('subjects', EntityType::class, [
@@ -75,7 +74,6 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ]);
         $builder->add('submit', SubmitType::class, [
@@ -106,9 +104,13 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
             ]);
         });
+
+        $builder->add('newTheme', ThemeType::class, [
+            'label' => 'Nouvelle thématique',
+            'mapped' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

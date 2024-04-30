@@ -3,6 +3,7 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('js/rating.js') }}" crossorigin="anonymous" defer></script>
+	<script src="{{ asset('js/add_theme.js') }}" crossorigin="anonymous" defer></script>
 {% endblock %}
 
 {% block title %}
@@ -72,6 +73,12 @@
 					},
 					'required': true,
 				}) }}
+						<div id="add_theme_element">
+							<button class="btn btn-success" id="add_theme">
+								<i class="fa-duotone fa-plus me-2"></i>
+								Ajouter un thème
+							</button>
+						</div>
 
 					{% endif %}
 				</div>

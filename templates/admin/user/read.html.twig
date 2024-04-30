@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	Tableau de bord - Administration
+{% endblock %}
+
+{% block body %}
+	<div class="container my-auto">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Nom d'utilisateur</th>
+					<th scope="col">Role</th>
+					<th scope="col">Validation</th>
+					<th scope="col" class="text-end">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{ user.id }}</td>
+						<td>{{ user.username }}</td>
+						<td>
+							{% for role in user.roles %}
+								{% if role == 'ROLE_ADMIN' %}
+									<span class="badge bg-danger">Admin</span>
+								{% elseif role == 'ROLE_MODERATOR' %}
+									<span class="badge bg-success">Mod</span>
+								{% else %}
+									<span class="badge bg-primary">User</span>
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td>
+							{% if user.isVerified %}
+								<i class="fa-duotone fa-badge-check text-success"></i>
+							{% else %}
+								<i class="fa-duotone fa-seal-exclamation text-danger"></i>
+							{% endif %}
+						</td>
+						<td class="text-end">
+							<a href="{{ path('admin_user_update', {id: user.id}) }}" class="btn btn-primary">
+								<i class="fa-duotone fa-edit"></i>
+							</a>
+							<a href="{{ path('admin_user_delete', {id: user.id}) }}" class="btn btn-danger">
+								<i class="fa-duotone fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</td>
+	</tr>
+</tbody></tbody></table></div>{% endblock %}

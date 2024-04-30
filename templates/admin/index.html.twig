@@ -4,4 +4,43 @@
 	Tableau de bord - Administration
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+	<div class="container my-auto">
+		<h1 class="mb-5">Tableau de bord</h1>
+		<div class="row row-cols-lg-3 g-3 mb-5 hidden-mobile">
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbDocuments }}</p>
+						<h2>Documents déposés</h2>
+						<a href="{{ path('document_search') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-file-magnifying-glass me-2"></i>
+							Trouver un document
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbDownloads }}</p>
+						<h2>Téléchargements</h2>
+						<a href="{{ path('document_top_downloads') }}" class="btn btn-primary mx-5">
+							<i class="fa-duotone fa-ranking-star me-2"></i>
+							Les plus téléchargés
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="rounded bg-tile-default py-3 text-center ratio ratio-4x3">
+					<div class="d-flex flex-column justify-content-center">
+						<p class="h1 fw-bold">{{ nbUsers }}</p>
+						<h2>Utilisateurs inscrits</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
