@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+	{% if edit %}
+		Modifier un type
+	{% else %}
+		Ajouter un type
+	{% endif %}
+	- Administration
+{% endblock %}
+
+{% block body %}
+	<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+		{{ form_start(form) }}
+		{{ form_row(form.name) }}
+		<button class="btn btn-primary">
+			{% if edit %}
+				<i class="fa-duotone fa-edit me-2"></i>
+				Modifier le type
+			{% else %}
+				<i class="fa-duotone fa-save me-2"></i>
+				Enregistrer le type
+			{% endif %}
+		</button>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

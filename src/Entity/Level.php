@@ -39,7 +39,7 @@ class Level
     #[ORM\Column(length: 255)]
     private ?string $color = null;
 
-    #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'levels')]
+    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'levels')]
     private Collection $themes;
 
     public function __construct()

@@ -22,12 +22,13 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body class="d-flex flex-column h-100"></body>
+	<body class="d-flex flex-column h-100">
 
-	{% include('partials/_header.html.twig') %}
+		{% include('partials/_header.html.twig') %}
 
-	<main class="mt-auto mb-auto"> {% block body %}{% endblock %}
-		</main>
-		{% include('partials/_footer.html.twig') %}
+		<main class="mt-auto mb-auto"> {% block body %}{% endblock %}
+			</main>
+
+			{% include('partials/_footer.html.twig') %}
+		</body>
 	</html>
-</body></html>

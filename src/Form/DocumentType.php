@@ -30,12 +30,14 @@ class DocumentType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre du document',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Titre du document',
                 ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description du document',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Description du document',
                 ],
@@ -66,7 +68,6 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ])
             ->add('subjects', EntityType::class, [
@@ -75,7 +76,6 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
                 'row_attr' => ['onchange' => 'this.form.submit()'],
             ]);
         $builder->add('submit', SubmitType::class, [
@@ -106,7 +106,6 @@ class DocumentType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-                'constraints' => [new NotBlank()],
             ]);
         });
     }

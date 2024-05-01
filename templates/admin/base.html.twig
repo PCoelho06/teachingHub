@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="h-100">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}{% endblock %}
+			- PartageProf
+		</title>
+
+		<link
+		rel="icon" type="image/jpg" href="{{ asset('images/favicon-64.png') }}"/>
+		{# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> #}
+		<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+
+		{% block javascripts %}
+
+			<script src="https://use.fortawesome.com/1ce05b4b.js"></script>
+
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body class="d-flex h-100">
+		<aside class="d-flex flex-column flex-shrink-0 p-3 shadow" style="width: 300px;">
+			<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+				<a class="navbar-brand" href="{{ path('app_home') }}">
+					<img src="{{ asset('images/logo.png') }}" alt="" class="logo">
+					<span class="fs-4">PartageProf</span>
+				</a>
+			</a>
+			<ul class="nav nav-pills flex-column mb-auto mt-3">
+				<li class="nav-item">
+					<a href="{{ path('admin_dashboard') }}" class="nav-link">
+						<i class="fa-duotone fa-rocket-launch me-2"></i>
+						<span class="hidden-mobile">Tableau de bord</span>
+					</a>
+				</li>
+				<hr>
+				<li class="nav-item">
+					<a href="{{ path('admin_document_read') }}" class="nav-link">
+						<i class="fa-duotone fa-file me-2"></i>
+						<span class="hidden-mobile">Documents</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('admin_type_read') }}" class="nav-link">
+						<i class="fa fa-fire me-2"></i>
+						<span class="hidden-mobile">Types</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('admin_level_read') }}" class="nav-link">
+						<i class="fa-duotone fa-dial-med-low me-2"></i>
+						<span class="hidden-mobile">Niveaux</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('admin_subject_read') }}" class="nav-link">
+						<i class="fa-duotone fa-typewriter me-2"></i>
+						<span class="hidden-mobile">Matières</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('admin_theme_read') }}" class="nav-link">
+						<i class="fa-duotone fa-sitemap me-2"></i>
+						<span class="hidden-mobile">Thématiques</span>
+					</a>
+				</li>
+				<hr>
+				<li class="nav-item">
+					<a href="{{ path('admin_user_read') }}" class="nav-link">
+						<i class="fa-duotone fa-users me-2"></i>
+						<span class="hidden-mobile">Utilisateurs</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="#" class="nav-link">
+						<i class="fa-duotone fa-comments me-2"></i>
+						<span class="hidden-mobile">Commentaires</span>
+					</a>
+				</li>
+			</ul>
+			<hr>
+			<div class="dropdown">
+				<a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					<img src="{{ app.user.avatar }}" alt="" width="32" height="32" class="rounded-circle me-2">
+					<strong>{{ app.user.username }}</strong>
+				</a>
+				<ul class="dropdown-menu text-small shadow">
+					<li>
+						<a class="dropdown-item" href="#">New project...</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Settings</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Profile</a>
+					</li>
+					<li><hr class="dropdown-divider"></li>
+					<li>
+						<a class="dropdown-item" href="#">Sign out</a>
+					</li>
+				</ul>
+			</div>
+		</aside>
+		{% block body %}{% endblock %}
+	</body>
+</html>

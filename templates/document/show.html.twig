@@ -29,7 +29,7 @@
 
 
 			<div class="col">
-				{% if app.user and document in app.user.downloadedDocuments %}
+				{% if app.user and document in app.user.downloadedDocuments and not app.request.query.has('reload') %}
 					<div class="alert alert-info alert-dismissible fade show" role="alert">
 						<strong>Petite info:
 						</strong>
@@ -58,7 +58,7 @@
 					proposé le
 					{{ document.uploadedAt | format_datetime('short', 'none', locale='fr') }}
 					par
-					{{ document.author.username }}
+					<a href="{{ path('app_author_profile', {'username': document.author.username}) }}">{{ document.author.username }}</a>
 				</div>
 
 				<div class="my-3">
@@ -188,7 +188,7 @@
 			{% endfor %}
 
 			{% if app.user and not allreadyCommented and app.user != document.author and document in app.user.downloadedDocuments %}
-				<div class="text-center">
+				<div class="text-center" id="addComment">
 					<a href="{{ path('comment_add', {'slug': document.slug}) }}" class="btn btn-primary">
 						<i class="fa-duotone fa-comment-plus me-2"></i>
 						Ajouter un commentaire

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use App\Validator as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
@@ -20,7 +21,8 @@ class Theme
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Regex("/^[\p{L} ']+$/u")]
+    #[Assert\Regex("/^[\p{L} ':\-0-9]+$/u", 'Le nom du thème contient des caractères non autorisés.')]
+    #[CustomAssert\SimilarTheme()]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'themes')]
@@ -33,7 +35,7 @@ class Theme
     #[Ignore]
     private Collection $documents;
 
-    #[ORM\ManyToMany(targetEntity: Level::class, mappedBy: 'themes')]
+    #[ORM\ManyToMany(targetEntity: Level::class, inversedBy: 'themes')]
     private Collection $levels;
 
     public function __construct()
