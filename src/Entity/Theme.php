@@ -21,7 +21,7 @@ class Theme
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Regex("/^[\p{L} ']+$/u")]
+    #[Assert\Regex("/^[\p{L} ':\-0-9]+$/u", 'Le nom du thème contient des caractères non autorisés.')]
     #[CustomAssert\SimilarTheme()]
     private ?string $name = null;
 

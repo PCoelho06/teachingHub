@@ -25,9 +25,10 @@ class ThemeController extends AbstractController
     #[Route('/ajouter-theme', name: 'theme_index')]
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, LevelRepository $levelRepository, SubjectRepository $subjectRepository): JsonResponse
     {
-        $name = $request->get('name');
-        $levels = $request->get('levels');
-        $subjects = $request->get('subjects');
+        $parameters = json_decode($request->getContent(), true);
+        $name = $parameters['name'];
+        $levels = $parameters['levels'];
+        $subjects = $parameters['subjects'];
 
         $theme = new Theme();
         $theme->setName($name);
@@ -44,16 +45,5 @@ class ThemeController extends AbstractController
         $entityManager->flush();
 
         return $this->json($serializer->serialize(["proceed" => true, "message" => "Nouveau thème ajouté avec succès."], 'json'));
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager->persist($theme);
-        //     $entityManager->flush();
-
-        //     return $this->redirectToRoute('theme_index');
-        // }
-
-        // return $this->render('theme/add.html.twig', [
-        //     'form' => $form->createView(),
-        // ]);
     }
 }

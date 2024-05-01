@@ -39,7 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Veuillez renseigner un mot de passe.')]
     #[Assert\Regex("/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#!$%&+-=])(?=\\S+$).{8,}$/", 'Votre mot de passe doit contenir au moins 8 caractères parmi lesquels au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial parmis @ # ! $ % & + - =')]
     #[Assert\NotCompromisedPassword(null, 'Ce mot de passe a été révelé lors d\'une fuite de données et ne devrait plus être utilisé. Merci de choisir un autre mot de passe.')]
     #[Ignore]

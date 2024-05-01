@@ -11,9 +11,9 @@
 				<tr>
 					<th scope="col">Id</th>
 					<th scope="col">Nom d'utilisateur</th>
-					<th scope="col">Role</th>
-					<th scope="col">Validation</th>
-					<th scope="col" class="text-end">Actions</th>
+					<th scope="col" class="text-center">Role</th>
+					<th scope="col" class="text-center">Validation</th>
+					<th scope="col" class="text-center">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,7 +21,7 @@
 					<tr>
 						<td>{{ user.id }}</td>
 						<td>{{ user.username }}</td>
-						<td>
+						<td class="text-center">
 							{% for role in user.roles %}
 								{% if role == 'ROLE_ADMIN' %}
 									<span class="badge bg-danger">Admin</span>
@@ -32,14 +32,14 @@
 								{% endif %}
 							{% endfor %}
 						</td>
-						<td>
+						<td class="text-center">
 							{% if user.isVerified %}
-								<i class="fa-duotone fa-badge-check text-success"></i>
+								<i class="fa-duotone fa-badge-check text-success fs-5"></i>
 							{% else %}
-								<i class="fa-duotone fa-seal-exclamation text-danger"></i>
+								<i class="fa-duotone fa-seal-exclamation text-danger fs-5"></i>
 							{% endif %}
 						</td>
-						<td class="text-end">
+						<td class="text-center">
 							<a href="{{ path('admin_user_update', {id: user.id}) }}" class="btn btn-primary">
 								<i class="fa-duotone fa-edit"></i>
 							</a>

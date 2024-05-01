@@ -30,12 +30,14 @@ class DocumentType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre du document',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Titre du document',
                 ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description du document',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Description du document',
                 ],
@@ -106,11 +108,6 @@ class DocumentType extends AbstractType
                 'expanded' => true,
             ]);
         });
-
-        $builder->add('newTheme', ThemeType::class, [
-            'label' => 'Nouvelle thématique',
-            'mapped' => false,
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

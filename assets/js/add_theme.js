@@ -5,13 +5,64 @@ const documentSubjetsElement = document.getElementById("document_subjects");
 
 addThemeBtn.addEventListener("click", () => {
   addThemeElement.innerHTML = `
-    <div class="mb-3">
+    <div id="new_theme_form" class="mb-3">
         <label for="document_newTheme_name" class="form-label required">Nouvelle thématique</label>
         <input type="text" id="document_newTheme_name" name="document[newTheme][name]" required="required" maxlength="255" class="form-control" data-np-intersection-state="visible">
-        <button id="submit_new_theme" class="btn btn-primary mt-2">Ajouter</button>
+        <button type="button" id="submit_new_theme" class="btn btn-primary mt-2">Ajouter</button>
     </div>`;
   const submitNewThemeBtn = document.getElementById("submit_new_theme");
+  const newThemeForm = document.getElementById("new_theme_form");
 
+  // newThemeForm.addEventListener("submit", async (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   const newThemeName = document.getElementById(
+  //     "document_newTheme_name"
+  //   ).value;
+  //   let themeLevels = [];
+  //   let themeSubjects = [];
+
+  //   for (child in documentLevelsElement.children) {
+  //     if (
+  //       child < documentLevelsElement.children.length &&
+  //       documentLevelsElement.children[child].firstChild.checked
+  //     ) {
+  //       themeLevels.push(
+  //         documentLevelsElement.children[child].firstChild.value
+  //       );
+  //     }
+  //   }
+
+  //   for (child in documentSubjetsElement.children) {
+  //     if (
+  //       child < documentSubjetsElement.children.length &&
+  //       documentSubjetsElement.children[child].firstChild.checked
+  //     ) {
+  //       themeSubjects.push(
+  //         documentSubjetsElement.children[child].firstChild.value
+  //       );
+  //     }
+  //   }
+
+  //   console.log(themeLevels);
+  //   console.log(themeSubjects);
+
+  //   const result = await (
+  //     await fetch("http://127.0.0.1:8002/theme/ajouter-theme", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name: newThemeName,
+  //         levels: themeLevels,
+  //         subjects: themeSubjects,
+  //       }),
+  //     })
+  //   ).json();
+
+  //   console.log(JSON.parse(result));
+  // });
   submitNewThemeBtn.addEventListener("click", async () => {
     const newThemeName = document.getElementById(
       "document_newTheme_name"
@@ -41,7 +92,11 @@ addThemeBtn.addEventListener("click", () => {
       }
     }
 
-    await (
+    console.log(newThemeName);
+    console.log(themeLevels);
+    console.log(themeSubjects);
+
+    const result = await (
       await fetch("/theme/ajouter-theme", {
         method: "POST",
         headers: {
@@ -54,5 +109,7 @@ addThemeBtn.addEventListener("click", () => {
         }),
       })
     ).json();
+
+    result.then(location.reload());
   });
 });

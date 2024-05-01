@@ -5,12 +5,18 @@ downloadButton.addEventListener("click", (e) => {
   const response = updateDownloads(
     parseInt(downloadButton.getAttribute("data-id"))
   );
-  response.then(function (result) {
-    if (result.proceed) {
-      downloadsNumberElement.textContent =
-        parseInt(downloadsNumberElement.textContent) + 1;
-    }
-  });
+  response
+    .then(function (result) {
+      if (result.proceed) {
+        downloadsNumberElement.textContent =
+          parseInt(downloadsNumberElement.textContent) + 1;
+      }
+    })
+    .then(() => {
+      setTimeout(() => {
+        window.location.href += "?reload";
+      }, 500);
+    });
 });
 
 async function updateDownloads(documentId) {
