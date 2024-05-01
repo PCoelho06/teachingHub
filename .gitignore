@@ -26,3 +26,5 @@
 
 /public/uploads/documents/
 TODO.md
+.env
+/src/DataFixtures/
